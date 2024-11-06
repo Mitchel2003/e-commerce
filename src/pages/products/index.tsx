@@ -1,7 +1,5 @@
-'use client'
-
-import { ProductCarousel } from '@/components/product/ProductCarousel'
-import { FeaturesSection } from '@/components/sections/FeaturesSection'
+import { ProductCarousel } from '#/product/ProductCarousel'
+import { FeaturesSection } from '#/sections/FeaturesSection'
 import { Product } from '@/interfaces/product.interface'
 
 const ProductsPage = () => {

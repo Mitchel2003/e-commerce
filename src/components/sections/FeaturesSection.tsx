@@ -39,7 +39,6 @@ const FeatureCard = ({ feature }: { feature: FeatureItem }) => (
   <div className="flex flex-col items-center text-center space-y-2 p-4">
     <img
       src={feature.icon}
-      alt=""
       className="w-12 h-12 mb-4"
     />
     <h3 className="font-semibold">{feature.title}</h3>
