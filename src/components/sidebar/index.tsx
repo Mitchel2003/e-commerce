@@ -1,5 +1,5 @@
-import { Menu, ChevronLeft, ChevronRight, Home, FileText, LogIn } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '#/ui/dropdown-menu'
+import { Menu, ChevronLeft, ChevronRight, Home, FileText, LogIn } from 'lucide-react'
 import { ScrollArea } from '#/ui/scroll-area'
 import SidebarItem from '#/sidebar/Items'
 import { Button } from '#/ui/button'
@@ -21,17 +21,26 @@ const Sidebar = () => {
     >
       <DropdownMenuTrigger asChild>
         <Button
-          variant="ghost"
           size="icon"
+          variant="ghost"
+          className={cn(
+            '[&_svg]:size-6',
+            'h-9 w-9 md:h-10 md:w-10',
+            'transition-colors duration-300',
+            theme === 'dark'
+              ? ' hover:bg-zinc-700/40 border-zinc-700'
+              : ' hover:bg-gray-200/40 border-gray-600'
+          )}
           onClick={() => setIsOpen(!isOpen)}
         >
-          <Menu className="h-5 w-5" />
+          <Menu className="h-10 w-10 md:h-12 md:w-12" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
         className={cn(
-          'absolute p-0 mt-2 w-64 right-[calc(100vh-665px)] h-[calc(100vh-4rem)]',
+          'absolute p-0 w-64',
+          'h-[calc(100vh-4rem)] right-[calc(100vh-705px)]',
           isCollapsed && 'w-16'
         )}
       >

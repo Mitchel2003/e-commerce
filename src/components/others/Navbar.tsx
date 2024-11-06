@@ -1,27 +1,25 @@
 import { useThemeContext } from '@/context/ThemeContext'
-import { useAuthContext } from '@/context/AuthContext'
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
-import EIcon from '@/assets/ecommerce.ico'
 import ThemeToggle from '#/others/Theme'
+import EIcon from '@/assets/ecommerce.ico'
 import Sidebar from '#/sidebar'
 
 const Navbar = () => {
-  const { isAuth } = useAuthContext()
   const { theme } = useThemeContext()
 
   return (
     <nav
       className={cn(
-        'flex justify-between items-center py-3 px-6 z-10',
+        'flex justify-between items-center px-6 z-10',
         'shadow-md backdrop-blur-md transition-colors duration-500',
         theme === 'dark' ? 'bg-zinc-800/90 text-zinc-100' : 'bg-white/90 text-gray-900'
       )}
     >
-      <HeaderNavbar isAuth={isAuth} />
+      <HeaderNavbar />
 
-      <div className="flex items-center gap-x-4">
+      <div className="flex items-center gap-x-2 md:gap-x-4">
         <ThemeToggle />
         <Sidebar />
       </div>
@@ -33,16 +31,12 @@ export default Navbar
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------tools--------------------------------------------------*/
-interface HeaderNavbarProps { isAuth: boolean }
-const HeaderNavbar = ({ isAuth }: HeaderNavbarProps) => {
+const HeaderNavbar = () => {
   return (
     <Link to="/" className="flex items-center gap-x-4">
-      <span className="flex items-center justify-center w-full h-full">
+      <span className="flex items-center justify-center w-full h-20">
         <img src={EIcon} alt="Ecommerce Icon" />
       </span>
-      <h1 className="text-2xl font-roboto-slab">
-        {isAuth ? "Dashboard" : "Gestión salud"}
-      </h1>
     </Link>
   )
 }
