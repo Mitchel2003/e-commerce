@@ -7,8 +7,8 @@ import { Separator } from "#/ui/separator"
 import { ThemeContextProps } from "@/interfaces/context.interface"
 import { FormProvider, useForm } from "react-hook-form"
 
-interface MaintenanceProps extends ThemeContextProps { }
-const MaintenanceSection = ({ theme }: MaintenanceProps) => {
+interface BuildMaintenanceProps extends ThemeContextProps { }
+const BuildMaintenanceSection = ({ theme }: BuildMaintenanceProps) => {
   const methods = useForm()
 
   return (
@@ -90,4 +90,4 @@ const MaintenanceSection = ({ theme }: MaintenanceProps) => {
   )
 }
 
-export default MaintenanceSection
+export default BuildMaintenanceSection

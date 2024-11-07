@@ -1,4 +1,4 @@
-import { ProductCarousel } from '@/components/products/ProductCarousel'
+import { CarouselProducts } from './CarouselSection'
 import { FeaturesSection } from './FeaturesSection'
 import { products } from '@/utils/constants'
 
@@ -7,12 +7,12 @@ const ProductSection = () => {
     <div className="container mx-auto px-4 py-8 space-y-12">
       <FeaturesSection />
 
-      <ProductCarousel
+      <CarouselProducts
         title="¡Novedad para ti!"
         products={products.newProducts}
       />
 
-      <ProductCarousel
+      <CarouselProducts
         title="Más vendidos"
         products={products.bestSellers}
       />

@@ -2,9 +2,9 @@ import { useThemeContext } from '@/context/ThemeContext'
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
-import ThemeToggle from '#/others/Theme'
 import EIcon from '@/assets/ecommerce.ico'
-import Sidebar from '#/sidebar'
+import ThemeToggle from '#/others/Theme'
+import Sidebar from '#/sidebar/Sidebar'
 
 const Navbar = () => {
   const { theme } = useThemeContext()

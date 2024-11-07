@@ -1,14 +1,12 @@
+import { Heart, ShoppingCart, Star } from 'lucide-react'
 import { Card, CardContent, CardFooter } from '#/ui/card'
+import { Product } from '@/interfaces/product.interface'
 import { Button } from '#/ui/button'
 import { Badge } from '#/ui/badge'
-
-import { ShoppingCart, Heart, Star } from 'lucide-react'
-import { Product } from '@/interfaces/product.interface'
 import { cn } from '@/lib/utils'
 
-interface ProductCardProps { product: Product }
-
-export const ProductCard = ({ product }: ProductCardProps) => {
+interface CardProductProps { product: Product }
+export const CardProduct = ({ product }: CardProductProps) => {
   return (
     <Card className="relative group">
       <ProductBadges product={product} />
@@ -23,18 +21,22 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   )
 }
 
-const ProductBadges = ({ product }: ProductCardProps) => (
+/** ProductBadges: badges of the product */
+const ProductBadges = ({ product }: { product: Product }) => (
   <>
     {product.discount && (
-      <Badge className="absolute z-[1] top-2 right-2 bg-green-500/80"> -{product.discount}% </Badge>
+      <Badge className="absolute z-[1] top-2 right-2 bg-green-500/80">-{product.discount}%</Badge>
     )}
     {product.isNew && (
       <Badge className="absolute z-[1] top-2 left-2 bg-primary">Nuevo</Badge>
     )}
   </>
 )
+/*---------------------------------------------------------------------------------------------------------*/
 
-const ProductImage = ({ product }: ProductCardProps) => (
+/*--------------------------------------------------Content--------------------------------------------------*/
+/** ProductImage: image of the product */
+const ProductImage = ({ product }: { product: Product }) => (
   <div className="aspect-square relative overflow-hidden rounded-t-lg">
     <img
       src={product.image}
@@ -48,6 +50,7 @@ const ProductImage = ({ product }: ProductCardProps) => (
   </div>
 )
 
+/** ProductOverlay: overlay of the product */
 const ProductOverlay = () => (
   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
     <Button size="icon" variant="secondary">
@@ -58,14 +61,16 @@ const ProductOverlay = () => (
     </Button>
   </div>
 )
+/*---------------------------------------------------------------------------------------------------------*/
 
+/*--------------------------------------------------Footer--------------------------------------------------*/
+/** ProductRating: rating of the product */
 const ProductRating = ({ rating }: { rating: number }) => (
   <div className="flex items-center gap-1">
     {Array.from({ length: 5 }).map((_, i) => (
       <Star
         key={i}
-        className={cn(
-          'h-4 w-4',
+        className={cn('h-4 w-4',
           i < rating ? 'fill-primary text-primary' : 'fill-muted text-muted'
         )}
       />
@@ -73,7 +78,8 @@ const ProductRating = ({ rating }: { rating: number }) => (
   </div>
 )
 
-const ProductInfo = ({ product }: ProductCardProps) => (
+/** ProductInfo: information of the product */
+const ProductInfo = ({ product }: { product: Product }) => (
   <>
     <h3 className="font-semibold line-clamp-2">{product.name}</h3>
     <div className="flex items-center gap-2">
@@ -88,3 +94,4 @@ const ProductInfo = ({ product }: ProductCardProps) => (
     </div>
   </>
 )
+/*---------------------------------------------------------------------------------------------------------*/

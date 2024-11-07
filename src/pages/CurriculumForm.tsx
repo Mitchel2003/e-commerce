@@ -1,5 +1,5 @@
+import CurriculumSection from "@/sections/curriculum/CurriculumSection"
 import { useThemeContext } from "@/context/ThemeContext"
-import CurriculumSection from "@/sections/curriculum"
 
 const CurriculumForm = () => {
   const { theme } = useThemeContext()

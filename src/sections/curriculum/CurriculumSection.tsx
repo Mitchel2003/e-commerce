@@ -25,9 +25,9 @@ import { CheckSquare, Ban } from "lucide-react"
 import { FieldValues, useForm } from "react-hook-form"
 import { useEffect } from "react"
 
-interface CVFormProps extends ThemeContextProps { }
+interface CurriculumSectionProps extends ThemeContextProps { }
 
-const CVForm = ({ theme }: CVFormProps) => {
+const CurriculumSection = ({ theme }: CurriculumSectionProps) => {
   const render = renderCVForm({ theme })
   const { errors } = useCurriculumContext()
   const { id = 'new' } = useParams()
@@ -117,7 +117,8 @@ const CVForm = ({ theme }: CVFormProps) => {
   )
 }
 
-export default CVForm
+export default CurriculumSection
+/*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------tools--------------------------------------------------*/
 /**
@@ -146,3 +147,4 @@ const renderCVForm = ({ theme }: ThemeContextProps): SectionProps[] => {
  * @returns {object} un objeto que significa el esquema de tarea a utilizar en la solicitud
  */
 function schemaCV(values: FieldValues): object { return { ...values } }
+/*---------------------------------------------------------------------------------------------------------*/

@@ -1,19 +1,19 @@
-import HeaderForm from "#/reusables/elements/HeaderForm"
-import { Card } from "#/ui/card"
+import HeaderForm from '#/reusables/elements/HeaderForm'
+import { Card } from '#/ui/card'
 
-import FooterSection from "./FooterSection"
-import FormSection from "./FormSection"
+import FooterSection from './FooterSection'
+import FormSection from './FormSection'
 
-import { loginSchema, LoginFormProps } from "@/schemas/loginSchema"
-import { ThemeContextProps } from "@/interfaces/context.interface"
-import { FormProvider, useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useAuthContext } from "@/context/AuthContext"
-import { cn } from "@/lib/utils"
+import { loginSchema, LoginFormProps } from '@/schemas/loginSchema'
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import { FormProvider, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useAuthContext } from '@/context/AuthContext'
+import { cn } from '@/lib/utils'
 
-interface LoginProps extends ThemeContextProps { }
+interface LoginSectionProps extends ThemeContextProps { }
 
-const Login = ({ theme }: LoginProps) => {
+const LoginSection = ({ theme }: LoginSectionProps) => {
   const { signin, errors: authErrors = [] } = useAuthContext()
 
   const methods = useForm<LoginFormProps>({
@@ -62,4 +62,4 @@ const Login = ({ theme }: LoginProps) => {
   )
 }
 
-export default Login
+export default LoginSection

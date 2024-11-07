@@ -14,7 +14,7 @@ import Register from "@/pages/Register";
 import Profile from "@/pages/Profile";
 import Login from "@/pages/Login";
 import Home from "@/pages/Home";
-import Products from "@/pages/products";
+import Products from "@/pages/Products";
 
 function App() {
   return (
@@ -34,9 +34,9 @@ function App() {
                 <Route path="/auth/verify-action" element={<VerifyAction />} />
 
                 {/* mean while */}
+                <Route path="/products" element={<Products />} />
                 <Route path="/form/cv/:id" element={<CurriculumForm />} />
                 <Route path="/form/maintenance/:id" element={<Maintenance />} />
-                <Route path="/products" element={<Products />} />
 
                 <Route element={<ProtectedRoute />}>
                   {/* user routes */}

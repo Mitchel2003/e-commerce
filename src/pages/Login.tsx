@@ -1,9 +1,9 @@
-import { useThemeContext } from "@/context/ThemeContext"
-import { useAuthContext } from "@/context/AuthContext"
-import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useThemeContext } from '@/context/ThemeContext'
+import { useAuthContext } from '@/context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
-import LoginSection from "@/sections/login"
+import LoginSection from '@/sections/login/LoginSection'
 
 const Login = () => {
   const { theme } = useThemeContext()

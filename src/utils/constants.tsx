@@ -1,4 +1,6 @@
 import { FeatureItem } from "@/interfaces/product.interface"
+import { NavItemProps } from "@/interfaces/props.interface"
+import { Home, ShoppingCart, LogIn } from 'lucide-react'
 
 export const products = {
   newProducts: [
@@ -106,4 +108,23 @@ export const features: FeatureItem[] = [
     icon: '/src/assets/features/garantia.png',
     description: '30 días de garantía en productos seleccionados',
   },
+]
+
+
+export const navItems: NavItemProps[] = [
+  {
+    href: '/',
+    label: 'Home',
+    icon: <Home className="w-5 h-5" />
+  },
+  {
+    href: '/login',
+    label: 'Iniciar sesión',
+    icon: <LogIn className="w-5 h-5" />
+  },
+  {
+    href: '/products',
+    label: 'Carrito',
+    icon: <ShoppingCart className="w-5 h-5" />
+  }
 ]

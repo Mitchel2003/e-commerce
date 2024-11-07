@@ -1,35 +1,26 @@
-import HeaderForm from "#/reusables/elements/HeaderForm"
-import { Card, CardContent, CardFooter } from "#/ui/card"
-import { Button } from "#/ui/button"
-import { Form } from "#/ui/form"
+import { Card, CardContent, CardFooter } from '#/ui/card'
+import HeaderForm from '#/reusables/elements/HeaderForm'
+import { Button } from '#/ui/button'
+import { Form } from '#/ui/form'
 
-import ReferenceEquipmentSection from "./ReferenceEquipmentSection"
-import EngineerServiceSection from "./EngineerServiceSection"
-import MaintenanceSection from "./MaintenanceSection"
-import ObservationSection from "./ObservationSection"
-import InspectionSection from "./InspectionSection"
-import EquipmentSection from "./EquipmentSection"
-import ClientSection from "./ClientSection"
+import ReferenceEquipmentSection from './ReferenceEquipmentSection'
+import BuildMaintenanceSection from './BuildMaintenanceSection'
+import EngineerServiceSection from './EngineerServiceSection'
+import ObservationSection from './ObservationSection'
+import InspectionSection from './InspectionSection'
+import EquipmentSection from './EquipmentSection'
+import ClientSection from './ClientSection'
 
-import { ThemeContextProps } from "@/interfaces/context.interface"
-import { RenderFormat, SectionProps } from "@/utils/RenderFormat"
-import { CheckSquare, Ban } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { cn } from "@/lib/utils"
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import { RenderFormat, SectionProps } from '@/utils/RenderFormat'
+import { CheckSquare, Ban } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { cn } from '@/lib/utils'
 
 interface MaintenanceProps extends ThemeContextProps { }
 const Maintenance = ({ theme }: MaintenanceProps) => {
+  const render = renderMaintenanceForm({ theme })
   const form = useForm()
-
-  const renderMaintenance: SectionProps[] = [
-    { component: <ClientSection theme={theme} /> },
-    { component: <ReferenceEquipmentSection theme={theme} /> },
-    { component: <EquipmentSection theme={theme} /> },
-    { component: <MaintenanceSection theme={theme} /> },
-    { component: <InspectionSection theme={theme} /> },
-    { component: <ObservationSection theme={theme} /> },
-    { component: <EngineerServiceSection theme={theme} /> }
-  ]
 
   return (
     <Form {...form}>
@@ -54,7 +45,7 @@ const Maintenance = ({ theme }: MaintenanceProps) => {
 
           {/* -------------------- Content form -------------------- */}
           <CardContent className="space-y-8 pt-6">
-            <RenderFormat format={renderMaintenance} theme={theme} />
+            <RenderFormat format={render} theme={theme} />
           </CardContent>
 
           {/* -------------------- Footer form (Buttons submit) -------------------- */}
@@ -89,3 +80,23 @@ const Maintenance = ({ theme }: MaintenanceProps) => {
 }
 
 export default Maintenance
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------tools--------------------------------------------------*/
+/**
+ * Nos ayuda a renderizar el mantenimiento
+ * @param {string} theme Corresponde al tema en contexto
+ * @returns {SectionProps[]} Arreglo de secciones del mantenimiento
+ */
+const renderMaintenanceForm = ({ theme }: ThemeContextProps): SectionProps[] => {
+  return [
+    { component: <ClientSection theme={theme} /> },
+    { component: <ReferenceEquipmentSection theme={theme} /> },
+    { component: <EquipmentSection theme={theme} /> },
+    { component: <BuildMaintenanceSection theme={theme} /> },
+    { component: <InspectionSection theme={theme} /> },
+    { component: <ObservationSection theme={theme} /> },
+    { component: <EngineerServiceSection theme={theme} /> }
+  ]
+}
+/*---------------------------------------------------------------------------------------------------------*/

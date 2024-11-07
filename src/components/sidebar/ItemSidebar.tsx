@@ -4,13 +4,13 @@ import { Button } from "#/ui/button"
 import { NavItemProps } from "@/interfaces/props.interface"
 import { Link, useLocation } from 'react-router-dom'
 
-interface SidebarItemsProps {
+interface ItemSidebarProps {
   item: NavItemProps
   isCollapsed: boolean
   depth?: number
 }
 
-const SidebarItems = ({ item, isCollapsed, depth = 0 }: SidebarItemsProps) => {
+const ItemSidebar = ({ item, isCollapsed, depth = 0 }: ItemSidebarProps) => {
   const location = useLocation()
   const isActive = location.pathname === item.href
 
@@ -44,7 +44,7 @@ const SidebarItems = ({ item, isCollapsed, depth = 0 }: SidebarItemsProps) => {
       {item.subItems && !isCollapsed && (
         <div className="ml-4">
           {item.subItems.map(subItem => (
-            <SidebarItems
+            <ItemSidebar
               key={subItem.href}
               item={subItem}
               isCollapsed={isCollapsed}
@@ -57,4 +57,4 @@ const SidebarItems = ({ item, isCollapsed, depth = 0 }: SidebarItemsProps) => {
   )
 }
 
-export default SidebarItems
+export default ItemSidebar

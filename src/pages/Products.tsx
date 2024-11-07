@@ -1,4 +1,4 @@
-import ProductSection from '@/sections/products'
+import ProductSection from '@/sections/products/ProductSection'
 import { useEffect } from 'react'
 
 const ProductsPage = () => {

@@ -10,7 +10,7 @@ export interface Product {
   discount?: number
 }
 
-export interface ProductCarouselProps {
+export interface CarouselProductsProps {
   title: string
   products: Product[]
   className?: string
