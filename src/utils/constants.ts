@@ -66,13 +66,22 @@ export const products = {
   bestSellers: [
     {
       id: '1',
-      rating: 5,
-      price: 199999,
+      rating: 4,
+      price: 19990,
       isBestSeller: true,
-      category: 'Neumáticos',
-      name: 'Neumático Todo Terreno',
+      category: 'Culinary',
+      name: 'Galletas artesanales',
       image: '/src/assets/products/galletas.jpeg',
     },
+    {
+      id: '2',
+      rating: 5,
+      price: 14990,
+      isBestSeller: true,
+      category: 'Culinary',
+      name: 'Galletas de vainilla',
+      image: '/src/assets/products/galletas_2.jpg',
+    }
   ]
 }
 
