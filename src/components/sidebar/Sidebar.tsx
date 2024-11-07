@@ -68,7 +68,7 @@ const DropdownContent = ({ children, isCollapsed }: DropdownContentProps) => {
       align="end"
       className={cn(
         'absolute p-0 w-64',
-        // 'h-[calc(100vh-4rem)] right-[calc(100vh-705px)]',
+        'h-[calc(100vh-4rem)] right-[calc(100vh-200px)] md:right-[calc(100vh-705px)]',
         isCollapsed && 'w-16'
       )}
     >
