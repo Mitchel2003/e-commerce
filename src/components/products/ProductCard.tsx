@@ -1,8 +1,9 @@
-import { Card, CardContent, CardFooter } from '@/components/ui/card'
-import { Product } from '@/interfaces/product.interface'
+import { Card, CardContent, CardFooter } from '#/ui/card'
+import { Button } from '#/ui/button'
+import { Badge } from '#/ui/badge'
+
 import { ShoppingCart, Heart, Star } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { Product } from '@/interfaces/product.interface'
 import { cn } from '@/lib/utils'
 
 interface ProductCardProps { product: Product }
@@ -25,12 +26,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 const ProductBadges = ({ product }: ProductCardProps) => (
   <>
     {product.discount && (
-      <Badge className="absolute top-2 right-2 bg-destructive">
-        -{product.discount}%
-      </Badge>
+      <Badge className="absolute z-[1] top-2 right-2 bg-green-500/80"> -{product.discount}% </Badge>
     )}
     {product.isNew && (
-      <Badge className="absolute top-2 left-2 bg-primary">Nuevo</Badge>
+      <Badge className="absolute z-[1] top-2 left-2 bg-primary">Nuevo</Badge>
     )}
   </>
 )
@@ -40,7 +39,10 @@ const ProductImage = ({ product }: ProductCardProps) => (
     <img
       src={product.image}
       alt={product.name}
-      className="object-cover w-full h-full transition-transform group-hover:scale-105"
+      className={cn(
+        'object-cover w-full h-full',
+        'transition-transform group-hover:scale-105'
+      )}
     />
     <ProductOverlay />
   </div>

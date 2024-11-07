@@ -1,7 +1,7 @@
 import { ProductCarouselProps } from '@/interfaces/product.interface'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { ProductCard } from './ProductCard'
+import { Button } from '#/ui/button'
 import { cn } from '@/lib/utils'
 import {
   Carousel,
@@ -9,7 +9,7 @@ import {
   CarouselNext,
   CarouselContent,
   CarouselPrevious,
-} from '@/components/ui/carousel'
+} from '#/ui/carousel'
 
 export const ProductCarousel = ({ title, products, className }: ProductCarouselProps) => {
   return (
@@ -36,10 +36,7 @@ const CarouselHeader = ({ title }: { title: string }) => (
 
 const CarouselCard = ({ products }: { products: ProductCarouselProps['products'] }) => (
   <Carousel
-    opts={{
-      align: 'start',
-      loop: true,
-    }}
+    opts={{ align: 'start', loop: true }}
     className="w-full"
   >
     <CarouselContent className="-ml-4">
