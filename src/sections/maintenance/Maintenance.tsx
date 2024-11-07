@@ -52,22 +52,24 @@ const Maintenance = ({ theme }: MaintenanceProps) => {
           <CardFooter className="flex justify-between">
             <Button
               variant="outline"
-              className={`hover:scale-105
-                ${theme === 'dark'
+              className={cn(
+                'hover:scale-105',
+                theme === 'dark'
                   ? 'bg-zinc-700 border border-zinc-600 text-zinc-100 hover:bg-zinc-900'
                   : 'bg-white border border-gray-200 text-gray-900 hover:bg-white'
-                }`}
+              )}
             >
               <Ban className="text-red-600 mr-2 h-4 w-4" /> Cancelar
             </Button>
 
             <Button
               type="submit"
-              className={`hover:scale-105
-                ${theme === 'dark'
+              className={cn(
+                'hover:scale-105',
+                theme === 'dark'
                   ? 'bg-zinc-700 border border-zinc-600 text-zinc-100 hover:bg-zinc-900'
                   : 'bg-white border border-gray-200 text-gray-900 hover:bg-white'
-                }`}
+              )}
             >
               <CheckSquare className="text-green-600 mr-2 h-4 w-4" /> Guardar
             </Button>
@@ -88,15 +90,13 @@ export default Maintenance
  * @param {string} theme Corresponde al tema en contexto
  * @returns {SectionProps[]} Arreglo de secciones del mantenimiento
  */
-const renderMaintenanceForm = ({ theme }: ThemeContextProps): SectionProps[] => {
-  return [
-    { component: <ClientSection theme={theme} /> },
-    { component: <ReferenceEquipmentSection theme={theme} /> },
-    { component: <EquipmentSection theme={theme} /> },
-    { component: <BuildMaintenanceSection theme={theme} /> },
-    { component: <InspectionSection theme={theme} /> },
-    { component: <ObservationSection theme={theme} /> },
-    { component: <EngineerServiceSection theme={theme} /> }
-  ]
-}
+const renderMaintenanceForm = ({ theme }: ThemeContextProps): SectionProps[] => ([
+  { component: <ClientSection theme={theme} /> },
+  { component: <ReferenceEquipmentSection theme={theme} /> },
+  { component: <EquipmentSection theme={theme} /> },
+  { component: <BuildMaintenanceSection theme={theme} /> },
+  { component: <InspectionSection theme={theme} /> },
+  { component: <ObservationSection theme={theme} /> },
+  { component: <EngineerServiceSection theme={theme} /> }
+])
 /*---------------------------------------------------------------------------------------------------------*/

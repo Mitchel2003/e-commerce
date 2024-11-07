@@ -126,20 +126,18 @@ export default CurriculumSection
  * @param {string} theme Corresponde al tema en contexto
  * @returns {SectionProps[]} Arreglo de secciones del curriculum
  */
-const renderCVForm = ({ theme }: ThemeContextProps): SectionProps[] => {
-  return [
-    { component: <OfficeAreaSection theme={theme} /> },
-    { component: <BasicDataSection theme={theme} /> },
-    { component: <DetailsEquipmentSection theme={theme} /> },
-    { component: <EquipmentClassificationSection theme={theme} /> },
-    { component: <TechnicalCharacteristicsSection theme={theme} /> },
-    { component: <MaintenanceSection theme={theme} /> },
-    { component: <InspectionSection theme={theme} /> },
-    { component: <AccessoriesSection theme={theme} /> },
-    { component: <CharacteristicsSection theme={theme} /> },
-    { component: <EngineerServiceSection theme={theme} /> }
-  ]
-}
+const renderCVForm = ({ theme }: ThemeContextProps): SectionProps[] => ([
+  { component: <OfficeAreaSection theme={theme} /> },
+  { component: <BasicDataSection theme={theme} /> },
+  { component: <DetailsEquipmentSection theme={theme} /> },
+  { component: <EquipmentClassificationSection theme={theme} /> },
+  { component: <TechnicalCharacteristicsSection theme={theme} /> },
+  { component: <MaintenanceSection theme={theme} /> },
+  { component: <InspectionSection theme={theme} /> },
+  { component: <AccessoriesSection theme={theme} /> },
+  { component: <CharacteristicsSection theme={theme} /> },
+  { component: <EngineerServiceSection theme={theme} /> }
+])
 
 /**
  * Nos ayuda a construir un formato de tarea y enviar solicitudes como crear o actualizar
