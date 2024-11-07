@@ -1,11 +1,11 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '#/ui/dropdown-menu'
-import { Menu, ChevronLeft, ChevronRight } from 'lucide-react'
-import { ScrollArea } from '#/ui/scroll-area'
-
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { Props } from "@/interfaces/props.interface"
 import SidebarItem from '#/sidebar/ItemSidebar'
 import { Button } from '#/ui/button'
+
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '#/ui/dropdown-menu'
+import { Menu, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ScrollArea } from '#/ui/scroll-area'
 
 import { useThemeContext } from '@/context/ThemeContext'
 import { navItems } from '@/utils/constants'
