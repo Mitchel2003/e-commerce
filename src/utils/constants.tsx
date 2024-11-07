@@ -22,7 +22,7 @@ export const products = {
       price: 14990,
       category: 'Culinary',
       name: 'Miel de abeja',
-      image: '/src/assets/products/miel.jpg',
+      image: '/dist/assets/products/miel.jpg',
     },
     {
       id: '3',
