@@ -124,7 +124,7 @@ export const navItems: NavItemProps[] = [
   },
   {
     href: '/products',
-    label: 'Carrito',
+    label: 'Productos',
     icon: <ShoppingCart className="w-5 h-5" />
   }
 ]

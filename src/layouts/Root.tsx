@@ -1,28 +1,18 @@
-import Navbar from '#/others/Navbar'
-
+import { AnimatedBackground } from '#/others/AnimatedBackground'
 import { useThemeContext } from '@/context/ThemeContext'
 import { Outlet } from 'react-router-dom'
+import Navbar from '#/others/Navbar'
 
 const RootLayout = () => {
-  const { theme } = useThemeContext();
-
+  const { theme } = useThemeContext()
   return (
-    <>
-      {/* background animation */}
-      <div className={`min-h-screen flex flex-col bg-gradient-to-br
-        ${theme === 'dark'
-          ? 'from-zinc-800/60 via-purple-800/40 to-purple-950/70'
-          : 'from-white via-purple-100 to-white'
-        }`}
-      >
-        <Navbar />
-        <main className="flex flex-grow items-center justify-center p-4">
-          <Outlet />
-        </main>
-      </div>
-    </>
+    <AnimatedBackground theme={theme}>
+      <Navbar />
+      <main className="flex flex-grow items-center justify-center p-4">
+        <Outlet />
+      </main>
+    </AnimatedBackground>
   )
 }
-
 
 export default RootLayout

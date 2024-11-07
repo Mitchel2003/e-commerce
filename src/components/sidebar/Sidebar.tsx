@@ -7,15 +7,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '#/ui/dro
 import { Menu, ChevronLeft, ChevronRight } from 'lucide-react'
 import { ScrollArea } from '#/ui/scroll-area'
 
-import { useThemeContext } from '@/context/ThemeContext'
 import { navItems } from '@/utils/constants'
 import { cn } from '@/lib/utils'
 import { useState } from 'react'
 
-const Sidebar = () => {
+const Sidebar = ({ theme }: ThemeContextProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const { theme } = useThemeContext()
 
   return (
     <DropdownMenu
