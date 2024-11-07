@@ -2,7 +2,7 @@ import { useThemeContext } from '@/context/ThemeContext'
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
-import EIcon from '@/assets/ecommerce.ico'
+import EIcon from '/assets/ecommerce.ico'
 import ThemeToggle from '#/others/Theme'
 import Sidebar from '#/sidebar/Sidebar'
 

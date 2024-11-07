@@ -12,7 +12,7 @@ export const products = {
       price: 19990,
       category: 'Culinary',
       name: 'Galletas artesanales',
-      image: '/src/assets/products/galletas.jpeg',
+      image: '/assets/products/galletas.jpeg',
     },
     {
       id: '2',
@@ -22,7 +22,7 @@ export const products = {
       price: 14990,
       category: 'Culinary',
       name: 'Miel de abeja',
-      image: '/dist/assets/products/miel.jpg',
+      image: '/assets/products/miel.jpg',
     },
     {
       id: '3',
@@ -32,7 +32,7 @@ export const products = {
       price: 89990,
       category: 'Clothing',
       name: 'Buso de lana',
-      image: '/src/assets/products/buso.jpg',
+      image: '/assets/products/buso.jpg',
     },
     {
       id: '4',
@@ -42,7 +42,7 @@ export const products = {
       price: 4990,
       category: 'Food',
       name: 'Pan industrial',
-      image: '/src/assets/products/pan.jpg',
+      image: '/assets/products/pan.jpg',
     },
     {
       id: '5',
@@ -52,7 +52,7 @@ export const products = {
       price: 29990,
       category: 'Food',
       name: 'Vino artesanal',
-      image: '/src/assets/products/vino.jpg',
+      image: '/assets/products/vino.jpg',
     },
     {
       id: '6',
@@ -62,7 +62,7 @@ export const products = {
       price: 14990,
       category: 'Food',
       name: 'Galletas de vainilla',
-      image: '/src/assets/products/galletas_2.jpg',
+      image: '/assets/products/galletas_2.jpg',
     }
   ],
   bestSellers: [
@@ -73,7 +73,7 @@ export const products = {
       isBestSeller: true,
       category: 'Culinary',
       name: 'Galletas artesanales',
-      image: '/src/assets/products/galletas.jpeg',
+      image: '/assets/products/galletas.jpeg',
     },
     {
       id: '2',
@@ -82,7 +82,7 @@ export const products = {
       isBestSeller: true,
       category: 'Culinary',
       name: 'Galletas de vainilla',
-      image: '/src/assets/products/galletas_2.jpg',
+      image: '/assets/products/galletas_2.jpg',
     }
   ]
 }
@@ -90,22 +90,22 @@ export const products = {
 export const features: FeatureItem[] = [
   {
     title: '¡Novedad para ti!',
-    icon: '/src/assets/features/novedad.png',
+    icon: '/assets/features/novedad.png',
     description: 'Descubre los últimos productos',
   },
   {
-    icon: '/src/assets/features/emprendedor.png',
+    icon: '/assets/features/emprendedor.png',
     title: 'Emprendedores',
     description: 'Por nuestros emprendedores',
   },
   {
     title: 'Más vendidos',
-    icon: '/src/assets/features/mas-vendidos.png',
+    icon: '/assets/features/mas-vendidos.png',
     description: 'Los favoritos de nuestros clientes',
   },
   {
     title: 'Garantía',
-    icon: '/src/assets/features/garantia.png',
+    icon: '/assets/features/garantia.png',
     description: '30 días de garantía en productos seleccionados',
   },
 ]
