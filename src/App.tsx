@@ -15,6 +15,7 @@ import Profile from "@/pages/Profile";
 import Login from "@/pages/Login";
 import Home from "@/pages/Home";
 import Products from "@/pages/Products";
+import Dashboard from "@/pages/Dashboard";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/products" element={<Products />} />
                 <Route path="/form/cv/:id" element={<CurriculumForm />} />
                 <Route path="/form/maintenance/:id" element={<Maintenance />} />
+                <Route path="/dashboard" element={<Dashboard />} />
 
                 <Route element={<ProtectedRoute />}>
                   {/* user routes */}

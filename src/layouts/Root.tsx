@@ -1,6 +1,7 @@
-import { AnimatedBackground } from '#/others/AnimatedBackground'
+import { AnimatedBackground } from '@/components/others/background/AnimatedBackground'
 import { useThemeContext } from '@/context/ThemeContext'
 import { Outlet } from 'react-router-dom'
+import Footer from '#/others/Footer'
 import Navbar from '#/others/Navbar'
 
 const RootLayout = () => {
@@ -11,6 +12,7 @@ const RootLayout = () => {
       <main className="flex flex-grow items-center justify-center p-4">
         <Outlet />
       </main>
+      <Footer theme={theme} />
     </AnimatedBackground>
   )
 }
