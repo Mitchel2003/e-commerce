@@ -1,4 +1,4 @@
-import { AnimatedBackground } from '@/components/others/background/AnimatedBackground'
+import { AnimatedBackground } from '#/others/background/AnimatedBackground'
 import { useThemeContext } from '@/context/ThemeContext'
 import { Outlet } from 'react-router-dom'
 import Footer from '#/others/Footer'
