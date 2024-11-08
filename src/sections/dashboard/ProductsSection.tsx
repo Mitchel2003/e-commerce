@@ -18,6 +18,7 @@ const ProductsSection = ({ theme, variants }: ProductsSectionProps) => {
       <ListProduct
         products={products.newProducts}
         isLoading={false}
+        theme={theme}
         error={null}
       />
     </motion.section>

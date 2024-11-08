@@ -17,8 +17,8 @@ const StatsCard = ({ theme, icon, title, value }: StatCardProps) => {
         'flex items-center space-x-4 p-6',
         'rounded-xl transition-colors duration-200',
         theme === 'dark'
-          ? 'bg-zinc-800/50 hover:bg-zinc-800/80'
-          : 'bg-gray-100/50 hover:bg-gray-100/80'
+          ? 'bg-zinc-800/70 hover:bg-zinc-800/90'
+          : 'bg-purple-200/80 hover:bg-purple-300/80'
       )}
     >
       {/* Icono */}

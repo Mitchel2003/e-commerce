@@ -4,7 +4,7 @@ import { useThemeContext } from '@/context/ThemeContext'
 const Dashboard = () => {
   const { theme } = useThemeContext()
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto">
       <DashboardSection theme={theme} />
     </div>
   )
