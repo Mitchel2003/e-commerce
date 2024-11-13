@@ -1,4 +1,4 @@
-import MaintenanceSection from '@/sections/maintenance/Maintenance'
+import MaintenanceSection from '@/sections/maintenance/MaintenanceSection'
 import { useThemeContext } from '@/context/ThemeContext'
 
 const Maintenance = () => {

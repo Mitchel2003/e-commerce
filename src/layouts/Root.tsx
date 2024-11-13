@@ -12,7 +12,7 @@ const RootLayout = () => {
       <Navbar />
       <main
         className={cn(
-          'flex flex-grow py-8 z-10',
+          'flex flex-grow z-10',
           'items-center justify-center'
         )}
       >

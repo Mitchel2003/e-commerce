@@ -18,10 +18,32 @@ export interface NavItemProps {
 export interface LoginComponentsProps extends ThemeContextProps { }
 /*---------------------------------------------------------------------------------------------------------*/
 
-/*---------------------- Fields ----------------------*/
-export interface ControlProps {
-  control: Control<any>;
+/*---------------------- Cards ----------------------*/
+/**
+ * @name name - Corresponde como tal al nombre del campo, hace las veces de un identificador para el correcto control del formulario
+ * @name component - Es el componente personalizado que se renderiza en el campo
+ * @description En diversas ocasiones se puede usar el mismo componente para diferentes campos;
+ * el detalle esta en que ha este se le debe pasar una propiedad name pero es para nombrar al componente mismo "FormField"
+*/
+export interface CardFieldProps { name: string, component: ReactElement }
+
+/*---------------------- Carousel ----------------------*/
+/**
+ * @description permite crear un carousel de imagenes con un intervalo de tiempo
+*/
+export interface CarouselProps { children: React.ReactNode, autoPlay?: boolean, interval?: number }
+export interface CarouselContext {
+  index: number
+  setIndex: (index: number) => void
+  next: () => void
+  prev: () => void
 }
+
+/*---------------------- Fields ----------------------*/
+export interface ControlProps { control: Control<any> }
+/*---------------------- htmlFor ----------------------*/
+/** @description Pick<> se utiliza para extraer solo la propiedad 'htmlFor' */
+export interface HtmlForProps extends Pick<LabelHTMLAttributes<HTMLLabelElement>, 'htmlFor'> { }
 /*---------------------- Reusables ----------------------*/
 // HeaderForm
 export interface HeaderBreadcrumbProps { description: string }
@@ -37,18 +59,3 @@ export interface CheckProps {
   label: string
   color: string
 }
-/*---------------------- htmlFor ----------------------*/
-/**
- * @description Pick<> se utiliza para extraer solo la propiedad 'htmlFor'.
- * Esto es más preciso y eficiente que extender todo el tipo LabelHTMLAttributes
- */
-export interface HtmlForProps extends Pick<LabelHTMLAttributes<HTMLLabelElement>, 'htmlFor'> { }
-/*---------------------- Cards ----------------------*/
-/**
- * @name name - Corresponde como tal al nombre del campo, hace las veces de un identificador para el correcto control del formulario
- * @name component - Es el componente personalizado que se renderiza en el campo
- * @description En diversas ocasiones se puede usar el mismo componente para diferentes campos;
- * el detalle esta en que ha este se le debe pasar una propiedad name pero es para nombrar al componente mismo "FormField"
- */
-export interface CardFieldProps { name: string, component: ReactElement }
-/* --------------------------------------------------------------------------------------------------------- */

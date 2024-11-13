@@ -17,8 +17,8 @@ import { CheckSquare, Ban } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { cn } from '@/lib/utils'
 
-interface MaintenanceProps extends ThemeContextProps { }
-const Maintenance = ({ theme }: MaintenanceProps) => {
+interface MaintenanceSectionProps extends ThemeContextProps { }
+const MaintenanceSection = ({ theme }: MaintenanceSectionProps) => {
   const render = renderMaintenanceForm({ theme })
   const form = useForm()
 
@@ -81,7 +81,7 @@ const Maintenance = ({ theme }: MaintenanceProps) => {
   )
 }
 
-export default Maintenance
+export default MaintenanceSection
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------tools--------------------------------------------------*/
