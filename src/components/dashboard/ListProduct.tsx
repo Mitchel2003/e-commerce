@@ -5,7 +5,7 @@ import { Button } from '#/ui/button'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { SkeletonProduct } from '#/dashboard/SkeletonProduct'
 import { EmptyProduct } from '#/dashboard/EmptyProduct'
-import { Product } from '@/interfaces/product.interface'
+import { Product } from '@/types/form/product.type'
 import { Trash2, Edit } from 'lucide-react'
 import { cn } from '@/lib/utils'
 

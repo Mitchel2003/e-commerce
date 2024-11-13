@@ -1,4 +1,4 @@
-import { HeaderSpanProps, HtmlForProps } from "@/interfaces/form.interface";
+import { HeaderSpanProps, HtmlForProps } from "@/interfaces/props.interface";
 import { ThemeContextProps } from "@/interfaces/context.interface";
 
 import { InfoIcon, SirenIcon, TriangleAlertIcon } from "lucide-react"

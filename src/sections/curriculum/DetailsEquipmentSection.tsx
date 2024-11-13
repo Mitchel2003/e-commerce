@@ -6,7 +6,7 @@ import DateField from '#/reusables/fields/Date'
 import { Button } from '#/ui/button'
 
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { CardFieldProps } from '@/interfaces/form.interface'
+import { CardFieldProps } from '@/interfaces/component.interface'
 import { FormProvider, useForm } from 'react-hook-form'
 
 interface DetailsEquipmentProps extends ThemeContextProps { }

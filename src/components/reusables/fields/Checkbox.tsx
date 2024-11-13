@@ -3,7 +3,7 @@ import HeaderCustom from '#/reusables/elements/HeaderCustom'
 import { Checkbox } from '#/ui/checkbox'
 
 import { ThemeContextProps } from '@/interfaces/context.interface';
-import { ControlProps } from '@/interfaces/form.interface'
+import { ControlProps } from '@/interfaces/props.interface'
 import { cn } from '@/lib/utils';
 
 interface CheckboxFieldProps extends ControlProps, ThemeContextProps {

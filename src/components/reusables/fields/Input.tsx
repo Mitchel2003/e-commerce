@@ -2,7 +2,7 @@ import { FormField, FormItem, FormControl, FormMessage } from '#/ui/form'
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
 import { Input } from '#/ui/input'
 
-import { ControlProps, HeaderSpanProps } from '@/interfaces/form.interface'
+import { ControlProps, HeaderSpanProps } from '@/interfaces/props.interface'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { Eye, EyeOff, LucideIcon } from 'lucide-react'
 import { useState } from 'react'

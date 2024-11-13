@@ -2,7 +2,7 @@ import { FormItem, FormControl } from '#/ui/form'
 import { Card, CardContent } from '#/ui/card'
 import { Button } from '#/ui/button'
 
-import { CardFieldProps, ControlProps } from '@/interfaces/form.interface'
+import { CardFieldProps, ControlProps } from '@/interfaces/props.interface'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useFieldArray } from 'react-hook-form'
 import { PlusCircle, X } from 'lucide-react'

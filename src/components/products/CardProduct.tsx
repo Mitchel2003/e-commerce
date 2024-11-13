@@ -1,6 +1,6 @@
 import { Heart, ShoppingCart, Star } from 'lucide-react'
 import { Card, CardContent, CardFooter } from '#/ui/card'
-import { Product } from '@/interfaces/product.interface'
+import { Product } from '@/types/form/product.type'
 import { Button } from '#/ui/button'
 import { Badge } from '#/ui/badge'
 import { cn } from '@/lib/utils'

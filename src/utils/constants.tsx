@@ -1,5 +1,5 @@
-import { FeatureItem } from "@/interfaces/product.interface"
 import { NavItemProps } from "@/interfaces/props.interface"
+import { FeatureItem } from "@/types/form/product.type"
 import { Home, ShoppingCart, LogIn } from 'lucide-react'
 
 export const products = {

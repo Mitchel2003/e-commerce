@@ -1,4 +1,4 @@
-import { CarouselProductsProps } from '@/interfaces/product.interface'
+import { CarouselProductsProps } from '@/types/form/product.type'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { CardProduct } from '#/products/CardProduct'
 import { Button } from '#/ui/button'

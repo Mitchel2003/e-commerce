@@ -5,7 +5,7 @@ import IterableCard from "#/reusables/fields/Card"
 import InputField from "#/reusables/fields/Input"
 
 import { ThemeContextProps } from "@/interfaces/context.interface"
-import { CardFieldProps } from "@/interfaces/form.interface"
+import { CardFieldProps } from "@/interfaces/component.interface"
 import { FormProvider, useForm } from "react-hook-form"
 
 const inspectionOptions = [

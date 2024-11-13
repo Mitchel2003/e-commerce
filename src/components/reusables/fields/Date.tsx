@@ -6,7 +6,7 @@ import { Button } from '#/ui/button'
 import { Input } from '#/ui/input'
 
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { ControlProps } from '@/interfaces/form.interface'
+import { ControlProps } from '@/interfaces/props.interface'
 import { CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'

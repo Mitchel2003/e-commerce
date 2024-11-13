@@ -1,8 +1,9 @@
-// import { TaskFunction } from "../interfaces/props.interface";
 // import { useTaskContext } from "../context/TaskContext";
 // import { useFavoriteTask } from "../store/favoriteTask";
 // import TaskCard from "../components/tasks/TaskCard";
 // import { useQueryReact } from "../hooks/useTasks";
+
+// export type TaskFunction = (tasks: Task[], favorite: string[]) => ReactNode
 
 // function Tasks() {
 //   const { data: tasks = [], error, isLoading } = useQueryReact().fetchTasks();

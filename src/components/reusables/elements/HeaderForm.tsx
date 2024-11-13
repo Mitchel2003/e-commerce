@@ -1,6 +1,6 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "#/ui/card"
 
-import { HeaderBreadcrumbProps } from "@/interfaces/form.interface"
+import { HeaderBreadcrumbProps } from "@/interfaces/props.interface"
 import { ThemeContextProps } from "@/interfaces/context.interface"
 import HeaderCustom from "./HeaderCustom"
 import { cn } from "@/lib/utils"

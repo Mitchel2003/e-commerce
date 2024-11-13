@@ -4,7 +4,7 @@ import { Checkbox } from '#/ui/checkbox'
 import { Textarea } from '#/ui/textarea'
 
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { ControlProps } from '@/interfaces/form.interface'
+import { ControlProps } from '@/interfaces/props.interface'
 import { cn } from '@/lib/utils'
 
 interface AreaToggleableProps extends ControlProps, ThemeContextProps {

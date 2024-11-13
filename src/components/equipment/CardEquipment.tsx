@@ -7,6 +7,7 @@
 // dayjs.extend(utc)
 
 // import { Button } from "#/ui/button";
+// export type TaskCardProps = { task: Task, isFavorite: boolean }
 
 // function TaskCard({ task, isFavorite }: TaskCardProps) {
 //   const removeFavorite = useFavoriteTask(state => state.removeFavoriteTask)

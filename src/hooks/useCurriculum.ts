@@ -1,5 +1,5 @@
+import { CustomMutation_CV, QueryReact_CV } from "@/interfaces/hook.interface";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { CustomMutation_CV, QueryReact_CV } from "@/interfaces/props.interface";
 import { useCurriculumContext } from "@/context/CurriculumContext";
 
 /*--------------------------------------------------useQuery--------------------------------------------------*/

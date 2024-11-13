@@ -1,4 +1,4 @@
-import { UseCallbackProps } from '@/interfaces/props.interface'
+import { UseCallbackProps } from '@/interfaces/hook.interface'
 import { useCallback, ChangeEvent } from 'react'
 
 export default (props: UseCallbackProps) => {

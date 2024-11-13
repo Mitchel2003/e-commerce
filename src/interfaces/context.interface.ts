@@ -10,7 +10,13 @@ export type ThemeContextProps = { theme: Theme }
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------AuthContext--------------------------------------------------*/
-export type User = { _id: string, username: string, email: string } | undefined
+export type User = {
+  _id: string,
+  role: string,
+  email: string,
+  username: string,
+  permissions: object
+} | undefined
 
 export type AuthContext = {
   user: User;
@@ -51,41 +57,5 @@ export type CurriculumContext = {
   createCV: CreateCurriculum;
   updateCV: UpdateCurriculum;
   deleteCV: DeleteCurriculum;
-} | undefined
-/*---------------------------------------------------------------------------------------------------------*/
-
-/*--------------------------------------------------TaskContext--------------------------------------------------*/
-export type Task = {
-  _id: string;
-  title: string;
-  description: string;
-  date?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
-} | undefined
-
-export type TypeTask = {
-  (id: string): Promise<Task>
-}
-export type TypeTasks = {
-  (): Promise<Task[]>
-}
-export type CreateTask = {
-  (task: object): Promise<Task>
-}
-export type UpdateTask = {
-  (id: string, task: object): Promise<Task>
-}
-export type DeleteTask = {
-  (id: string): Promise<Task>
-}
-
-export type TaskContext = {
-  errors: string[];
-  getTask: TypeTask;
-  getTasks: TypeTasks;
-  createTask: CreateTask;
-  updateTask: UpdateTask;
-  deleteTask: DeleteTask;
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

@@ -1,6 +1,6 @@
 import HeaderCustom from '#/reusables/elements/HeaderCustom'
 
-import { ControlProps, HeaderSpanProps, CheckProps } from '@/interfaces/form.interface'
+import { ControlProps, HeaderSpanProps, CheckProps } from '@/interfaces/props.interface'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useController } from 'react-hook-form'
 import { Check } from 'lucide-react'

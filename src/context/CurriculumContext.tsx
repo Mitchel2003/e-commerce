@@ -90,8 +90,8 @@ export const CurriculumProvider = ({ children }: Props): JSX.Element => {
    * @param {unknown} e - El error capturado.
    */
   const setCurriculumStatus = (e: unknown) => {
-    if (isAxiosResponse(e)) setErrors([e.response.data])
-    if (isApiResponse(e)) setErrors([e.data])
+    if (isAxiosResponse(e)) setErrors([e.response.message])
+    if (isApiResponse(e)) setErrors([e.message])
   }
 
   return (

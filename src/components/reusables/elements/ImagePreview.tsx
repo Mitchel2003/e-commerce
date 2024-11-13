@@ -1,5 +1,5 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { ControlProps } from '@/interfaces/form.interface'
+import { ControlProps } from '@/interfaces/props.interface'
 
 import { useController } from 'react-hook-form'
 import { Building2 } from 'lucide-react'

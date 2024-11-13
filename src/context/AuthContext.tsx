@@ -48,28 +48,22 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
       const res = await verifyAuthRequest();
       setAuthStatus(res);
     } catch (e: unknown) {
-      if (isAxiosResponse(e)) setErrors([e.response?.data])
-      if (isApiResponse(e)) setErrors([e.data])
+      if (isAxiosResponse(e)) setErrors([e.response?.message])
+      if (isApiResponse(e)) setErrors([e.message])
       setAuthStatus()
     }
   }
 
-  /**
-   * Inicia sesión con las credenciales del usuario.
-   * @param {object} user - Las credenciales del usuario.
-   */
+  /** Inicia sesión con las credenciales del usuario */
   const signin = async (user: object) => {
     try { const res = await loginRequest(user); setAuthStatus(res) }
-    catch (e: unknown) { if (isAxiosResponse(e)) setErrors([e.response.data]) }
+    catch (e: unknown) { if (isAxiosResponse(e)) setErrors([e.response.message]) }
   }
 
-  /**
-   * Registra un nuevo usuario.
-   * @param {object} user - Los datos del nuevo usuario.
-   */
+  /** Registra un nuevo usuario */
   const signup = async (user: object) => {
     try { const res = await registerRequest(user); setAuthStatus(res) }
-    catch (e: unknown) { if (isAxiosResponse(e)) setErrors([e.response.data]) }
+    catch (e: unknown) { if (isAxiosResponse(e)) setErrors([e.response.message]) }
   }
 
   /** Cierra la sesión del usuario actual */

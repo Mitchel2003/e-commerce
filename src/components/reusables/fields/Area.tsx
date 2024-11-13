@@ -2,7 +2,7 @@ import { FormField, FormItem, FormControl } from '#/ui/form'
 import HeaderCustom from '#/reusables/elements/HeaderCustom'
 import { Textarea } from '#/ui/textarea'
 
-import { ControlProps, HeaderSpanProps } from '@/interfaces/form.interface'
+import { ControlProps, HeaderSpanProps } from '@/interfaces/props.interface'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { cn } from '@/lib/utils'
 

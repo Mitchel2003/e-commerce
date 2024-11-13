@@ -4,7 +4,7 @@ import DateField from "#/reusables/fields/Date"
 import AreaField from "#/reusables/fields/Area"
 
 import { ThemeContextProps } from "@/interfaces/context.interface"
-import { CheckProps } from "@/interfaces/form.interface"
+import { CheckProps } from "@/interfaces/component.interface"
 import { useForm, FormProvider } from 'react-hook-form'
 import { useState, useEffect } from 'react'
 

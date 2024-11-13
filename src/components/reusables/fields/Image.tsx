@@ -2,7 +2,7 @@ import { FormControl, FormField, FormItem } from '#/ui/form'
 import { Button } from '#/ui/button'
 
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { ControlProps } from '@/interfaces/form.interface'
+import { ControlProps } from '@/interfaces/props.interface'
 import { useController } from 'react-hook-form'
 import useCallback from '@/hooks/useCallback'
 import { Camera, X } from 'lucide-react'
