@@ -10,13 +10,7 @@ export type ThemeContextProps = { theme: Theme }
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------AuthContext--------------------------------------------------*/
-export type User = {
-  _id: string,
-  role: string,
-  email: string,
-  username: string,
-  permissions: object
-} | undefined
+export type User = { _id: string, role: string, email: string, username: string, permissions: object } | undefined
 
 export type AuthContext = {
   user: User;
@@ -30,32 +24,27 @@ export type AuthContext = {
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------CurriculumContext--------------------------------------------------*/
-export type Curriculum = {
-  _id: string;
-} | undefined
-
-export type TypeCurriculum = {
-  (id: string): Promise<Curriculum>
-}
-export type TypeCurriculums = {
-  (): Promise<Curriculum[]>
-}
-export type CreateCurriculum = {
-  (Curriculum: object): Promise<Curriculum>
-}
-export type UpdateCurriculum = {
-  (id: string, Curriculum: object): Promise<Curriculum>
-}
-export type DeleteCurriculum = {
-  (id: string): Promise<Curriculum>
-}
+export type Curriculum = { _id: string } | undefined
 
 export type CurriculumContext = {
   errors: string[];
-  getCV: TypeCurriculum;
-  getCVs: TypeCurriculums;
-  createCV: CreateCurriculum;
-  updateCV: UpdateCurriculum;
-  deleteCV: DeleteCurriculum;
+  getCV: (id: string) => Promise<Curriculum>;
+  getCVs: () => Promise<Curriculum[]>;
+  createCV: (Curriculum: object) => Promise<Curriculum>;
+  updateCV: (id: string, Curriculum: object) => Promise<Curriculum>;
+  deleteCV: (id: string) => Promise<Curriculum>;
+} | undefined
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------ProductContext--------------------------------------------------*/
+export type Product = { _id: string } | undefined
+
+export type ProductContext = {
+  errors: string[];
+  getProduct: (id: string) => Promise<Product>;
+  getProducts: () => Promise<Product[]>;
+  createProduct: (product: object) => Promise<Product>;
+  updateProduct: (id: string, product: object) => Promise<Product>;
+  deleteProduct: (id: string) => Promise<Product>;
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/
