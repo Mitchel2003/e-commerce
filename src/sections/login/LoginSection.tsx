@@ -4,22 +4,20 @@ import { Card } from '#/ui/card'
 import FooterSection from './FooterSection'
 import FormSection from './FormSection'
 
-import { loginSchema, LoginFormProps } from '@/schemas/loginSchema'
+import { loginSchema, LoginFormProps } from '@/schemas/auth/login.schema'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { FormProvider, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuthContext } from '@/context/AuthContext'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '@/lib/utils'
+
+const defaultValues = { email: '', password: '' }
 
 interface LoginSectionProps extends ThemeContextProps { }
 
 const LoginSection = ({ theme }: LoginSectionProps) => {
+  const methods = useForm<LoginFormProps>({ resolver: zodResolver(loginSchema), defaultValues })
   const { signin, errors: authErrors = [] } = useAuthContext()
-
-  const methods = useForm<LoginFormProps>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' }
-  })
 
   const onSubmit = methods.handleSubmit(async (data) => await signin(data))
 

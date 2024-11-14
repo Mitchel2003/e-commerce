@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils'
 interface AreaFieldProps extends ControlProps, ThemeContextProps, HeaderSpanProps {
   name: string;
   label?: string;
+  className?: string;
   placeholder?: string;
 }
 
@@ -17,6 +18,7 @@ const AreaField = ({
   name,
   label,
   control,
+  className,
   placeholder,
   iconSpan,
   span
@@ -44,6 +46,7 @@ const AreaField = ({
               id={`${name}-area`}
               placeholder={placeholder}
               className={cn(
+                className,
                 'min-h-[100px]',
                 theme === 'dark'
                   ? 'bg-zinc-700 border-zinc-600 text-zinc-100'

@@ -49,7 +49,7 @@ const ImageField = ({ name, label, control, theme }: ImageFieldProps) => {
                 preview ? 'py-[2vh]' : 'py-[6vh]',
                 theme === 'dark'
                   ? 'bg-zinc-800 border-zinc-600'
-                  : 'bg-gray-50 border-gray-900/25'
+                  : 'bg-purple-50 border-gray-900/25'
               )}
             >
               {/* -------------------- Image preview -------------------- */}

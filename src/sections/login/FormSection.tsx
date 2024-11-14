@@ -1,5 +1,5 @@
 import { LoginComponentsProps } from '@/interfaces/props.interface'
-import { LoginFormProps } from '@/schemas/loginSchema'
+import { LoginFormProps } from '@/schemas/auth/login.schema'
 
 import InputField from '#/reusables/fields/Input'
 import { CardContent } from '#/ui/card'

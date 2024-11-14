@@ -62,8 +62,11 @@ const CurriculumSection = ({ theme }: CurriculumSectionProps) => {
         <Card
           id="curriculum-form"
           className={cn(
-            'w-full max-w-6xl mx-auto shadow-lg backdrop-filter backdrop-blur-lg',
-            theme === 'dark' ? 'bg-zinc-800' : 'bg-gray-50'
+            'w-full mx-auto shadow-lg',
+            'transition-all duration-200 backdrop-filter backdrop-blur-lg',
+            theme === 'dark'
+              ? 'bg-zinc-800 hover:shadow-gray-900'
+              : 'bg-purple-50 hover:shadow-purple-500/60'
           )}
         >
 
@@ -80,7 +83,7 @@ const CurriculumSection = ({ theme }: CurriculumSectionProps) => {
           />
 
           {/* -------------------- Content form -------------------- */}
-          <CardContent className="space-y-8 pt-6">
+          <CardContent className="pt-6 space-y-8">
             <RenderFormat format={render} theme={theme} />
           </CardContent>
 
@@ -144,5 +147,5 @@ const renderCVForm = ({ theme }: ThemeContextProps): SectionProps[] => ([
  * @param values es un objeto de datos que representa los campos en el contexto del formulario
  * @returns {object} un objeto que significa el esquema de tarea a utilizar en la solicitud
  */
-function schemaCV(values: FieldValues): object { return { ...values } }
+const schemaCV = (values: FieldValues): object => ({ ...values })
 /*---------------------------------------------------------------------------------------------------------*/

@@ -1,6 +1,6 @@
 import { NavItemProps } from "@/interfaces/props.interface"
 import { FeatureItem } from "@/types/form/product.type"
-import { Home, ShoppingCart, LogIn } from 'lucide-react'
+import { Home, ShoppingCart, LogIn, UserPlus } from 'lucide-react'
 
 export const products = {
   newProducts: [
@@ -142,9 +142,14 @@ export const navItems: NavItemProps[] = [
     icon: <Home className="w-5 h-5" />
   },
   {
-    href: '/login',
+    href: '/auth/login',
     label: 'Iniciar sesión',
     icon: <LogIn className="w-5 h-5" />
+  },
+  {
+    href: '/auth/register',
+    label: 'Registrarse',
+    icon: <UserPlus className="w-5 h-5" />
   },
   {
     href: '/products',
