@@ -18,9 +18,11 @@ const DiscoverSection = ({ theme }: ThemeContextProps) => {
         <h2
           className={cn(
             'text-4xl font-extrabold text-center mb-12',
-            theme === 'dark' ? 'text-gray-200' : 'text-white'
+            theme === 'dark' ? 'text-zinc-200' : 'text-white'
           )}
-        >¡Descubre lo nuestro!</h2>
+        >
+          ¡Descubre lo nuestro!
+        </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (

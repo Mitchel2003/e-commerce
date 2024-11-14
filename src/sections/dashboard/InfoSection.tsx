@@ -2,9 +2,9 @@ import { ThemeContextProps } from '@/interfaces/context.interface'
 import { motion, Variants } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
-interface WelcomeSectionProps extends ThemeContextProps { variants: Variants }
+interface InfoSectionProps extends ThemeContextProps { variants: Variants }
 
-const WelcomeSection = ({ theme, variants }: WelcomeSectionProps) => {
+const InfoSection = ({ theme, variants }: InfoSectionProps) => {
   return (
     <motion.section variants={variants} className="text-center space-y-4">
       <h1 className={cn(
@@ -23,4 +23,4 @@ const WelcomeSection = ({ theme, variants }: WelcomeSectionProps) => {
   )
 }
 
-export default WelcomeSection 
+export default InfoSection

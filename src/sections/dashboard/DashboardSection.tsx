@@ -4,21 +4,23 @@ import { motion } from 'framer-motion'
 
 import StatisticsSection from './StatisticsSection'
 import ProductsSection from './ProductsSection'
-import WelcomeSection from './WelcomeSection'
+import InfoSection from './InfoSection'
 
 const DashboardSection = ({ theme }: ThemeContextProps) => {
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      className="space-y-8"
-    >
-      <WelcomeSection theme={theme} variants={itemVariants} />
-      <StatisticsSection theme={theme} variants={itemVariants} />
-      <ProductsSection theme={theme} variants={itemVariants} />
-    </motion.div>
+    <div className="container p-0 mx-auto">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="space-y-8"
+      >
+        <InfoSection theme={theme} variants={itemVariants} />
+        <StatisticsSection theme={theme} variants={itemVariants} />
+        <ProductsSection theme={theme} variants={itemVariants} />
+      </motion.div>
+    </div>
   )
 }
 
-export default DashboardSection 
+export default DashboardSection

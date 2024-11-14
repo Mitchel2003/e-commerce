@@ -1,44 +1,13 @@
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '#/ui/carousel'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '#/ui/card'
-import { Button } from '#/ui/button'
-
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { SkeletonProduct } from '#/dashboard/SkeletonProduct'
-import { EmptyProduct } from '#/dashboard/EmptyProduct'
 import { Product } from '@/types/form/product.type'
+import { Button } from '#/ui/button'
 import { Trash2, Edit } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-interface ListProductProps extends ThemeContextProps {
-  products?: Product[]
-  isLoading: boolean
-  error: Error | null
-}
-
-const ListProduct = ({ products, isLoading, error, theme }: ListProductProps) => {
-  if (isLoading) return <SkeletonProduct />
-  if (error) return <div className="text-center text-red-500">Error al cargar los productos</div>
-  if (!products?.length || products.length === 0) return <EmptyProduct />
-
-  return (
-    <Carousel className="w-full">
-      <CarouselContent>
-        {products.map((product) => (
-          <CarouselItem key={product.id} className="md:basis-1/3">
-            <ItemProduct {...product} theme={theme} />
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious className="absolute size-10 -left-5" />
-      <CarouselNext className="absolute size-10 -right-5" />
-    </Carousel>
-  )
-}
-
-export default ListProduct
-
 interface ItemProductProps extends Product, ThemeContextProps { }
-const ItemProduct = ({ name, price, image, theme }: ItemProductProps) => (
+
+const ItemProduct = ({ theme, name, price, image }: ItemProductProps) => (
   <Card className={cn(
     theme === 'dark'
       ? 'bg-zinc-900 border-zinc-800 text-white'
@@ -84,3 +53,5 @@ const ItemProduct = ({ name, price, image, theme }: ItemProductProps) => (
     </CardFooter>
   </Card>
 )
+
+export default ItemProduct

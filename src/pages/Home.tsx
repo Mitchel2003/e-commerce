@@ -3,11 +3,7 @@ import { useThemeContext } from '@/context/ThemeContext'
 
 const Home = () => {
   const { theme } = useThemeContext()
-  return (
-    <div className="container mx-auto">
-      <HomeSection theme={theme} />
-    </div>
-  )
+  return <HomeSection theme={theme} />
 }
 
 export default Home

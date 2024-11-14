@@ -1,13 +1,13 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import DiscoverSection from '@/sections/home/DiscoverSection'
-import HeroCarousel from '@/sections/home/HeroCarousel'
 import StoreSection from '@/sections/home/StoreSection'
+import InfoSection from '@/sections/home/InfoSection'
 import { Store } from '@/types/form/home.type'
 
 const HomeSection = ({ theme }: ThemeContextProps) => {
   return (
     <div>
-      <HeroCarousel theme={theme} />
+      <InfoSection theme={theme} />
       <DiscoverSection theme={theme} />
       <StoreSection stores={stores} theme={theme} />
     </div>
@@ -43,6 +43,5 @@ const stores: Store[] = [
     image: 'assets/shops/emprendedor_3.jpg',
     location: 'Plaza de toros - Cra 20 # 15 - 72',
     isLocal: true
-  },
-  // Agrega más tiendas aquí...
+  }
 ]

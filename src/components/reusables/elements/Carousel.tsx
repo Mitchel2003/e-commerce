@@ -1,51 +1,46 @@
-import { CarouselProps, CarouselContext as TypeCarouselContext } from '@/interfaces/props.interface'
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Carousel as ShadcnCarousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '#/ui/carousel'
+import { Props } from '@/interfaces/props.interface'
+import Autoplay from 'embla-carousel-autoplay'
+import { cn } from '@/lib/utils'
 
-const CarouselContext = createContext<TypeCarouselContext | null>(null)
-
-export const useCarouselContext = () => {
-  const context = useContext(CarouselContext)
-  if (!context) throw new Error('Carousel components must be used within a Carousel')
-  return context
+interface CarouselProps<T> extends Props {
+  items: T[]
+  autoplay?: boolean
+  withButtons?: boolean
+  className_Item?: string
+  className_Carousel?: string
+  render: (item: T) => React.ReactNode
 }
 
-export const Carousel = ({ children, autoPlay = true, interval = 5000 }: CarouselProps) => {
-  const childrenArray = React.Children.toArray(children)
-  const [index, setIndex] = useState(0)
-
-  const next = useCallback(() => {
-    setIndex((current) => (current + 1) % childrenArray.length)
-  }, [childrenArray.length])
-
-  const prev = useCallback(() => {
-    setIndex((current) => (current - 1 + childrenArray.length) % childrenArray.length)
-  }, [childrenArray.length])
-
-  useEffect(() => {
-    if (!autoPlay) return;
-    const timer = setInterval(next, interval)
-    return () => clearInterval(timer)
-  }, [next])
+const Carousel = ({
+  items,
+  render,
+  autoplay,
+  className_Item,
+  className_Carousel,
+  withButtons = false,
+}: CarouselProps<any>) => {
 
   return (
-    <CarouselContext.Provider value={{ index, setIndex, next, prev }}>
-      <div className="relative overflow-hidden">
-        <div className="flex transition-transform duration-300 ease-in-out" style={{ transform: `translateX(-${index * 100}%)` }}>
-          {children}
-        </div>
-        <Button variant="outline" size="icon" className="absolute left-2 top-1/2 -translate-y-1/2" onClick={prev}>
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        <Button variant="outline" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2" onClick={next}>
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-      </div>
-    </CarouselContext.Provider>
+    <ShadcnCarousel
+      className={cn(className_Carousel)}
+      plugins={autoplay ? [Autoplay({ delay: 5000 })] : []}
+    >
+      <CarouselContent>
+        {items.map((item, index) => (
+          <CarouselItem key={index} className={cn(className_Item)}>
+            {render(item)}
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      {withButtons && (
+        <>
+          <CarouselPrevious className="absolute size-10 -left-5" />
+          <CarouselNext className="absolute size-10 -right-5" />
+        </>
+      )}
+    </ShadcnCarousel>
   )
 }
 
-export const CarouselItem = ({ children }: { children: React.ReactNode }) => {
-  return <div className="flex-shrink-0 w-full">{children}</div>
-}
+export default Carousel

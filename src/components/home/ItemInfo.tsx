@@ -1,13 +1,13 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { cn } from '@/lib/utils'
 
-interface ItemCarouselProps extends ThemeContextProps {
+interface ItemInfoProps extends ThemeContextProps {
   image: string
   title: string
   description: string
 }
 
-const ItemCarousel = ({ image, title, description, theme }: ItemCarouselProps) => {
+const ItemInfo = ({ image, title, description, theme }: ItemInfoProps) => {
   return (
     <div className="relative w-full h-[500px]">
       <img src={image} alt={title} className="w-full h-full object-cover" />
@@ -38,4 +38,4 @@ const ItemCarousel = ({ image, title, description, theme }: ItemCarouselProps) =
   )
 }
 
-export default ItemCarousel
+export default ItemInfo

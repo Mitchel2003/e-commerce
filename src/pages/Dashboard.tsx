@@ -3,11 +3,7 @@ import { useThemeContext } from '@/context/ThemeContext'
 
 const Dashboard = () => {
   const { theme } = useThemeContext()
-  return (
-    <div className="container mx-auto">
-      <DashboardSection theme={theme} />
-    </div>
-  )
+  return <DashboardSection theme={theme} />
 }
 
 export default Dashboard
