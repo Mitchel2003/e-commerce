@@ -1,6 +1,6 @@
+import { Home, ShoppingCart, LogIn, UserPlus } from 'lucide-react'
 import { NavItemProps } from "@/interfaces/props.interface"
 import { FeatureItem } from "@/types/form/product.type"
-import { Home, ShoppingCart, LogIn, UserPlus } from 'lucide-react'
 
 export const products = {
   newProducts: [

@@ -1,7 +1,7 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { FeatureItem } from '@/interfaces/product.interface'
-import { cn } from '@/lib/utils'
+import { FeatureItem } from '@/types/form/product.type'
 import { features } from '@/utils/constants'
+import { cn } from '@/lib/utils'
 
 export const FeaturesSection = ({ theme }: ThemeContextProps) => {
   return (

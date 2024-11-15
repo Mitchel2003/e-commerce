@@ -1,5 +1,5 @@
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
-import IterableCustomCard from "#/reusables/fields/Card"
+import IterableCustomCard from "#/reusables/fields/CardIterable"
 import InputField from "#/reusables/fields/Input"
 import { Button } from "#/ui/button"
 
@@ -9,7 +9,7 @@ import { CardFieldProps } from "@/interfaces/props.interface"
 
 const SocialNetworkSection = ({ theme }: ThemeContextProps) => {
   const methods = useForm()
-
+  
   return (
     <div className="space-y-6">
       {/* -------------------- Header -------------------- */}

@@ -11,12 +11,11 @@ import CurriculumForm from "@/pages/CurriculumForm";
 import VerifyAction from "@/pages/auth/VerifyAction";
 import Curriculums from "@/pages/Curriculums";
 import Maintenance from "@/pages/Maintenance";
+import Dashboard from "@/pages/Dashboard";
+import Products from "@/pages/Products";
 import Register from "@/pages/Register";
-import Profile from "@/pages/Profile";
 import Login from "@/pages/Login";
 import Home from "@/pages/Home";
-import Products from "@/pages/Products";
-import Dashboard from "@/pages/Dashboard";
 
 function App() {
   return (
@@ -43,8 +42,6 @@ function App() {
                   <Route path="/dashboard" element={<Dashboard />} />
 
                   <Route element={<ProtectedRoute />}>
-                    {/* user routes */}
-                    <Route path="/user/profile" element={<Profile />} />
                     {/* forms routes */}
                     <Route path="/form/cvs" element={<Curriculums />} />
                   </Route>

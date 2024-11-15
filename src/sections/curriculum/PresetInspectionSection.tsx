@@ -1,11 +1,11 @@
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
+import IterableCard from "#/reusables/fields/CardIterable"
 import CheckboxField from "#/reusables/fields/Checkbox"
 import SelectField from "#/reusables/fields/Select"
-import IterableCard from "#/reusables/fields/Card"
 import InputField from "#/reusables/fields/Input"
 
 import { ThemeContextProps } from "@/interfaces/context.interface"
-import { CardFieldProps } from "@/interfaces/component.interface"
+import { CardFieldProps } from "@/interfaces/props.interface"
 import { FormProvider, useForm } from "react-hook-form"
 
 const inspectionOptions = [

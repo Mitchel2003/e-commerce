@@ -1,6 +1,6 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import StoreCard from '@/components/home/StoreCard'
 import { Store } from '@/types/form/home.type'
+import StoreCard from '#/home/StoreCard'
 import { cn } from '@/lib/utils'
 
 interface StoreSectionProps extends ThemeContextProps {
