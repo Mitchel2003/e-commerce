@@ -1,14 +1,13 @@
 import { ThemeContextProps } from "@/interfaces/context.interface"
+import HeaderCustom from "#/reusables/elements/HeaderCustom"
 import ImageField from "#/reusables/fields/Image"
-import { useForm } from "react-hook-form"
-import HeaderCustom from "@/components/reusables/elements/HeaderCustom"
+import { useFormContext } from "react-hook-form"
 
 const PhotoSection = ({ theme }: ThemeContextProps) => {
-  const methods = useForm()
+  const { control } = useFormContext()
 
   return (
     <div className="space-y-6">
-      {/* -------------------- Header -------------------- */}
       <HeaderCustom
         to="component"
         theme={theme}
@@ -18,13 +17,12 @@ const PhotoSection = ({ theme }: ThemeContextProps) => {
         iconSpan="info"
       />
 
-      {/* -------------------- Image field -------------------- */}
       <div className="md:col-span-3">
         <ImageField
           theme={theme}
-          name="image"
+          name="photo"
           label="Imagen a publicar"
-          control={methods.control}
+          control={control}
         />
       </div>
     </div>
