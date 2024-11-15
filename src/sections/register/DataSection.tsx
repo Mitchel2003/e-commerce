@@ -54,8 +54,6 @@ const DataSection = ({ theme }: ThemeContextProps) => {
           className="h-[calc(100%-20px)]"
         />
       </div>
-
-
     </div >
   )
 }

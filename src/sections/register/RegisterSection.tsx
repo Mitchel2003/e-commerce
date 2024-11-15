@@ -1,6 +1,8 @@
-import FooterSubmit from "#/reusables/elements/FooterSubmit"
+import SocialNetworkSection from "@/sections/register/SocialNetworkSection"
 import PhotoSection from "@/sections/register/PhotoSection"
 import DataSection from "@/sections/register/DataSection"
+
+import FooterSubmit from "#/reusables/elements/FooterSubmit"
 import HeaderForm from "#/reusables/elements/HeaderForm"
 import { Card, CardContent } from "#/ui/card"
 
@@ -73,5 +75,6 @@ export default RegisterSection
 const renderCVForm = ({ theme }: ThemeContextProps): SectionProps[] => ([
   { component: <DataSection theme={theme} /> },
   { component: <PhotoSection theme={theme} /> },
+  { component: <SocialNetworkSection theme={theme} /> }
 ])
 /*---------------------------------------------------------------------------------------------------------*/

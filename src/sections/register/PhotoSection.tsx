@@ -20,9 +20,6 @@ const PhotoSection = ({ theme }: ThemeContextProps) => {
 
       {/* -------------------- Image field -------------------- */}
       <div className="md:col-span-3">
-        {/* working here... */}
-        {/* Workaround to use the image field in the form */}
-        {/* i need align text to right */}
         <ImageField
           theme={theme}
           name="image"

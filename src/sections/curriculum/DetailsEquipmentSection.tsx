@@ -6,7 +6,7 @@ import DateField from '#/reusables/fields/Date'
 import { Button } from '#/ui/button'
 
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { CardFieldProps } from '@/interfaces/component.interface'
+import { CardFieldProps } from '@/interfaces/props.interface'
 import { FormProvider, useForm } from 'react-hook-form'
 
 interface DetailsEquipmentProps extends ThemeContextProps { }
@@ -14,7 +14,7 @@ interface DetailsEquipmentProps extends ThemeContextProps { }
 const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
   const methods = useForm()
 
-  {/* -------------------- Fields for the supplier -------------------- */}
+  {/* -------------------- Fields for the supplier -------------------- */ }
   {/* Contexto del problema; lo que pasa es que estoy tratando de  usar un form dentro de un iterableCard
     el detalle es que como tal se arroja este error "Warning: validateDOMNesting(...): <form> cannot appear as a descendant of <form>."
     esto sugiere que no se puede usar un form dentro de otro form, entonces ¿cómo le hago para que se pueda usar un form dentro de un iterableCard?
@@ -40,8 +40,7 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
     o mejor dicho datos que no necesariamente esten dentro de un iterable, si no que puedan ser creados en cualquier momento durante el llenado del formulario, quiero emplear
     los mecanismos mas profesionales para lograrlo, ya sea si uso useController o alguna otra herramienta
   */}
-  type SupplierFieldsProps = (name: string) => CardFieldProps[]
-  const supplierFields: SupplierFieldsProps = (name) => [
+  const supplierFields = (name: string): CardFieldProps[] => [
     {
       name: name,
       component:

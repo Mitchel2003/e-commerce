@@ -56,7 +56,7 @@ const HeaderCustom = ({
       {/* -------------------- Description of section or component - remember that this is optional -------------------- */}
       {span && (
         <span className={cn(
-          'text-sm flex items-center gap-2',
+          'text-sm text-right flex items-center gap-2',
           theme === 'dark' ? 'text-zinc-300' : 'text-gray-500'
         )}>
           {/* -------------------- Description of section or component -------------------- */}
