@@ -7,8 +7,8 @@ const InfoSection = ({ theme }: ThemeContextProps) => {
     <CarouselInfo
       informations={heroItems}
       isLoading={false}
-      error={null}
       theme={theme}
+      error={null}
     />
   )
 }

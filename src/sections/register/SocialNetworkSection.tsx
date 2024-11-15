@@ -31,7 +31,7 @@ const SocialNetworkSection = ({ theme }: ThemeContextProps) => {
             name="add-facebook"
             titleButton="Facebook"
             control={methods.control}
-            fields={[supplierFields("facebook", { methods, theme })[0]]}
+            fields={supplierFields("facebook", { methods, theme })}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -40,7 +40,7 @@ const SocialNetworkSection = ({ theme }: ThemeContextProps) => {
             name="add-instagram"
             titleButton="Instagram"
             control={methods.control}
-            fields={[supplierFields("instagram", { methods, theme })[1]]}
+            fields={supplierFields("instagram", { methods, theme })}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -49,7 +49,7 @@ const SocialNetworkSection = ({ theme }: ThemeContextProps) => {
             name="add-other"
             titleButton="Otro"
             control={methods.control}
-            fields={[supplierFields("other", { methods, theme })[2]]}
+            fields={supplierFields("other", { methods, theme })}
           />
         </div>
       </div>
