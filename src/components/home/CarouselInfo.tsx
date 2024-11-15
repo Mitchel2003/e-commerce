@@ -22,11 +22,10 @@ const CarouselInfo = ({ informations, isLoading, error, theme }: CarouselInfoPro
   return (
     <Carousel
       autoplay
-      theme={theme}
       items={informations}
       className_Carousel="flex relative overflow-hidden"
       className_Item="flex-shrink-0 w-full"
-      render={ItemInfo}
+      render={(item) => ItemInfo({ theme, ...item })}
     />
   )
 }
