@@ -32,42 +32,36 @@ const EquipmentSection = ({ theme }: EquipmentProps) => {
                 theme={theme}
                 name="name_equipment"
                 label="Nombre"
-                control={methods.control}
                 placeholder="Nombre del equipo"
               />
               <InputField
                 theme={theme}
                 name="brand"
                 label="Marca"
-                control={methods.control}
                 placeholder="Marca del equipo"
               />
               <InputField
                 theme={theme}
                 name="model"
                 label="Modelo"
-                control={methods.control}
                 placeholder="Modelo del equipo"
               />
               <InputField
                 theme={theme}
                 name="serie"
                 label="Serie"
-                control={methods.control}
                 placeholder="Serie del equipo"
               />
               <InputField
                 theme={theme}
                 name="type_classification_medical"
                 label="Clasificación Biomedica"
-                control={methods.control}
                 placeholder="Tipo de clasificación biomedica"
               />
               <InputField
                 theme={theme}
                 name="state"
                 label="Estado"
-                control={methods.control}
                 placeholder="Estado del equipo"
               />
             </div>

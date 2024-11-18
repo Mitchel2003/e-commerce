@@ -40,7 +40,6 @@ const ReferenceEquipmentSection = ({ theme }: EquipmentProps) => {
             theme={theme}
             name="service"
             label="Servicio"
-            control={methods.control}
             placeholder="Servicio del equipo"
           />
 
@@ -48,7 +47,6 @@ const ReferenceEquipmentSection = ({ theme }: EquipmentProps) => {
             theme={theme}
             name="address"
             label="Ubicación"
-            control={methods.control}
             placeholder="Ubicación del equipo"
           />
         </div>

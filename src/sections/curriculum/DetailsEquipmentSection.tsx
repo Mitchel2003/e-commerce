@@ -45,9 +45,9 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
       name: name,
       component:
         <form className='flex flex-col gap-2' onSubmit={methods.handleSubmit(data => console.log(data))}>
-          <InputField name="name" control={methods.control} label="Nombre" theme={theme} />
-          <InputField name="city" control={methods.control} label="Ciudad" theme={theme} />
-          <InputField name="phone" control={methods.control} label="Teléfono" theme={theme} />
+          <InputField name="name" label="Nombre" theme={theme} />
+          <InputField name="city" label="Ciudad" theme={theme} />
+          <InputField name="phone" label="Teléfono" theme={theme} />
           <Button variant="outline" type="submit">Guardar</Button>
         </form>
     }
@@ -115,7 +115,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
             type="number"
             name="value"
             label="Valor"
-            control={methods.control}
             placeholder="Valor del equipo"
           />
           <InputField
@@ -123,7 +122,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
             type="number"
             name="manufacturing_year"
             label="Año de fabricación"
-            control={methods.control}
             placeholder="Año de fabricación del equipo"
           />
         </div>

@@ -1,15 +1,13 @@
 import { LoginComponentsProps } from '@/interfaces/props.interface'
-import { LoginFormProps } from '@/schemas/auth/login.schema'
 
 import InputField from '#/reusables/fields/Input'
 import { CardContent } from '#/ui/card'
 import { Button } from '#/ui/button'
 
 import { LogIn, Lock, UserPlus, ChevronRight } from 'lucide-react'
-import { useFormContext } from 'react-hook-form'
 
 const FormSection = ({ theme }: LoginComponentsProps) => {
-  const { control } = useFormContext<LoginFormProps>()
+  
 
   return (
     <CardContent className="space-y-6">
@@ -18,7 +16,6 @@ const FormSection = ({ theme }: LoginComponentsProps) => {
         name="email"
         type="email"
         label="Correo electrónico"
-        control={control}
         placeholder="@example.com"
         icon={LogIn}
         theme={theme}
@@ -29,7 +26,6 @@ const FormSection = ({ theme }: LoginComponentsProps) => {
         name="password"
         type="password"
         label="Contraseña"
-        control={control}
         icon={Lock}
         theme={theme}
       />

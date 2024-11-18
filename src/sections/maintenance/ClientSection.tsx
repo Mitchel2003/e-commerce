@@ -40,14 +40,12 @@ const ClientSection = ({ theme }: ClientProps) => {
                 theme={theme}
                 name="contact_client"
                 label="Contacto"
-                control={methods.control}
                 placeholder="Numero de contacto"
               />
               <InputField
                 theme={theme}
                 name="address_client"
                 label="Dirección"
-                control={methods.control}
                 placeholder="Dirección del cliente"
               />
             </div>

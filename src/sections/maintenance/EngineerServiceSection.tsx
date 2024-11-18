@@ -30,14 +30,12 @@ const EngineerServiceSection = ({ theme }: EngineerServiceSectionProps) => {
               theme={theme}
               name="engineerName"
               label="Nombre del ingeniero"
-              control={methods.control}
               placeholder="Ingrese el nombre completo"
             />
             <InputField
               theme={theme}
               name="invimaRegistration"
               label="Registro INVIMA"
-              control={methods.control}
               placeholder="Ingrese el número de registro"
             />
           </div>
@@ -48,14 +46,12 @@ const EngineerServiceSection = ({ theme }: EngineerServiceSectionProps) => {
               theme={theme}
               name="satisfactionReceived"
               label="Recibido a satisfacción"
-              control={methods.control}
               placeholder="Nombre de quien recibe"
             />
             <InputField
               theme={theme}
               name="engineerSignature"
               label="Firma del ingeniero"
-              control={methods.control}
               placeholder="Firma digital o iniciales"
             />
           </div>

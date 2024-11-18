@@ -29,7 +29,6 @@ const PresetInspectionSection = ({ theme }: PresetInspectionProps) => {
           theme={theme}
           name="name_inspection"
           label="Nombre de la configuración"
-          control={methods.control}
           placeholder="Digite un nombre distintivo"
         />
     },

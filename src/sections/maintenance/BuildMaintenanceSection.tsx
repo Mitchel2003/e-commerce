@@ -61,7 +61,6 @@ const BuildMaintenanceSection = ({ theme }: BuildMaintenanceProps) => {
                 theme={theme}
                 name="voltage"
                 label="Voltaje"
-                control={methods.control}
                 placeholder="Indique el voltaje"
                 //to span
                 span="Coleccion de datos"
@@ -71,14 +70,12 @@ const BuildMaintenanceSection = ({ theme }: BuildMaintenanceProps) => {
                 theme={theme}
                 name="power"
                 label="Potencia"
-                control={methods.control}
                 placeholder="Indique la potencia"
               />
               <InputField
                 theme={theme}
                 name="current"
                 label="Corriente"
-                control={methods.control}
                 placeholder="Indique la corriente electrica"
               />
             </div>

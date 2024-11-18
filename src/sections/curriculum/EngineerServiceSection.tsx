@@ -29,14 +29,12 @@ const EngineerServiceSection = ({ theme }: EngineerServiceProps) => {
             theme={theme}
             name="service_engineer"
             label="Ingeniero de Servicio"
-            control={form.control}
             placeholder="Ingeniero responsable"
           />
           <InputField
             theme={theme}
             name="invima_registration"
             label="Registro INVIMA"
-            control={form.control}
             placeholder="Ingrese el registro asociado"
           />
         </div>

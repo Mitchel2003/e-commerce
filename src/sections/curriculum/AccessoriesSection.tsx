@@ -14,19 +14,19 @@ const AccessoriesSection = ({ theme }: AccessoriesProps) => {
   const accessoriesFields: CardFieldProps[] = [
     {
       name: "name",
-      component: <InputField name="name" theme={theme} label="Nombre" control={methods.control} />
+      component: <InputField name="name" theme={theme} label="Nombre" />
     },
     {
       name: "type",
-      component: <InputField name="type" theme={theme} label="Tipo" control={methods.control} />
+      component: <InputField name="type" theme={theme} label="Tipo" />
     },
     {
       name: "series",
-      component: <InputField name="series" theme={theme} label="Serie" control={methods.control} />
+      component: <InputField name="series" theme={theme} label="Serie" />
     },
     {
       name: "model",
-      component: <InputField name="model" theme={theme} label="Modelo" control={methods.control} />
+      component: <InputField name="model" theme={theme} label="Modelo" />
     }
   ]
 

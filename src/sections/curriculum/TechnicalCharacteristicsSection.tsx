@@ -27,21 +27,18 @@ const TechnicalCharacteristicsSection = ({ theme }: TechnicalCharacteristicsProp
             theme={theme}
             name="voltage"
             label="Voltaje"
-            control={methods.control}
             placeholder="Voltaje"
           />
           <InputField
             theme={theme}
             name="amperage"
             label="Amperaje"
-            control={methods.control}
             placeholder="Amperaje"
           />
           <InputField
             theme={theme}
             name="power"
             label="Potencia"
-            control={methods.control}
             placeholder="Potencia"
           />
         </div>
@@ -51,21 +48,18 @@ const TechnicalCharacteristicsSection = ({ theme }: TechnicalCharacteristicsProp
             theme={theme}
             name="frequency"
             label="Frecuencia"
-            control={methods.control}
             placeholder="Frecuencia"
           />
           <InputField
             theme={theme}
             name="capacity"
             label="Capacidad"
-            control={methods.control}
             placeholder="Capacidad"
           />
           <InputField
             theme={theme}
             name="pressure"
             label="Presión (PSI)"
-            control={methods.control}
             placeholder="Presión (PSI)"
           />
         </div>
@@ -75,14 +69,12 @@ const TechnicalCharacteristicsSection = ({ theme }: TechnicalCharacteristicsProp
             theme={theme}
             name="speed"
             label="Velocidad"
-            control={methods.control}
             placeholder="Velocidad"
           />
           <InputField
             theme={theme}
             name="humidity"
             label="Humedad"
-            control={methods.control}
             placeholder="Humedad"
           />
           <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
@@ -90,14 +82,12 @@ const TechnicalCharacteristicsSection = ({ theme }: TechnicalCharacteristicsProp
               theme={theme}
               name="temperature"
               label="Temp (C°)"
-              control={methods.control}
               placeholder="Temp (C°)"
             />
             <InputField
               theme={theme}
               name="weight"
               label="Peso (kg)"
-              control={methods.control}
               placeholder="Peso (kg)"
             />
           </div>

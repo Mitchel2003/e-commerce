@@ -34,7 +34,6 @@ const BasicDataSection = ({ theme }: BasicDataProps) => {
                   name="name"
                   label="Nombre"
                   theme={theme}
-                  control={methods.control}
                   placeholder="Nombre del equipo"
                 />
               </div>
@@ -42,28 +41,24 @@ const BasicDataSection = ({ theme }: BasicDataProps) => {
                 name="brand"
                 label="Marca"
                 theme={theme}
-                control={methods.control}
                 placeholder="Marca del equipo"
               />
               <InputField
                 name="model"
                 label="Modelo"
                 theme={theme}
-                control={methods.control}
                 placeholder="Modelo del equipo"
               />
               <InputField
                 name="serie"
                 label="Serie"
                 theme={theme}
-                control={methods.control}
                 placeholder="Número de serie"
               />
               <InputField
                 name="healthRecord"
                 label="Registro Sanitario"
                 theme={theme}
-                control={methods.control}
                 placeholder="Número de registro sanitario"
               />
             </div>
