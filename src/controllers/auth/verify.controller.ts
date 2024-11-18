@@ -1,9 +1,7 @@
 import { authService as authFB } from "@/services/firebase/auth.service"
 import { Result, success, failure } from "@/interfaces/db.interface"
-import { verifyAccessToken } from "@/services/jwt/jwt.service"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI from "@/errors"
-import Cookies from "js-cookie"
 
 /**
  * Verifica el token de acceso del usuario (autenticación).
@@ -12,11 +10,11 @@ import Cookies from "js-cookie"
  */
 export const verifyAuth = async (): Promise<Result<object>> => {
   try {
-    const token = await authRequired();
-    if (!token.success) return failure(token.error);
-    const user = await authFB.verifyCredentials(token.data, '');
-    if (user.success) return failure(new ErrorAPI({ message: '' })); //never
-    if (user.error.message === 'Credenciales inválidas') return success({ access: true })
+    // const token = await authRequired();
+    // if (!token.success) return failure(token.error);
+    // const user = await authFB.verifyCredentials(token.data, '');
+    // if (user.success) return failure(new ErrorAPI({ message: '' })); //never
+    // if (user.error.message === 'Credenciales inválidas') return success({ access: true })
     return success({ access: false })
   } catch (e) {
     const res = normalizeError(e, 'verificar autenticación')
@@ -87,18 +85,18 @@ export const resetPassword = async ({ params, body }: ResetPasswordProps): Promi
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------tools--------------------------------------------------*/
-const authRequired = async (): Promise<Result<string>> => {
-  try {
-    const token = Cookies.get('token');
-    if (!token) throw new ErrorAPI({ message: 'Token no encontrado' })
-    const access = await verifyAccessToken(token);
-    if (!access.success) return failure(new ErrorAPI(access.error))
-    if (!access.data.id) return failure(new ErrorAPI({ message: 'id del token no encontrado' }))
-    return success(access.data.id)
-  } catch (e) {
-    const res = normalizeError(e, 'validar restablecimiento de contraseña')
-    return failure(res)
-  }
-}
+// const authRequired = async (): Promise<Result<string>> => {
+//   try {
+//     const token = Cookies.get('token');
+//     if (!token) throw new ErrorAPI({ message: 'Token no encontrado' })
+//     const access = await authFB.verifyCredentials(token, '');
+//     if (!access.success) return failure(new ErrorAPI(access.error))
+//     if (!access.data.id) return failure(new ErrorAPI({ message: 'id del token no encontrado' }))
+//     return success(access.data.id)
+//   } catch (e) {
+//     const res = normalizeError(e, 'validar restablecimiento de contraseña')
+//     return failure(res)
+//   }
+// }
 
 /*---------------------------------------------------------------------------------------------------------*/

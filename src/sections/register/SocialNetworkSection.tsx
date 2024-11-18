@@ -1,41 +1,26 @@
 import { ThemeContextProps } from "@/interfaces/context.interface"
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
+import { useFormContext } from "react-hook-form"
 import { Button } from "#/ui/button"
-
-import { useFormContext, useFieldArray } from "react-hook-form"
 import { cn } from "@/lib/utils"
+import InputField from "#/reusables/fields/Input"
+import { useFieldArray } from "react-hook-form"
 
-interface SocialNetworkProps extends ThemeContextProps { }
+interface SocialNetworkProps extends ThemeContextProps {}
 
-const networks = [
-  {
-    name: 'facebook',
-    label: 'URL de Facebook',
-    placeholder: 'Ingrese su URL de Facebook'
-  },
-  {
-    name: 'instagram',
-    label: 'URL de Instagram',
-    placeholder: 'Ingrese su URL de Instagram'
-  },
-  {
-    name: 'other',
-    label: 'URL de Red Social',
-    placeholder: 'Ingrese su URL de Red Social'
-  }
-]
+type NetworkType = {
+  type: 'Facebook' | 'Instagram' | 'Otro'
+  url: string
+}
 
 const SocialNetworkSection = ({ theme }: SocialNetworkProps) => {
   const { control } = useFormContext()
-  const { fields: items, append, remove } = useFieldArray({ control, name })
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "socialNetworks"
+  })
 
-  const handleAppend = () => {
-    const initialValue = {} as Record<string, string>
-    const newItem = networks.reduce((acc, field) => { acc[field.name] = ''; return acc }, initialValue)
-    append(newItem)
-  }
-
-  const addNetwork = (type: string) => {
+  const addNetwork = (type: NetworkType['type']) => {
     append({ type, url: '' })
   }
 
@@ -50,59 +35,60 @@ const SocialNetworkSection = ({ theme }: SocialNetworkProps) => {
         iconSpan="warn"
       />
 
-
-
       <div className="grid grid-cols-1 gap-4">
-        {items.map((item, index) => (
-          <div key={item.id} className="flex gap-4">
-            
+        {fields.map((field, index) => (
+          <div 
+            key={field.id} 
+            className="relative p-4 rounded-lg border shadow-sm space-y-4"
+            style={{
+              backgroundColor: theme === 'dark' ? '#27272a' : '#ffffff',
+              borderColor: theme === 'dark' ? '#3f3f46' : '#e5e7eb'
+            }}
+          >
+            <div className="flex justify-between items-center">
+              <span className={cn(
+                "text-sm font-medium",
+                theme === 'dark' ? 'text-zinc-200' : 'text-gray-700'
+              )}>
+                {field.id[index]}
+              </span>
+              <Button
+                type="button"
+                variant="destructive"
+                onClick={() => remove(index)}
+                size="sm"
+                className="h-8"
+              >
+                Eliminar
+              </Button>
+            </div>
 
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={() => remove(index)}
-              className="mt-8"
-            >
-              Eliminar
-            </Button>
+            <InputField
+              name={`socialNetworks.${index}.url`}
+              label={`URL de ${field.id[index]}`}
+              theme={theme}
+              placeholder={`Ingrese su URL de ${field.id[index]}`}
+            />
           </div>
         ))}
       </div>
 
-      <div className="flex gap-4">
-        <Button
-          type="button"
-          onClick={() => addNetwork('Facebook')}
-          className={cn(
-            theme === 'dark'
-              ? 'bg-zinc-700 text-white'
-              : 'bg-white text-black'
-          )}
-        >
-          Agregar Facebook
-        </Button>
-        <Button
-          type="button"
-          onClick={() => addNetwork('Instagram')}
-          className={cn(
-            theme === 'dark'
-              ? 'bg-zinc-700 text-white'
-              : 'bg-white text-black'
-          )}
-        >
-          Agregar Instagram
-        </Button>
-        <Button
-          type="button"
-          onClick={() => addNetwork('Otro')}
-          className={cn(
-            theme === 'dark'
-              ? 'bg-zinc-700 text-white'
-              : 'bg-white text-black'
-          )}
-        >
-          Agregar Otro
-        </Button>
+      <div className="flex flex-wrap gap-4">
+        {['Facebook', 'Instagram', 'Otro'].map((networkType) => (
+          <Button
+            key={networkType}
+            type="button"
+            onClick={() => addNetwork(networkType as NetworkType['type'])}
+            className={cn(
+              'flex-1 min-w-[150px]',
+              theme === 'dark'
+                ? 'bg-zinc-700 text-white hover:bg-zinc-600'
+                : 'bg-white text-black hover:bg-gray-100'
+            )}
+          >
+            Agregar {networkType}
+          </Button>
+        ))}
       </div>
     </div>
   )

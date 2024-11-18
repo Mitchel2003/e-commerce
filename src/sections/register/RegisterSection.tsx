@@ -6,45 +6,25 @@ import FooterSubmit from "#/reusables/elements/FooterSubmit"
 import HeaderForm from "#/reusables/elements/HeaderForm"
 import { Card, CardContent } from "#/ui/card"
 
-import { RegisterFormProps, registerSchema } from "@/schemas/auth/register.schema"
 import { ThemeContextProps } from "@/interfaces/context.interface"
-import { FormProvider, useForm } from "react-hook-form"
+import { useRegisterForm } from "@/hooks/useRegisterForm"
 import { useAuthContext } from "@/context/AuthContext"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { RenderFormat } from "@/utils/RenderFormat"
+import { FormProvider } from "react-hook-form"
 import { cn } from "@/lib/utils"
 
-const defaultValues = {
-  photo: undefined,
-  name: '',
-  email: '',
-  phone: '',
-  description: '',
-  socialNetworks: []
-}
-interface RegisterSectionProps extends ThemeContextProps { }
-
-const RegisterSection = ({ theme }: RegisterSectionProps) => {
-  const resolver = zodResolver(registerSchema)
-  const methods = useForm<RegisterFormProps>({ resolver, mode: 'onChange', defaultValues })
-
-  const { signup, errors: authErrors = [] } = useAuthContext()
-
-  const onSubmit = methods.handleSubmit(async (data) => {
-    console.log('Form data:', data)
-    await signup(data)
-  })
+const RegisterSection = ({ theme }: ThemeContextProps) => {
+  const { methods, onSubmit } = useRegisterForm()
+  const { errors: authErrors = [] } = useAuthContext()
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={onSubmit}>
-        {/* Errores de autenticación */}
-        {authErrors.map((error, index) => (
-          <div key={index} className="bg-red-500 text-white text-center my-2 p-2 rounded">
-            {error}
-          </div>
-        ))}
+      {authErrors.map((error, index) => (
+        <div key={index} className="bg-red-500 text-white text-center my-2 p-2 rounded">
+          {error}
+        </div>
+      ))}
 
+      <form onSubmit={onSubmit}>
         <Card className={cn(
           'my-6 w-full md:w-[calc(100vw-400px)] shadow-lg',
           'transition-all duration-200 backdrop-filter backdrop-blur-lg',
@@ -59,14 +39,9 @@ const RegisterSection = ({ theme }: RegisterSectionProps) => {
           />
 
           <CardContent className="pt-6 space-y-8">
-            <RenderFormat
-              format={[
-                { component: <DataSection theme={theme} /> },
-                { component: <PhotoSection theme={theme} /> },
-                { component: <SocialNetworkSection theme={theme} /> }
-              ]}
-              theme={theme}
-            />
+            <DataSection theme={theme} />
+            <PhotoSection theme={theme} />
+            <SocialNetworkSection theme={theme} />
           </CardContent>
 
           <FooterSubmit theme={theme} />

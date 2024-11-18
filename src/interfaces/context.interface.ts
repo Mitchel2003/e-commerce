@@ -1,3 +1,5 @@
+import { RegisterFormProps } from "@/schemas/auth/register.schema";
+import { LoginFormProps } from "@/schemas/auth/login.schema";
 /*--------------------------------------------------ThemeContext--------------------------------------------------*/
 export type Theme = 'light' | 'dark'
 
@@ -10,15 +12,15 @@ export type ThemeContextProps = { theme: Theme }
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------AuthContext--------------------------------------------------*/
-export type User = { _id: string, role: string, email: string, username: string, permissions: object } | undefined
+export type User = { _id: string, role: string, email: string, username: string, permissions: object } | {}
 
 export type AuthContext = {
   user: User;
   isAuth: boolean;
   loading: boolean;
   errors: string[];
-  signin: (user: object) => Promise<void>;
-  signup: (user: object) => Promise<void>;
+  signin: (user: LoginFormProps) => Promise<void>;
+  signup: (user: RegisterFormProps) => Promise<void>;
   logout: () => void;
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

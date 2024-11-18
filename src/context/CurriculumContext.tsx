@@ -1,6 +1,6 @@
-import { createCVRequest, getCVRequest, getCVsRequest, updateCVRequest, deleteCVRequest } from "@/api/curriculum";
+// import { createCVRequest, getCVRequest, getCVsRequest, updateCVRequest, deleteCVRequest } from "@/api/curriculum";
 import { Curriculum as TypeCurriculum, CurriculumContext } from "@/interfaces/context.interface";
-import { isApiResponse, isAxiosResponse } from "@/interfaces/response.interface";
+import { isApiResponse } from "@/interfaces/response.interface";
 import { Props } from "@/interfaces/props.interface";
 
 import { useState, useContext, createContext, useEffect } from "react";
@@ -41,7 +41,7 @@ export const CurriculumProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeCurriculum>} Los datos del curriculum o undefined en caso de error.
    */
   const getCV = async (id: string): Promise<TypeCurriculum> => {
-    try { const res = await getCVRequest(id); return res.data }
+    try { console.log(`getCV ${id}`); return undefined }
     catch (e: unknown) { setCurriculumStatus(e); return undefined }
   }
 
@@ -50,7 +50,7 @@ export const CurriculumProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeCurriculum[]>} Un array con los datos de todos los curriculums.
    */
   const getCVs = async (): Promise<TypeCurriculum[]> => {
-    try { const res = await getCVsRequest(); return res.data }
+    try { console.log('getCVs'); return [] }
     catch (e: unknown) { setCurriculumStatus(e); return [] }
   }
 
@@ -60,7 +60,7 @@ export const CurriculumProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeCurriculum>} Los datos del curriculum creado o undefined en caso de error.
    */
   const createCV = async (curriculum: object): Promise<TypeCurriculum> => {
-    try { const res = await createCVRequest(curriculum); return res.data }
+    try { console.log(`createCV ${curriculum}`); return undefined }
     catch (e: unknown) { setCurriculumStatus(e); return undefined }
   }
 
@@ -71,7 +71,7 @@ export const CurriculumProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeCurriculum>} Los datos del curriculum actualizado o undefined en caso de error.
    */
   const updateCV = async (id: string, curriculum: object): Promise<TypeCurriculum> => {
-    try { const res = await updateCVRequest(id, curriculum); return res.data }
+    try { console.log(`updateCV ${id} ${curriculum}`); return undefined }
     catch (e: unknown) { setCurriculumStatus(e); return undefined }
   }
 
@@ -81,7 +81,7 @@ export const CurriculumProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeCurriculum>} Los datos del curriculum eliminado o undefined en caso de error.
    */
   const deleteCV = async (id: string): Promise<TypeCurriculum> => {
-    try { const res = await deleteCVRequest(id); return res.data }
+    try { console.log(`deleteCV ${id}`); return undefined }
     catch (e: unknown) { setCurriculumStatus(e); return undefined }
   }
 
@@ -90,7 +90,7 @@ export const CurriculumProvider = ({ children }: Props): JSX.Element => {
    * @param {unknown} e - El error capturado.
    */
   const setCurriculumStatus = (e: unknown) => {
-    if (isAxiosResponse(e)) setErrors([e.response.message])
+    // if (isAxiosResponse(e)) setErrors([e.response.message])
     if (isApiResponse(e)) setErrors([e.message])
   }
 

@@ -5,7 +5,6 @@ import { firebaseApp } from "@/services/db"
 import ErrorAPI from "@/errors"
 
 import { Result, success, failure } from "@/interfaces/db.interface";
-import { UserCredentialsDB } from "@/types/user/user.type"
 
 /*--------------------------------------------------Database--------------------------------------------------*/
 class DatabaseService {
@@ -22,13 +21,12 @@ class DatabaseService {
    * @param {UserCredential} auth - Contiene el usuario autenticado a registrar; en la propiedad "user" se encuentran sus datos.
    * @param {UserFB} credentials - Corresponde a las credenciales del usuario, contiene el rol del usuario en validacion.
    */
-  async registerUserCredentials(auth: UserCredential, credentials: UserCredentialsDB): Promise<Result<string>> {
+  async registerUserCredentials(auth: UserCredential, credentials: object): Promise<Result<string>> {
     try {
       await setDoc(doc(this.getCollection('users'), auth.user.uid), {
-        username: auth.user.displayName,
-        role: credentials.role,
+        ...credentials,
         email: auth.user.email,
-        access: false,
+        username: auth.user.displayName
       })
       return success('completado')
     } catch (e) {

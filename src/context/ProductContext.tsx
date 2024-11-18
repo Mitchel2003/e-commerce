@@ -1,6 +1,5 @@
-import { getProductRequest, getProductsRequest, createProductRequest, updateProductRequest, deleteProductRequest } from "@/api/product";
 import { Product as TypeProduct, ProductContext } from "@/interfaces/context.interface";
-import { isApiResponse, isAxiosResponse } from "@/interfaces/response.interface";
+import { isApiResponse } from "@/interfaces/response.interface";
 import { Props } from "@/interfaces/props.interface";
 
 import { useState, useContext, createContext, useEffect } from "react";
@@ -41,7 +40,7 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeProduct>} Los datos del producto o undefined en caso de error.
    */
   const getProduct = async (id: string): Promise<TypeProduct> => {
-    try { const res = await getProductRequest(id); return res.data }
+    try { console.log(`getProduct ${id}`); return undefined }
     catch (e: unknown) { setProductStatus(e); return undefined }
   }
 
@@ -50,7 +49,7 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeProduct[]>} Un array con los datos de todos los productos.
    */
   const getProducts = async (): Promise<TypeProduct[]> => {
-    try { const res = await getProductsRequest(); return res.data }
+    try { console.log('getProducts'); return [] }
     catch (e: unknown) { setProductStatus(e); return [] }
   }
 
@@ -60,7 +59,7 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeProduct>} Los datos del producto creado o undefined en caso de error.
    */
   const createProduct = async (product: object): Promise<TypeProduct> => {
-    try { const res = await createProductRequest(product); return res.data }
+    try { console.log(`createProduct ${product}`); return undefined }
     catch (e: unknown) { setProductStatus(e); return undefined }
   }
 
@@ -71,7 +70,7 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeProduct>} Los datos del producto actualizado o undefined en caso de error.
    */
   const updateProduct = async (id: string, product: object): Promise<TypeProduct> => {
-    try { const res = await updateProductRequest(id, product); return res.data }
+    try { console.log(`updateProduct ${id} ${product}`); return undefined }
     catch (e: unknown) { setProductStatus(e); return undefined }
   }
 
@@ -81,7 +80,7 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeProduct>} Los datos del producto eliminado o undefined en caso de error.
    */
   const deleteProduct = async (id: string): Promise<TypeProduct> => {
-    try { const res = await deleteProductRequest(id); return res.data }
+    try { console.log(`deleteProduct ${id}`); return undefined }
     catch (e: unknown) { setProductStatus(e); return undefined }
   }
 
@@ -90,7 +89,6 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @param {unknown} e - El error capturado.
    */
   const setProductStatus = (e: unknown) => {
-    if (isAxiosResponse(e)) setErrors([e.response.message])
     if (isApiResponse(e)) setErrors([e.message])
   }
 

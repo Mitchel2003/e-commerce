@@ -4,7 +4,6 @@ import { NotFound } from "@/errors"
 import config from "@/utils/config"
 
 import { Result, failure, success } from "@/interfaces/db.interface"
-import { UserCredentialsDB } from "@/types/user/user.type"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI from "@/errors"
 
@@ -26,10 +25,10 @@ class AuthService {
    * @param {string} password - La contraseña del usuario.
    * @returns {Promise<Result<UserAuthFB>>} - Retorna el usuario si las credenciales son válidas, o un error si no lo son.
    */
-  async verifyCredentials(email: string, password: string): Promise<Result<UserCredential>> {
+  async verifyCredentials(email: string, password: string): Promise<Result<User>> {
     try {
-      const user = await signInWithEmailAndPassword(this.auth, email, password)
-      return success(user)
+      const result = await signInWithEmailAndPassword(this.auth, email, password)
+      return success(result.user)
     } catch (e) {
       const res = normalizeError(e, 'verificar credenciales')
       return failure(new ErrorAPI(res))
@@ -74,13 +73,11 @@ class AuthService {
   /*---------------> authentication <---------------*/
   /**
    * Envia un correo de verificación de cuenta al correo suministrado por el usuario.
-   * El enlace de redireccion (url) lo definimos en el metodo dado que necesitamos las credenciales del usuario a crear en mongodb.
-   * @param {UserCredentialsDB} user - Credenciales del usuario.
    */
-  async sendEmailVerification({ email, username, role }: UserCredentialsDB): Promise<Result<string>> {
+  async sendEmailVerification(): Promise<Result<string>> {
     try {
       if (!this.auth.currentUser) throw new NotFound({ message: 'Usuario (auth)' })
-      const url = `${config.frontendUrl}/auth/verify-action/email=${email}&username=${username}&role=${role}`
+      const url = `${config.frontendUrl}/auth/verify-action`
       await sendEmailVerification(this.auth.currentUser, { url })
       return success('completado')
     } catch (e) {

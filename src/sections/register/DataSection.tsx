@@ -1,12 +1,9 @@
 import { ThemeContextProps } from "@/interfaces/context.interface"
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
 import InputField from "#/reusables/fields/Input"
-import AreaField from "#/reusables/fields/Area"
-import { useFormContext } from "react-hook-form"
+// import AreaField from "#/reusables/fields/Area"
 
 const DataSection = ({ theme }: ThemeContextProps) => {
-  const { control } = useFormContext()
-
   return (
     <div className="space-y-6">
       <HeaderCustom
@@ -24,32 +21,28 @@ const DataSection = ({ theme }: ThemeContextProps) => {
             name="businessData.name"
             label="Nombre del emprendimiento"
             theme={theme}
-            control={control}
             placeholder="Nombre del emprendimiento"
           />
           <InputField
             name="businessData.email"
             label="Correo electrónico"
             theme={theme}
-            control={control}
             placeholder="Digite su correo electrónico"
           />
           <InputField
             name="businessData.phone"
             label="Teléfono"
             theme={theme}
-            control={control}
             placeholder="Digite su teléfono de contacto"
           />
         </div>
-        <AreaField
+        {/* <AreaField
           name="businessData.description"
           label="Descripción"
           theme={theme}
-          control={control}
           placeholder="Describa su emprendimiento"
           className="h-[calc(100%-20px)]"
-        />
+        /> */}
       </div>
     </div>
   )

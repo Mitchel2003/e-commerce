@@ -56,13 +56,13 @@ class StorageService {
   /**
    * Subir un archivo al almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo final.
-   * @example path podria ser 'users/profile/{username}'
+   * @example path podria ser 'tech/company/{email}/preview'
    * @param {File} file - El archivo a subir.
    * @returns {Promise<Result<string>>} La URL del archivo subido.
    */
   async uploadFile(path: string, file: File): Promise<Result<string>> {
     try {
-      const storageRef = this.getReference(path)
+      const storageRef = this.getReference(`tech/company/${path}`)
       const metadata = buildStorageMetadata(file)
       const upload = await uploadBytes(storageRef, file, metadata)
       return success(await getDownloadURL(upload.ref))

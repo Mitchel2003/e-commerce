@@ -1,13 +1,14 @@
-import { login, logout, register } from "@/controllers/auth/auth.controller";
-import { verifyAuth } from "@/controllers/auth/verify.controller";
-
 import { User, AuthContext } from "@/interfaces/context.interface";
 import { isApiResponse } from "@/interfaces/response.interface";
 import { Props } from "@/interfaces/props.interface";
+import { Result } from "@/interfaces/db.interface";
+
+import { login, register } from "@/controllers/auth/auth.controller";
+import { RegisterFormProps } from "@/schemas/auth/register.schema";
+import { verifyAuth } from "@/controllers/auth/verify.controller";
+import { LoginFormProps } from "@/schemas/auth/login.schema";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { AxiosResponse } from "axios";
-import Cookies from "js-cookie";
 
 const Auth = createContext<AuthContext>(undefined)
 
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
-  const [user, setUser] = useState<User>(undefined);
+  const [user, setUser] = useState<User>({});
 
   useEffect(() => timeAlert(), [errors])
   useEffect(() => { verifyToken() }, [])
@@ -45,7 +46,6 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
 
   /** Verifica el token de autenticación almacenado en las cookies */
   const verifyToken = async () => {
-    if (!Cookies.get().token) return setAuthStatus()
     try {
       const res = await verifyAuth();
       if (!res.success) setErrors([res.error.message])
@@ -58,28 +58,27 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   }
 
   /** Inicia sesión con las credenciales del usuario */
-  const signin = async (user: object) => {
-    try { const res = await loginRequest(user); setAuthStatus(res) }
-    catch (e: unknown) { if (isAxiosResponse(e)) setErrors([e.response.message]) }
+  const signin = async (user: LoginFormProps) => {
+    try { const res = await login(user); setAuthStatus(res) }
+    catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
   /** Registra un nuevo usuario */
-  const signup = async (user: object) => {
-    try { const res = await registerRequest(user); setAuthStatus(res) }
-    catch (e: unknown) { if (isAxiosResponse(e)) setErrors([e.response.message]) }
+  const signup = async (user: RegisterFormProps) => {
+    try { const res = await register(user); setAuthStatus(res) }
+    catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
   /** Cierra la sesión del usuario actual */
-  const logout = () => { Cookies.remove('token'); setAuthStatus() }
+  const logout = () => { setAuthStatus() }
 
   /**
    * Actualiza el estado de autenticación basado en la respuesta del servidor.
    * @param {AxiosResponse} [res] - La respuesta del servidor.
    */
-  interface AuthStatusProps<T = any> { data: T }//working here...
-  const setAuthStatus = (res?: AuthStatusProps) => {
-    setIsAuth(Boolean(res?.data))
-    setUser(res?.data ?? {})
+  const setAuthStatus = (res?: Result<any>) => {
+    setUser(res?.success ? res.data : {})
+    setIsAuth(Boolean(res?.success))
     setLoading(false)
   }
 
