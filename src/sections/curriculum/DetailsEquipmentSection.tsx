@@ -143,7 +143,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
             <IterableCustomCard
               theme={theme}
               name="add-representative"
-              control={methods.control}
               fields={supplierFields("representative")}
               titleButton="Nuevo representante"
             />
@@ -164,7 +163,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
               theme={theme}
               name="add-provider"
               titleButton="Nuevo proveedor"
-              control={methods.control}
               fields={supplierFields("provider")}
             />
           </div>
@@ -184,7 +182,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
               theme={theme}
               name="add-manufacturer"
               titleButton="Nuevo fabricante"
-              control={methods.control}
               fields={supplierFields("manufacturer")}
             />
           </div>

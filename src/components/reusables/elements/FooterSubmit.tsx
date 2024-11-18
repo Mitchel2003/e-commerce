@@ -4,7 +4,9 @@ import { CardFooter } from "#/ui/card"
 import { Button } from "#/ui/button"
 import { cn } from "@/lib/utils"
 
-const FooterSubmit = ({ theme }: ThemeContextProps) => {
+const FooterSubmit = ({ theme }: ThemeContextProps) => {//working here...
+  const {  } = useFormContext()
+
   return (
     <CardFooter className="flex justify-between">
       <Button
@@ -16,7 +18,8 @@ const FooterSubmit = ({ theme }: ThemeContextProps) => {
             : 'bg-white border border-gray-200 text-gray-900 hover:bg-white'
         )}
       >
-        <Ban className="text-red-600 mr-2 h-4 w-4" /> Cancelar
+        <Ban className="text-red-600 mr-2 h-4 w-4" />
+        Cancelar
       </Button>
 
       <Button
@@ -28,7 +31,8 @@ const FooterSubmit = ({ theme }: ThemeContextProps) => {
             : 'bg-white border border-gray-200 text-gray-900 hover:bg-white'
         )}
       >
-        <CheckSquare className="text-green-600 mr-2 h-4 w-4" /> Guardar
+        <CheckSquare className="text-green-600 mr-2 h-4 w-4" />
+        Guardar
       </Button>
     </CardFooter>
   )

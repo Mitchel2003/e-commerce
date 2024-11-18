@@ -76,7 +76,6 @@ const PresetInspectionSection = ({ theme }: PresetInspectionProps) => {
             theme={theme}
             name="inspection"
             fields={inspectionFields}
-            control={methods.control}
             titleButton="Agregar configuración"
           />
         </div>

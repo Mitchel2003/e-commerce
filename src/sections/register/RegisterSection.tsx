@@ -18,13 +18,13 @@ const RegisterSection = ({ theme }: ThemeContextProps) => {
 
   return (
     <FormProvider {...methods}>
-      {authErrors.map((error, index) => (
-        <div key={index} className="bg-red-500 text-white text-center my-2 p-2 rounded">
-          {error}
-        </div>
-      ))}
-
       <form onSubmit={onSubmit}>
+        {authErrors.map((error, index) => (
+          <div key={index} className="bg-red-500 text-white text-center my-2 p-2 rounded">
+            {error}
+          </div>
+        ))}
+
         <Card className={cn(
           'my-6 w-full md:w-[calc(100vw-400px)] shadow-lg',
           'transition-all duration-200 backdrop-filter backdrop-blur-lg',

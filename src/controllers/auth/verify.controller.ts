@@ -15,7 +15,7 @@ export const verifyAuth = async (): Promise<Result<object>> => {
     // const user = await authFB.verifyCredentials(token.data, '');
     // if (user.success) return failure(new ErrorAPI({ message: '' })); //never
     // if (user.error.message === 'Credenciales inválidas') return success({ access: true })
-    return success({ access: false })
+    return failure(new ErrorAPI({ message: 'Credenciales inválidas' }))
   } catch (e) {
     const res = normalizeError(e, 'verificar autenticación')
     throw new ErrorAPI(res)

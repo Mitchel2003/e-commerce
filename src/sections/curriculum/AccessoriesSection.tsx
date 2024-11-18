@@ -56,7 +56,6 @@ const AccessoriesSection = ({ theme }: AccessoriesProps) => {
             theme={theme}
             name="accessories"
             fields={accessoriesFields}
-            control={methods.control}
             titleButton="Añadir accesorio para este equipo"
           />
         </div>

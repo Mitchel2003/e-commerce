@@ -1,13 +1,12 @@
+import { ThemeContextProps } from "@/interfaces/context.interface"
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
 import AreaField from "#/reusables/fields/Area"
 
-import { ThemeContextProps } from "@/interfaces/context.interface"
-import { useForm } from "react-hook-form"
 
 interface CharacteristicsProps extends ThemeContextProps { }
 
 const CharacteristicsSection = ({ theme }: CharacteristicsProps) => {
-  const form = useForm<CharacteristicsProps>()
+  
   return (
     <div className="space-y-6">
       <HeaderCustom
@@ -24,14 +23,12 @@ const CharacteristicsSection = ({ theme }: CharacteristicsProps) => {
           theme={theme}
           name="characteristics"
           label="Características"
-          control={form.control}
           placeholder="Ingrese las características del equipo"
         />
         <AreaField
           theme={theme}
           name="recommendations_manufacturer"
           label="Recomendaciones del Fabricante"
-          control={form.control}
           placeholder="Ingrese las recomendaciones del fabricante"
         />
       </div>

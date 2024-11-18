@@ -43,7 +43,6 @@ const ObservationSection = ({ theme }: ObservationSectionProps) => {
             theme={theme}
             name="description"
             label="Descripción"
-            control={methods.control}
             placeholder="Describa la rutina del mantenimiento"
             span="Informe sobre actividades u observaciones realizadas"
             iconSpan="none"

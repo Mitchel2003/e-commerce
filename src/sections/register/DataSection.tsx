@@ -1,7 +1,7 @@
 import { ThemeContextProps } from "@/interfaces/context.interface"
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
 import InputField from "#/reusables/fields/Input"
-// import AreaField from "#/reusables/fields/Area"
+import AreaField from "#/reusables/fields/Area"
 
 const DataSection = ({ theme }: ThemeContextProps) => {
   return (
@@ -36,13 +36,13 @@ const DataSection = ({ theme }: ThemeContextProps) => {
             placeholder="Digite su teléfono de contacto"
           />
         </div>
-        {/* <AreaField
+        <AreaField
           name="businessData.description"
           label="Descripción"
           theme={theme}
           placeholder="Describa su emprendimiento"
           className="h-[calc(100%-20px)]"
-        /> */}
+        />
       </div>
     </div>
   )
