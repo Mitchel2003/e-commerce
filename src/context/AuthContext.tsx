@@ -1,6 +1,8 @@
-import { loginRequest, registerRequest, verifyAuthRequest } from "@/api/auth";
-import { isApiResponse, isAxiosResponse } from "@/interfaces/response.interface";
+import { login, logout, register } from "@/controllers/auth/auth.controller";
+import { verifyAuth } from "@/controllers/auth/verify.controller";
+
 import { User, AuthContext } from "@/interfaces/context.interface";
+import { isApiResponse } from "@/interfaces/response.interface";
 import { Props } from "@/interfaces/props.interface";
 
 import { createContext, useContext, useState, useEffect } from "react";
@@ -45,10 +47,11 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   const verifyToken = async () => {
     if (!Cookies.get().token) return setAuthStatus()
     try {
-      const res = await verifyAuthRequest();
-      setAuthStatus(res);
+      const res = await verifyAuth();
+      if (!res.success) setErrors([res.error.message])
+      setIsAuth(Boolean(res?.success))
+      setLoading(false)
     } catch (e: unknown) {
-      if (isAxiosResponse(e)) setErrors([e.response?.message])
       if (isApiResponse(e)) setErrors([e.message])
       setAuthStatus()
     }
@@ -73,7 +76,8 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
    * Actualiza el estado de autenticación basado en la respuesta del servidor.
    * @param {AxiosResponse} [res] - La respuesta del servidor.
    */
-  const setAuthStatus = (res?: AxiosResponse) => {
+  interface AuthStatusProps<T = any> { data: T }//working here...
+  const setAuthStatus = (res?: AuthStatusProps) => {
     setIsAuth(Boolean(res?.data))
     setUser(res?.data ?? {})
     setLoading(false)

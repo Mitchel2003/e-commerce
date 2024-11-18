@@ -14,21 +14,19 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { RenderFormat } from "@/utils/RenderFormat"
 import { cn } from "@/lib/utils"
 
+const defaultValues = {
+  photo: undefined,
+  name: '',
+  email: '',
+  phone: '',
+  description: '',
+  socialNetworks: []
+}
 interface RegisterSectionProps extends ThemeContextProps { }
 
 const RegisterSection = ({ theme }: RegisterSectionProps) => {
-  const methods = useForm<RegisterFormProps>({
-    resolver: zodResolver(registerSchema),
-    mode: 'onChange',
-    defaultValues: {
-      photo: undefined,
-      name: '',
-      email: '',
-      phone: '',
-      description: '',
-      socialNetworks: []
-    }
-  })
+  const resolver = zodResolver(registerSchema)
+  const methods = useForm<RegisterFormProps>({ resolver, mode: 'onChange', defaultValues })
 
   const { signup, errors: authErrors = [] } = useAuthContext()
 

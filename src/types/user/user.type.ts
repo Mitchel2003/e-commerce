@@ -1,0 +1,1 @@
+export interface UserCredentialsDB { email: string, username: string, role: string }
