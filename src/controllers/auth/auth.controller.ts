@@ -2,7 +2,7 @@
 import { databaseService as databaseFB } from "@/services/firebase/database.service"
 import { storageService as storageFB } from "@/services/firebase/storage.service"
 import { authService as authFB } from "@/services/firebase/auth.service"
-import { failure, Result, success } from "@/interfaces/db.interface"
+import { Result, success } from "@/interfaces/db.interface"
 import ErrorAPI, { Unauthorized } from "@/errors"
 import { normalizeError } from "@/errors/handler"
 
@@ -22,10 +22,10 @@ export const login = async ({
 }: LoginFormProps): Promise<Result<User>> => {
   try {
     const result = await authFB.login(email, password);
-    if (!result.success) return failure(new ErrorAPI(result.error));
-    if (!result.data.photoURL) return failure(new Unauthorized({ message: 'Email no verificado' }));
+    if (!result.success) throw new ErrorAPI(result.error);
+    if (!result.data.photoURL) throw new Unauthorized({ message: 'Email no verificado' });
     return success(result.data);
-  } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'inicio de sesión'))) }
+  } catch (e) { throw new ErrorAPI(normalizeError(e, 'inicio de sesión')) }
 }
 /**
  * Maneja el proceso de registro de un nuevo usuario.
@@ -43,16 +43,16 @@ export const register = async ({
   try {
     const { email, password } = accessCredentials
     const result = await authFB.registerAccount(businessData.name, email, password)
-    if (!result.success) return failure(new ErrorAPI(result.error))
+    if (!result.success) throw new ErrorAPI(result.error)
 
     const sendEmail = await authFB.sendEmailVerification()
-    if (!sendEmail.success) return failure(new ErrorAPI(sendEmail.error))
+    if (!sendEmail.success) throw new ErrorAPI(sendEmail.error)
 
     const url = references?.photo && await storageFB.uploadFile(`${email}/preview`, references.photo)
-    if (url !== undefined && !url.success) return failure(new ErrorAPI(url.error))
+    if (url !== undefined && !url.success) throw new ErrorAPI(url.error)
 
     const register = await databaseFB.registerUserCredentials(result.data, { ...businessData, ...references });
-    if (!register.success) return failure(new ErrorAPI(register.error))
+    if (!register.success) throw new ErrorAPI(register.error)
     return success(result.data);
-  } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registro de usuario'))) }
+  } catch (e) { throw new ErrorAPI(normalizeError(e, 'registro de usuario')) }
 }

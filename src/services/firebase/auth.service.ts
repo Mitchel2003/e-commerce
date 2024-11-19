@@ -72,10 +72,7 @@ class AuthService {
       const update = await this.updateProfile(res.user, { displayName: username })
       if (!update.success) throw new ErrorAPI(update.error)
       return success(res.user)
-    } catch (e) {
-      const res = normalizeError(e, 'registrar cuenta de usuario')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { throw new ErrorAPI(normalizeError(e, 'registrar cuenta de usuario')) }
   }
   /**
    * Actualiza el perfil del usuario en Firebase.
@@ -87,10 +84,7 @@ class AuthService {
     try {
       await updateProfile(user, profile)
       return success('Se han actualizado el profile')
-    } catch (e) {
-      const res = normalizeError(e, 'actualizar credenciales de usuario')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { throw new ErrorAPI(normalizeError(e, 'actualizar credenciales de usuario')) }
   }
 
   /*---------------> verification <---------------*/
@@ -100,11 +94,8 @@ class AuthService {
       if (!this.auth.currentUser) throw new NotFound({ message: 'Usuario (auth)' })
       const url = `${config.frontendUrl}/auth/verify-action`
       await sendEmailVerification(this.auth.currentUser, { url })
-      return success('completado')
-    } catch (e) {
-      const res = normalizeError(e, 'enviar verificación de email')
-      return failure(new ErrorAPI(res))
-    }
+      return success('Email de verificación enviado')
+    } catch (e) { throw new ErrorAPI(normalizeError(e, 'enviar verificación de email')) }
   }
   /**
    * Envia un correo de restablecimiento de contraseña al correo suministrado por el usuario.
@@ -115,10 +106,7 @@ class AuthService {
     try {
       await sendPasswordResetEmail(this.auth, email)
       return success('Se ha enviado un correo de restauracion de contraseña')
-    } catch (e) {
-      const res = normalizeError(e, 'enviar email de restablecimiento')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { throw new ErrorAPI(normalizeError(e, 'enviar email de restablecimeinto')) }
   }
   /**
    * Actualiza la contraseña del usuario mediante un token de restablecimiento (oobCode) generado por firebase.
@@ -129,10 +117,7 @@ class AuthService {
     try {
       await confirmPasswordReset(this.auth, oobCode, newPassword)
       return success('Contraseña restablecida correctamente')
-    } catch (e) {
-      const res = normalizeError(e, 'validar restablecimiento de contraseña')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { throw new ErrorAPI(normalizeError(e, 'validar restablecimiento de contraseña')) }
   }
   /**
    * Actualiza el estado de verificación de correo electrónico del usuario actual.
@@ -144,10 +129,7 @@ class AuthService {
       if (!this.auth.currentUser) throw new NotFound({ message: 'Usuario (auth)' })
       await this.updateProfile(this.auth.currentUser, { photoURL: 'authenticated' })
       return success('Se ha verificado correctamente la cuenta')
-    } catch (e) {
-      const res = normalizeError(e, 'validar la verificación de email')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { throw new ErrorAPI(normalizeError(e, 'validar la verificación de email')) }
   }
 }
 /*---------------------------------------------------------------------------------------------------------*/

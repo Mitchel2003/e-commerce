@@ -1,4 +1,4 @@
-import { User, AuthContext } from "@/interfaces/context.interface";
+import { AuthContext, Enterprise } from "@/interfaces/context.interface";
 import { isApiResponse } from "@/interfaces/response.interface";
 import { Props } from "@/interfaces/props.interface";
 import { Result } from "@/interfaces/db.interface";
@@ -30,15 +30,15 @@ export const useAuthContext = () => {
  * @returns {JSX.Element} Elemento JSX que envuelve a los hijos con el contexto de autenticación.
  */
 export const AuthProvider = ({ children }: Props): JSX.Element => {
+  const [enterprise, setEnterprise] = useState<Enterprise>({});
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
-  const [user, setUser] = useState<User>({});
 
   useEffect(() => timeAlert(), [errors])
   useEffect(() => {
     return () => authFB.observeAuth(((auth) => {
-      setUser(auth); setLoading(false)
+      setEnterprise(auth); setLoading(false)
     }))
   }, [])
 
@@ -49,27 +49,27 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
     return () => clearTimeout(timer);
   }
 
-  /** Inicia sesión con las credenciales del usuario */
-  const signin = async (user: LoginFormProps) => {
+  /** Inicia sesión con tu emprendimiento usando las credenciales de acceso */
+  const signin = async (enterprise: LoginFormProps) => {
     try {
-      const res = await login(user);
+      const res = await login(enterprise);
       if (!res.success) throw new ErrorAPI(res.error)
       setAuthStatus(res)
     }
     catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
-  /** Registra un nuevo usuario */
-  const signup = async (user: RegisterFormProps) => {
+  /** Registra un nuevo emprendimiento */
+  const signup = async (enterprise: RegisterFormProps) => {
     try {
-      const res = await register(user);
+      const res = await register(enterprise);
       if (!res.success) throw new ErrorAPI(res.error)
       setAuthStatus(res)
     }
     catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
-  /** Cierra la sesión del usuario actual */
+  /** Cierra la sesión del emprendimiento actual */
   const logout = async () => {
     try {
       const res = await authFB.logout();
@@ -79,18 +79,15 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
     catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
-  /**
-   * Actualiza el estado de autenticación basado en la respuesta del servidor.
-   * @param {AxiosResponse} [res] - La respuesta del servidor.
-   */
+  /** Actualiza el estado de autenticación basado en la respuesta del servidor */
   const setAuthStatus = (res?: Result<any>) => {
-    setUser(res?.success ? res.data : {})
+    setEnterprise(res?.success ? res.data : {})
     setIsAuth(Boolean(res?.success))
     setLoading(false)
   }
 
   return (
-    <Auth.Provider value={{ isAuth, loading, user, errors, signin, signup, logout }}>
+    <Auth.Provider value={{ isAuth, loading, enterprise, errors, signin, signup, logout }}>
       {children}
     </Auth.Provider>
   )

@@ -1,6 +1,5 @@
 import { RegisterFormProps } from "@/schemas/auth/register.schema";
 import { LoginFormProps } from "@/schemas/auth/login.schema";
-import { User as UserFB } from "firebase/auth"
 /*--------------------------------------------------ThemeContext--------------------------------------------------*/
 export type Theme = 'light' | 'dark'
 
@@ -14,15 +13,22 @@ export type ThemeContextProps = { theme: Theme }
 
 /*--------------------------------------------------AuthContext--------------------------------------------------*/
 // export type User = { _id: string, role: string, email: string, username: string, permissions: object } | {}
-export type User = { _id: string, role: string, email: string, username: string, permissions: object } & UserFB | {}
+export type Enterprise = {
+  name: string
+  phone: string
+  email: string
+  address: string
+  description: string
+  photoUrl: string | undefined
+} | {}
 
 export type AuthContext = {
-  user: User;
+  enterprise: Enterprise;
   isAuth: boolean;
   loading: boolean;
   errors: string[];
-  signin: (user: LoginFormProps) => Promise<void>;
-  signup: (user: RegisterFormProps) => Promise<void>;
+  signin: (enter: LoginFormProps) => Promise<void>;
+  signup: (enter: RegisterFormProps) => Promise<void>;
   logout: () => void;
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/
