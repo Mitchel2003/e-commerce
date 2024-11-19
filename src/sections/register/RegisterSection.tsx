@@ -1,5 +1,5 @@
-import SocialNetworkSection from "@/sections/register/SocialNetworkSection"
-import PhotoSection from "@/sections/register/PhotoSection"
+// import SocialNetworkSection from "@/sections/register/SocialNetworkSection"
+// import PhotoSection from "@/sections/register/PhotoSection"
 import DataSection from "@/sections/register/DataSection"
 
 import FooterSubmit from "#/reusables/elements/FooterSubmit"
@@ -34,14 +34,14 @@ const RegisterSection = ({ theme }: ThemeContextProps) => {
         )}>
           <HeaderForm
             theme={theme}
-            title="Registro de emprendimiento"
-            description="Formato de datos requeridos para registrar una empresa"
+            title="Registro de usuario"
+            description="Diligencia la información correspondiente"
           />
 
           <CardContent className="pt-6 space-y-8">
             <DataSection theme={theme} />
-            <PhotoSection theme={theme} />
-            <SocialNetworkSection theme={theme} />
+            {/* <PhotoSection theme={theme} />
+            <SocialNetworkSection theme={theme} /> */}
           </CardContent>
 
           <FooterSubmit theme={theme} />

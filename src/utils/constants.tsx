@@ -1,4 +1,4 @@
-import { Home, ShoppingCart, LogIn, UserPlus } from 'lucide-react'
+import { Home, LogIn, UserPlus, FileTextIcon, FilesIcon } from 'lucide-react'
 import { NavItemProps } from "@/interfaces/props.interface"
 import { FeatureItem } from "@/types/form/product.type"
 
@@ -90,8 +90,8 @@ export const products = {
 export const heroItems = [
   {
     image: 'assets/adds/parqueOca.jpg',
-    title: 'Bienvenido a nuestro centro de compras',
-    description: 'Descubre una experiencia de tiendas única',
+    title: 'Bienvenido a nuestro app de gestión',
+    description: 'Descubre una experiencia de administración única',
   },
   {
     image: 'assets/adds/comercio.jpg',
@@ -152,8 +152,18 @@ export const navItems: NavItemProps[] = [
     icon: <UserPlus className="w-5 h-5" />
   },
   {
-    href: '/products',
-    label: 'Productos',
-    icon: <ShoppingCart className="w-5 h-5" />
+    href: '/form/cv/new',
+    label: 'Crear curriculum',
+    icon: <FilesIcon className="w-5 h-5" />
+  },
+  {
+    href: '/form/maintenance/new',
+    label: 'Crear mantenimiento',
+    icon: <FileTextIcon className="w-5 h-5" />
   }
+  // {
+  //   href: '/products',
+  //   label: 'Productos',
+  //   icon: <ShoppingCart className="w-5 h-5" />
+  // }
 ]
