@@ -35,8 +35,8 @@ const SocialNetworkSection = ({ theme }: SocialNetworkProps) => {
         theme={theme}
         name="socialNetworks"
         fields={socialNetworkFields}
-        limit={3}
         titleButton="Agregar red social"
+        limit={3}
       />
     </div>
   )

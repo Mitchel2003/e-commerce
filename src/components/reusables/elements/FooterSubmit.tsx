@@ -4,9 +4,7 @@ import { CardFooter } from "#/ui/card"
 import { Button } from "#/ui/button"
 import { cn } from "@/lib/utils"
 
-const FooterSubmit = ({ theme }: ThemeContextProps) => {//working here...
-  const {  } = useFormContext()
-
+const FooterSubmit = ({ theme }: ThemeContextProps) => {
   return (
     <CardFooter className="flex justify-between">
       <Button
