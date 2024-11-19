@@ -1,38 +1,39 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "#/ui/select"
-import { FormField, FormItem, FormControl } from "#/ui/form"
+import { FormField, FormItem, FormControl, FormMessage } from "#/ui/form"
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
 
-import { ControlProps, HeaderSpanProps } from "@/interfaces/props.interface"
 import { ThemeContextProps } from "@/interfaces/context.interface"
+import { HeaderSpanProps } from "@/interfaces/props.interface"
+import { useFormContext } from "react-hook-form"
 import { cn } from "@/lib/utils"
+import React from "react"
 
-interface SelectFieldProps extends ControlProps, ThemeContextProps, HeaderSpanProps {
-  name: string;
-  label?: string;
-  options: string[];
-  className?: string;
-  placeholder?: string;
+interface SelectFieldProps extends HeaderSpanProps, ThemeContextProps {
+  name: string
+  label?: string
+  options: string[]
+  className?: string
+  placeholder?: string
 }
 
-const SelectField = ({
+const SelectField = React.forwardRef<HTMLButtonElement, SelectFieldProps>(({
   theme,
   name,
   label,
-  control,
   options,
   className,
   placeholder,
-  span,
-  iconSpan
-}: SelectFieldProps) => {
+  iconSpan,
+  span
+}, ref) => {
+  const { control } = useFormContext()
 
   return (
     <FormField
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <FormItem>
-          {/* -------------------- Header label -------------------- */}
           <HeaderCustom
             to='input'
             theme={theme}
@@ -43,38 +44,76 @@ const SelectField = ({
             htmlFor={`${name}-select`}
           />
 
-          {/* -------------------- Input select customizable -------------------- */}
-          <Select
-            name={`${name}-select`}
-            onValueChange={field.onChange}
-            defaultValue={field.value}
-          >
-            <FormControl>
-              <SelectTrigger
-                id={`${name}-select`}
-                className={cn(theme === 'dark'
-                  ? 'bg-zinc-700 border-zinc-600 text-zinc-100'
-                  : 'bg-white border-gray-300'
-                )}
-              >
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
+          <FormControl>
+            <SelectWrapper
+              {...field}
+              ref={ref}
+              id={`${name}-select`}
+              theme={theme}
+              options={options}
+              placeholder={placeholder}
+            />
+          </FormControl>
 
-            <SelectContent>
-              {options.map((option, index) => (
-                <SelectItem key={index} value={option}>
-                  {option}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {/* ---------------------------------------------------------------- */}
-
+          {error && <FormMessage>{error.message}</FormMessage>}
         </FormItem>
       )}
     />
   )
-}
+})
+
+SelectField.displayName = 'SelectField'
 
 export default SelectField
+
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------tools--------------------------------------------------*/
+interface SelectWrapperProps extends ThemeContextProps {
+  id: string
+  value: string
+  options: string[]
+  placeholder?: string
+  onChange: (value: string) => void
+}
+
+const SelectWrapper = React.forwardRef<HTMLButtonElement, SelectWrapperProps>(
+  ({ id, theme, options, placeholder, value, onChange }, ref) => (
+    <Select onValueChange={onChange} value={value}>
+      <SelectTrigger
+        id={id}
+        ref={ref}
+        className={cn(
+          theme === 'dark'
+            ? 'bg-zinc-700 border-zinc-600 text-zinc-100 hover:bg-zinc-600'
+            : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-100'
+        )}
+      >
+        <SelectValue 
+          placeholder={placeholder} 
+          className={cn(
+            theme === 'dark' ? 'text-zinc-100' : 'text-gray-900'
+          )}
+        />
+      </SelectTrigger>
+
+      <SelectContent>
+        {options.map((option, index) => (
+          <SelectItem 
+            key={`${option}-${index}`} 
+            value={option}
+            className={cn(
+              theme === 'dark'
+                ? 'text-zinc-100 hover:bg-zinc-700 focus:bg-zinc-700'
+                : 'text-gray-900 hover:bg-gray-100 focus:bg-gray-100'
+            )}
+          >
+            {option}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  )
+)
+
+SelectWrapper.displayName = 'SelectWrapper'

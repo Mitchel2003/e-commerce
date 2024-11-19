@@ -12,14 +12,13 @@ import EquipmentSection from './EquipmentSection'
 import ClientSection from './ClientSection'
 
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { RenderFormat, SectionProps } from '@/utils/RenderFormat'
+import { RenderFormat } from '@/utils/RenderFormat'
 import { CheckSquare, Ban } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { cn } from '@/lib/utils'
 
 interface MaintenanceSectionProps extends ThemeContextProps { }
 const MaintenanceSection = ({ theme }: MaintenanceSectionProps) => {
-  const render = renderMaintenanceForm({ theme })
   const form = useForm()
 
   return (
@@ -45,7 +44,15 @@ const MaintenanceSection = ({ theme }: MaintenanceSectionProps) => {
 
           {/* -------------------- Content form -------------------- */}
           <CardContent className="space-y-8 pt-6">
-            <RenderFormat format={render} theme={theme} />
+            <RenderFormat format={[
+              <ClientSection theme={theme} />,
+              <ReferenceEquipmentSection theme={theme} />,
+              <EquipmentSection theme={theme} />,
+              <BuildMaintenanceSection theme={theme} />,
+              <InspectionSection theme={theme} />,
+              <ObservationSection theme={theme} />,
+              <EngineerServiceSection theme={theme} />
+            ]} />
           </CardContent>
 
           {/* -------------------- Footer form (Buttons submit) -------------------- */}
@@ -82,21 +89,4 @@ const MaintenanceSection = ({ theme }: MaintenanceSectionProps) => {
 }
 
 export default MaintenanceSection
-/*---------------------------------------------------------------------------------------------------------*/
-
-/*--------------------------------------------------tools--------------------------------------------------*/
-/**
- * Nos ayuda a renderizar el mantenimiento
- * @param {string} theme Corresponde al tema en contexto
- * @returns {SectionProps[]} Arreglo de secciones del mantenimiento
- */
-const renderMaintenanceForm = ({ theme }: ThemeContextProps): SectionProps[] => ([
-  { component: <ClientSection theme={theme} /> },
-  { component: <ReferenceEquipmentSection theme={theme} /> },
-  { component: <EquipmentSection theme={theme} /> },
-  { component: <BuildMaintenanceSection theme={theme} /> },
-  { component: <InspectionSection theme={theme} /> },
-  { component: <ObservationSection theme={theme} /> },
-  { component: <EngineerServiceSection theme={theme} /> }
-])
 /*---------------------------------------------------------------------------------------------------------*/

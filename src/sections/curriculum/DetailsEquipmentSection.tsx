@@ -97,7 +97,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
               theme={theme}
               name="type_acquisition"
               label="Tipo de Adquisición"
-              control={methods.control}
               options={["compra", "comodato", "alquiler", "otro"]}
               placeholder="Seleccionar tipo"
             />
@@ -105,7 +104,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
               theme={theme}
               name="warranty"
               label="Garantía"
-              control={methods.control}
               options={["N/A", "6 months", "1 year", "2 years"]}
               placeholder="Seleccionar garantía"
             />
@@ -136,7 +134,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
               options={["N/A"]}
               name="representative"
               label="Representante"
-              control={methods.control}
               className='text-2xl font-light'
               placeholder="Seleccionar representante"
             />
@@ -155,7 +152,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
               options={["N/A"]}
               name="provider"
               label="Proveedor"
-              control={methods.control}
               className='text-2xl font-light'
               placeholder="Seleccionar proveedor"
             />
@@ -174,7 +170,6 @@ const DetailsEquipmentSection = ({ theme }: DetailsEquipmentProps) => {
               options={["N/A"]}
               name="manufacturer"
               label="Fabricante"
-              control={methods.control}
               className='text-2xl font-light'
               placeholder="Seleccionar fabricante"
             />

@@ -77,10 +77,10 @@ const RenderIconSpan = ({ iconSpan }: RenderIconSpanProps) => {
   return (
     <>
       {iconSpan === 'info'
-        ? <InfoIcon className="w-4 h-4 text-sky-300" />
+        ? <InfoIcon className="w-8 h-8 md:w-6 md:h-6 text-sky-300" />
         : (iconSpan === 'warn'
-          ? <TriangleAlertIcon className="w-4 h-4 text-yellow-300" />
-          : <SirenIcon className="w-4 h-4 text-red-300" />
+          ? <TriangleAlertIcon className="w-8 h-8 md:w-6 md:h-6 text-yellow-300" />
+          : <SirenIcon className="w-8 h-8 md:w-6 md:h-6 text-red-300" />
         )
       }
     </>

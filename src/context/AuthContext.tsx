@@ -3,12 +3,13 @@ import { isApiResponse } from "@/interfaces/response.interface";
 import { Props } from "@/interfaces/props.interface";
 import { Result } from "@/interfaces/db.interface";
 
+import { authService as authFB } from "@/services/firebase/auth.service"
 import { login, register } from "@/controllers/auth/auth.controller";
 import { RegisterFormProps } from "@/schemas/auth/register.schema";
-import { verifyAuth } from "@/controllers/auth/verify.controller";
 import { LoginFormProps } from "@/schemas/auth/login.schema";
 
 import { createContext, useContext, useState, useEffect } from "react";
+import ErrorAPI from "@/errors";
 
 const Auth = createContext<AuthContext>(undefined)
 
@@ -35,7 +36,11 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   const [user, setUser] = useState<User>({});
 
   useEffect(() => timeAlert(), [errors])
-  useEffect(() => { verifyToken() }, [])
+  useEffect(() => {
+    return () => authFB.observeAuth(((auth) => {
+      setUser(auth); setLoading(false)
+    }))
+  }, [])
 
   /** Configura un temporizador para limpiar los errores después de 5 segundos */
   const timeAlert = () => {
@@ -44,33 +49,35 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
     return () => clearTimeout(timer);
   }
 
-  /** Verifica el token de autenticación almacenado en las cookies */
-  const verifyToken = async () => {
-    try {
-      const res = await verifyAuth();
-      if (!res.success) setErrors([res.error.message])
-      setIsAuth(Boolean(res?.success))
-      setLoading(false)
-    } catch (e: unknown) {
-      if (isApiResponse(e)) setErrors([e.message])
-      setAuthStatus()
-    }
-  }
-
   /** Inicia sesión con las credenciales del usuario */
   const signin = async (user: LoginFormProps) => {
-    try { const res = await login(user); setAuthStatus(res) }
+    try {
+      const res = await login(user);
+      if (!res.success) throw new ErrorAPI(res.error)
+      setAuthStatus(res)
+    }
     catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
   /** Registra un nuevo usuario */
   const signup = async (user: RegisterFormProps) => {
-    try { const res = await register(user); setAuthStatus(res) }
+    try {
+      const res = await register(user);
+      if (!res.success) throw new ErrorAPI(res.error)
+      setAuthStatus(res)
+    }
     catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
   /** Cierra la sesión del usuario actual */
-  const logout = () => { setAuthStatus() }
+  const logout = async () => {
+    try {
+      const res = await authFB.logout();
+      if (!res.success) throw new ErrorAPI(res.error)
+      setAuthStatus()
+    }
+    catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
+  }
 
   /**
    * Actualiza el estado de autenticación basado en la respuesta del servidor.

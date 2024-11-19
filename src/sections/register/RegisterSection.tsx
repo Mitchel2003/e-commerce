@@ -1,20 +1,22 @@
-// import SocialNetworkSection from "@/sections/register/SocialNetworkSection"
-// import PhotoSection from "@/sections/register/PhotoSection"
-import DataSection from "@/sections/register/DataSection"
-
 import FooterSubmit from "#/reusables/elements/FooterSubmit"
 import HeaderForm from "#/reusables/elements/HeaderForm"
 import { Card, CardContent } from "#/ui/card"
 
+import SocialNetworkSection from "./SocialNetworkSection"
+import BusinessDataSection from "./BusinessDataSection"
+import CredentialsSection from "./CredentialsSection"
+import PhotoSection from "./PhotoSection"
+
 import { ThemeContextProps } from "@/interfaces/context.interface"
-import { useRegisterForm } from "@/hooks/useRegisterForm"
+import { useRegisterForm } from "@/hooks/form/useRegisterForm"
 import { useAuthContext } from "@/context/AuthContext"
 import { FormProvider } from "react-hook-form"
+import { RenderFormat } from "@/utils/RenderFormat"
 import { cn } from "@/lib/utils"
 
 const RegisterSection = ({ theme }: ThemeContextProps) => {
-  const { methods, onSubmit } = useRegisterForm()
   const { errors: authErrors = [] } = useAuthContext()
+  const { methods, onSubmit } = useRegisterForm()
 
   return (
     <FormProvider {...methods}>
@@ -26,7 +28,7 @@ const RegisterSection = ({ theme }: ThemeContextProps) => {
         ))}
 
         <Card className={cn(
-          'my-6 w-full md:w-[calc(100vw-400px)] shadow-lg',
+          'my-6 w-full shadow-lg',
           'transition-all duration-200 backdrop-filter backdrop-blur-lg',
           theme === 'dark'
             ? 'bg-zinc-800 hover:shadow-gray-900'
@@ -39,9 +41,14 @@ const RegisterSection = ({ theme }: ThemeContextProps) => {
           />
 
           <CardContent className="pt-6 space-y-8">
-            <DataSection theme={theme} />
-            {/* <PhotoSection theme={theme} />
-            <SocialNetworkSection theme={theme} /> */}
+            <RenderFormat
+              format={[
+                <CredentialsSection theme={theme} />,
+                <BusinessDataSection theme={theme} />,
+                <PhotoSection theme={theme} />,
+                <SocialNetworkSection theme={theme} />
+              ]}
+            />
           </CardContent>
 
           <FooterSubmit theme={theme} />

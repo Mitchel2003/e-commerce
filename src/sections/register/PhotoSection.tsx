@@ -20,7 +20,7 @@ const PhotoSection = ({ theme }: ThemeContextProps) => {
       <div className="md:col-span-3">
         <ImageField
           theme={theme}
-          name="photo"
+          name="references.photo"
           label="Imagen a publicar"
           control={control}
         />

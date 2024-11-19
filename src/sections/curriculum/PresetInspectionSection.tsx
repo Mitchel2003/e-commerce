@@ -64,9 +64,8 @@ const PresetInspectionSection = ({ theme }: PresetInspectionProps) => {
             theme={theme}
             name="inspectionPreset"
             label="Lista de configuraciones preestablecidas"
-            control={methods.control}
-            options={['N/A']}
             placeholder="Seleccione una configuración"
+            options={['N/A']}
             //span
             span="¿No encuentras lo que buscas? - Puedes agregar una configuración"
             iconSpan="info"

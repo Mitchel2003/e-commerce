@@ -17,7 +17,7 @@ import BasicDataSection from "./BasicDataSection"
 import { useQueryReact, useCustomMutation } from "@/hooks/useCurriculum"
 import { ThemeContextProps } from "@/interfaces/context.interface"
 import { useCurriculumContext } from "@/context/CurriculumContext"
-import { RenderFormat, SectionProps } from "@/utils/RenderFormat"
+import { RenderFormat } from "@/utils/RenderFormat"
 import { cn } from "@/lib/utils"
 
 import { useNavigate, useParams } from "react-router-dom"
@@ -28,7 +28,6 @@ import { useEffect } from "react"
 interface CurriculumSectionProps extends ThemeContextProps { }
 
 const CurriculumSection = ({ theme }: CurriculumSectionProps) => {
-  const render = renderCVForm({ theme })
   const { errors } = useCurriculumContext()
   const { id = 'new' } = useParams()
   const navigate = useNavigate()
@@ -84,7 +83,18 @@ const CurriculumSection = ({ theme }: CurriculumSectionProps) => {
 
           {/* -------------------- Content form -------------------- */}
           <CardContent className="pt-6 space-y-8">
-            <RenderFormat format={render} theme={theme} />
+            <RenderFormat format={[
+              <OfficeAreaSection theme={theme} />,
+              <BasicDataSection theme={theme} />,
+              <DetailsEquipmentSection theme={theme} />,
+              <EquipmentClassificationSection theme={theme} />,
+              <TechnicalCharacteristicsSection theme={theme} />,
+              <MaintenanceSection theme={theme} />,
+              <InspectionSection theme={theme} />,
+              <AccessoriesSection theme={theme} />,
+              <CharacteristicsSection theme={theme} />,
+              <EngineerServiceSection theme={theme} />
+            ]} />
           </CardContent>
 
           {/* -------------------- Footer form (Buttons submit) -------------------- */}
@@ -121,26 +131,6 @@ const CurriculumSection = ({ theme }: CurriculumSectionProps) => {
 }
 
 export default CurriculumSection
-/*---------------------------------------------------------------------------------------------------------*/
-
-/*--------------------------------------------------tools--------------------------------------------------*/
-/**
- * Nos ayuda a renderizar el curriculum
- * @param {string} theme Corresponde al tema en contexto
- * @returns {SectionProps[]} Arreglo de secciones del curriculum
- */
-const renderCVForm = ({ theme }: ThemeContextProps): SectionProps[] => ([
-  { component: <OfficeAreaSection theme={theme} /> },
-  { component: <BasicDataSection theme={theme} /> },
-  { component: <DetailsEquipmentSection theme={theme} /> },
-  { component: <EquipmentClassificationSection theme={theme} /> },
-  { component: <TechnicalCharacteristicsSection theme={theme} /> },
-  { component: <MaintenanceSection theme={theme} /> },
-  { component: <InspectionSection theme={theme} /> },
-  { component: <AccessoriesSection theme={theme} /> },
-  { component: <CharacteristicsSection theme={theme} /> },
-  { component: <EngineerServiceSection theme={theme} /> }
-])
 
 /**
  * Nos ayuda a construir un formato de tarea y enviar solicitudes como crear o actualizar

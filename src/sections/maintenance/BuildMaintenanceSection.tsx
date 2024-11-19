@@ -29,7 +29,6 @@ const BuildMaintenanceSection = ({ theme }: BuildMaintenanceProps) => {
                 theme={theme}
                 name="tipoMantenimiento"
                 label="Tipo de mantenimiento"
-                control={methods.control}
                 options={['preventivo', 'correctivo']}
                 placeholder="Seleccione el tipo de mantenimiento"
                 //to span

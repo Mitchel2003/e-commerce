@@ -14,7 +14,6 @@ const OfficeAreaSection = ({ theme }: OfficeAreaProps) => {
           theme={theme}
           name="headquarter"
           label="Sede"
-          control={methods.control}
           options={["Sede 1", "Sede 2", "Sede 3"]}
           placeholder="Seleccionar sede"
         />
@@ -22,7 +21,6 @@ const OfficeAreaSection = ({ theme }: OfficeAreaProps) => {
           theme={theme}
           name="area"
           label="Area"
-          control={methods.control}
           options={["Area 1", "Area 2", "Area 3"]}
           placeholder="Seleccionar área"
         />
@@ -30,7 +28,6 @@ const OfficeAreaSection = ({ theme }: OfficeAreaProps) => {
           theme={theme}
           name="office"
           label="Consultorio"
-          control={methods.control}
           options={["Consultorio 1", "Consultorio 2", "Consultorio 3"]}
           placeholder="Seleccionar consultorio"
         />
@@ -38,7 +35,6 @@ const OfficeAreaSection = ({ theme }: OfficeAreaProps) => {
           theme={theme}
           name="service"
           label="Servicio"
-          control={methods.control}
           options={["Servicio 1", "Servicio 2", "Servicio 3"]}
           placeholder="Seleccionar servicio"
         />

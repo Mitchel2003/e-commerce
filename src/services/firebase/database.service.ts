@@ -1,7 +1,7 @@
 import { CollectionReference, getFirestore, collection, Firestore, setDoc, doc } from "firebase/firestore"
 import { normalizeError } from "@/errors/handler"
-import { UserCredential } from "firebase/auth"
 import { firebaseApp } from "@/services/db"
+import { User } from "firebase/auth"
 import ErrorAPI from "@/errors"
 
 import { Result, success, failure } from "@/interfaces/db.interface";
@@ -21,12 +21,12 @@ class DatabaseService {
    * @param {UserCredential} auth - Contiene el usuario autenticado a registrar; en la propiedad "user" se encuentran sus datos.
    * @param {UserFB} credentials - Corresponde a las credenciales del usuario, contiene el rol del usuario en validacion.
    */
-  async registerUserCredentials(auth: UserCredential, credentials: object): Promise<Result<string>> {
+  async registerUserCredentials(auth: User, credentials: object): Promise<Result<string>> {
     try {
-      await setDoc(doc(this.getCollection('users'), auth.user.uid), {
+      await setDoc(doc(this.getCollection('users'), auth.email as string), {
         ...credentials,
-        email: auth.user.email,
-        username: auth.user.displayName
+        email: auth.email,
+        name: auth.displayName
       })
       return success('completado')
     } catch (e) {

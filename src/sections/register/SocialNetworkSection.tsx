@@ -1,24 +1,13 @@
 import { ThemeContextProps } from "@/interfaces/context.interface"
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
 import CardIterable from "#/reusables/fields/CardIterable"
+import SelectField from "#/reusables/fields/Select"
 import InputField from "#/reusables/fields/Input"
-import { CardFieldProps } from "@/interfaces/props.interface"
 
 interface SocialNetworkProps extends ThemeContextProps { }
 
 const SocialNetworkSection = ({ theme }: SocialNetworkProps) => {
-  const socialNetworkFields: CardFieldProps[] = [
-    {
-      name: "url",
-      component:
-        <InputField
-          name="url"
-          label="URL de la red social"
-          theme={theme}
-          placeholder="Ingrese la URL de su red social"
-        />
-    }
-  ]
+  const fields = socialNetworkFields({ theme })
 
   return (
     <div className="space-y-6">
@@ -33,8 +22,8 @@ const SocialNetworkSection = ({ theme }: SocialNetworkProps) => {
 
       <CardIterable
         theme={theme}
-        name="socialNetworks"
-        fields={socialNetworkFields}
+        name="references.socialNetworks"
+        fields={fields}
         titleButton="Agregar red social"
         limit={3}
       />
@@ -43,3 +32,31 @@ const SocialNetworkSection = ({ theme }: SocialNetworkProps) => {
 }
 
 export default SocialNetworkSection
+
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------tools--------------------------------------------------*/
+const socialNetworkFields = ({ theme }: ThemeContextProps) => ([
+  {
+    name: "references.socialNetworks.type",
+    component: (
+      <SelectField
+        name="references.socialNetworks.type"
+        label="Tipo de red social"
+        options={['Facebook', 'Instagram', 'Otro']}
+        placeholder="Seleccione el tipo de red social"
+        theme={theme}
+      />
+    )
+  },
+  {
+    name: "references.socialNetworks.url",
+    component:
+      <InputField
+        name="references.socialNetworks.url"
+        label="URL de la red social"
+        theme={theme}
+        placeholder="Ingrese la URL de su red social"
+      />
+  }
+])

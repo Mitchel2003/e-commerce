@@ -28,7 +28,6 @@ const EquipmentClassificationSection = ({ theme }: EquipmentClassProps) => {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           <SelectField
             theme={theme}
-            control={methods.control}
             label="Tipo"
             name="type_device"
             placeholder="Seleccionar tipo"
@@ -36,7 +35,6 @@ const EquipmentClassificationSection = ({ theme }: EquipmentClassProps) => {
           />
           <SelectField
             theme={theme}
-            control={methods.control}
             name="classification_by_use"
             label="Clasificación por Uso"
             placeholder="Seleccionar clasificación"
@@ -44,7 +42,6 @@ const EquipmentClassificationSection = ({ theme }: EquipmentClassProps) => {
           />
           <SelectField
             theme={theme}
-            control={methods.control}
             name="classification_biomedical"
             label="Clasificación Biomédica"
             placeholder="Seleccionar clasificación"
@@ -52,7 +49,6 @@ const EquipmentClassificationSection = ({ theme }: EquipmentClassProps) => {
           />
           <SelectField
             theme={theme}
-            control={methods.control}
             name="risk"
             label="Riesgo"
             placeholder="Seleccionar riesgo"

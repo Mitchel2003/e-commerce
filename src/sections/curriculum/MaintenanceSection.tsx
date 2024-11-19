@@ -24,7 +24,6 @@ const MaintenanceSection = ({ theme }: MaintenanceProps) => {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <SelectField
             theme={theme}
-            control={methods.control}
             name="performing_maintenance"
             label="Realización de Mantenimiento"
             placeholder="Seleccionar tipo"
@@ -42,7 +41,6 @@ const MaintenanceSection = ({ theme }: MaintenanceProps) => {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <SelectField
             theme={theme}
-            control={methods.control}
             name="frequency_maintenance"
             label="Frecuencia de Mantenimiento"
             placeholder="Seleccionar frecuencia"

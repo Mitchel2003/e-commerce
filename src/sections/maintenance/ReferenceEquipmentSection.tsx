@@ -31,9 +31,8 @@ const ReferenceEquipmentSection = ({ theme }: EquipmentProps) => {
             theme={theme}
             name="equipment"
             label="Equipo para mantenimiento"
-            control={methods.control}
-            options={optionsEquipment}
             placeholder="Seleccionar el equipo"
+            options={optionsEquipment}
           />
 
           <InputField

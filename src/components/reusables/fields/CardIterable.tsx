@@ -1,9 +1,10 @@
-import { FormItem, FormControl } from '#/ui/form'
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import { CardFieldProps } from '@/interfaces/props.interface'
+
+import { FormField, FormItem, FormControl } from '#/ui/form'
 import { Card, CardContent } from '#/ui/card'
 import { Button } from '#/ui/button'
 
-import { CardFieldProps } from '@/interfaces/props.interface'
-import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { PlusCircle, X } from 'lucide-react'
 import { cloneElement } from 'react'
@@ -24,18 +25,18 @@ const CardIterable = ({
   titleButton = 'Agregar'
 }: CardIterableFieldProps) => {
   const { control } = useFormContext()
-  const { fields: items, append, remove } = useFieldArray({ 
-    control, 
-    name 
+  const { fields: items, append, remove } = useFieldArray({
+    control,
+    name
   })
 
   const handleAppend = () => {
-    const initialValue = {} as Record<string, string>
-    const newItem = fields.reduce((acc, field) => {
-      acc[field.name] = ''
+    const initialValue = fields.reduce((acc, field) => {
+      const fieldName = field.name.split('.').pop() || field.name
+      acc[fieldName] = ''
       return acc
-    }, initialValue)
-    append(newItem)
+    }, {} as Record<string, string>)
+    append(initialValue)
   }
 
   return (
@@ -96,16 +97,27 @@ const CardIterable = ({
           {/* -------------------- Form fields -------------------- */}
           <CardContent className="pt-4">
             <div className="grid grid-cols-1 gap-4">
-              {fields.map((field) => (
-                <FormItem key={`${name}.${index}.${field.name}`}>
-                  <FormControl>
-                    {cloneElement(field.component, {
-                      name: `${name}.${index}.${field.name}`,
-                      theme
-                    })}
-                  </FormControl>
-                </FormItem>
-              ))}
+              {fields.map((field) => {
+                const fieldName = field.name.split('.').pop() || field.name
+                return (
+                  <FormField
+                    key={`${name}.${index}.${fieldName}`}
+                    control={control}
+                    name={`${name}.${index}.${fieldName}`}
+                    render={({ field: formField }) => (
+                      <FormItem>
+                        <FormControl>
+                          {cloneElement(field.component, {
+                            ...formField,
+                            name: `${name}.${index}.${fieldName}`,
+                            theme
+                          })}
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                )
+              })}
             </div>
           </CardContent>
         </Card>

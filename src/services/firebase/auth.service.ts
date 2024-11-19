@@ -1,11 +1,25 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, confirmPasswordReset, UserCredential, updateProfile, UserProfile, getAuth, Auth, User } from "firebase/auth"
+import { Result, failure, success } from "@/interfaces/db.interface"
+import { normalizeError } from "@/errors/handler"
+import ErrorAPI from "@/errors"
+
 import { firebaseApp } from "@/services/db"
 import { NotFound } from "@/errors"
 import config from "@/utils/config"
 
-import { Result, failure, success } from "@/interfaces/db.interface"
-import { normalizeError } from "@/errors/handler"
-import ErrorAPI from "@/errors"
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  sendEmailVerification,
+  confirmPasswordReset,
+  onAuthStateChanged,
+  updateProfile,
+  UserProfile,
+  getAuth,
+  signOut,
+  Auth,
+  User,
+} from "firebase/auth"
 
 /*--------------------------------------------------Auth--------------------------------------------------*/
 class AuthService {
@@ -18,24 +32,33 @@ class AuthService {
     return AuthService.instance
   }
 
-  /*---------------> verification <---------------*/
+  /*---------------> authenticatión <---------------*/
   /**
-   * Verifica las credenciales del usuario.
+   * Es un observador que ejecuta un callback cuando el estado de la sesion cambia.
+   * @param {(user: any) => void} callback - Accion a desencadenar tras el cambio en el estado del usuario
+   */
+  observeAuth(callback: (user: any) => void) {
+    onAuthStateChanged(this.auth, callback)
+  }
+  /**
+   * Crea una autenticación por medio de la verificación de credenciales.
    * @param {string} email - El email del usuario.
    * @param {string} password - La contraseña del usuario.
-   * @returns {Promise<Result<UserAuthFB>>} - Retorna el usuario si las credenciales son válidas, o un error si no lo son.
+   * @returns {Promise<Result<User>>} - Retorna el usuario si las credenciales son válidas, o un error si no lo son.
    */
-  async verifyCredentials(email: string, password: string): Promise<Result<User>> {
+  async login(email: string, password: string): Promise<Result<User>> {
     try {
       const result = await signInWithEmailAndPassword(this.auth, email, password)
       return success(result.user)
-    } catch (e) {
-      const res = normalizeError(e, 'verificar credenciales')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'verificar credenciales'))) }
+  }
+  /** Permite cerrar la sessión del usuario en contexto */
+  async logout(): Promise<Result<string>> {
+    try { await signOut(this.auth); return success('cierre de sesión exitoso') }
+    catch (e) { return failure(new ErrorAPI(normalizeError(e, 'cerrar sesión'))) }
   }
 
-  /*---------------> registration and update <---------------*/
+  /*---------------> create and update <---------------*/
   /**
    * Crea un usuario con credenciales en Firebase.
    * @param {string} username - El nombre de usuario.
@@ -43,12 +66,12 @@ class AuthService {
    * @param {string} password - La contraseña del usuario.
    * @returns {Promise<Result<UserAuthFB>>} El usuario auth de firebase creado.
    */
-  async registerAccount(username: string, email: string, password: string): Promise<Result<UserCredential>> {
+  async registerAccount(username: string, email: string, password: string): Promise<Result<User>> {
     try {
       const res = await createUserWithEmailAndPassword(this.auth, email, password)
       const update = await this.updateProfile(res.user, { displayName: username })
       if (!update.success) throw new ErrorAPI(update.error)
-      return success(res)
+      return success(res.user)
     } catch (e) {
       const res = normalizeError(e, 'registrar cuenta de usuario')
       return failure(new ErrorAPI(res))
@@ -70,10 +93,8 @@ class AuthService {
     }
   }
 
-  /*---------------> authentication <---------------*/
-  /**
-   * Envia un correo de verificación de cuenta al correo suministrado por el usuario.
-   */
+  /*---------------> verification <---------------*/
+  /** Envia un correo de verificación de cuenta al correo suministrado por el usuario */
   async sendEmailVerification(): Promise<Result<string>> {
     try {
       if (!this.auth.currentUser) throw new NotFound({ message: 'Usuario (auth)' })
@@ -128,7 +149,6 @@ class AuthService {
       return failure(new ErrorAPI(res))
     }
   }
-
 }
 /*---------------------------------------------------------------------------------------------------------*/
 export const authService = AuthService.getInstance()
