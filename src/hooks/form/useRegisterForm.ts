@@ -15,7 +15,7 @@ const defaultValues = {
     description: '',
   },
   references: {
-    photo: undefined,
+    photoUrl: { place: [] },
     socialNetworks: []
   }
 }
@@ -25,7 +25,7 @@ export const useRegisterForm = () => {
 
   const methods = useForm<RegisterFormProps>({
     resolver: zodResolver(registerSchema),
-    mode: 'onChange',
+    mode: 'onSubmit',
     defaultValues
   })
 

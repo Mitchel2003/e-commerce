@@ -22,8 +22,8 @@ const SocialNetworkSection = ({ theme }: SocialNetworkProps) => {
 
       <CardIterable
         theme={theme}
-        name="references.socialNetworks"
         fields={fields}
+        name="references.socialNetworks"
         titleButton="Agregar red social"
         limit={3}
       />
@@ -41,11 +41,11 @@ const socialNetworkFields = ({ theme }: ThemeContextProps) => ([
     name: "references.socialNetworks.type",
     component: (
       <SelectField
-        name="references.socialNetworks.type"
+        theme={theme}
         label="Tipo de red social"
+        name="references.socialNetworks.type"
         options={['Facebook', 'Instagram', 'Otro']}
         placeholder="Seleccione el tipo de red social"
-        theme={theme}
       />
     )
   },
@@ -53,9 +53,9 @@ const socialNetworkFields = ({ theme }: ThemeContextProps) => ([
     name: "references.socialNetworks.url",
     component:
       <InputField
-        name="references.socialNetworks.url"
-        label="URL de la red social"
         theme={theme}
+        label="URL de la red social"
+        name="references.socialNetworks.url"
         placeholder="Ingrese la URL de su red social"
       />
   }

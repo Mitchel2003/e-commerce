@@ -1,5 +1,5 @@
 import { FirebaseStorage, getDownloadURL, updateMetadata, deleteObject, uploadBytes, getStorage, listAll, ref, SettableMetadata } from "firebase/storage"
-import { Result, success, failure } from "@/interfaces/db.interface"
+import { Result, success, failure, Success } from "@/interfaces/db.interface"
 import { normalizeError } from "@/errors/handler"
 import { firebaseApp } from "@/services/db"
 import ErrorAPI from "@/errors"
@@ -15,11 +15,13 @@ class StorageService {
     if (!StorageService.instance) { StorageService.instance = new StorageService() }
     return StorageService.instance
   }
+
   /**
    * Obtiene una referencia a un archivo en el almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo al que se accede.
    */
   private getReference(path: string) { return ref(this.storage, path) }
+
   /**
    * Obtener la URL de un archivo del almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo al que se accede.
@@ -32,6 +34,7 @@ class StorageService {
       return success(res)
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener archivo'))) }
   }
+
   /**
    * Obtener las URLs de todos los archivos de un directorio del almacenamiento de Firebase.
    * @param {string} path - La ruta del directorio al que se accede.
@@ -47,21 +50,40 @@ class StorageService {
       ))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener archivos'))) }
   }
+
   /**
    * Subir un archivo al almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo final.
-   * @example path podria ser 'tech/company/{email}/preview'
    * @param {File} file - El archivo a subir.
+   * @example path = 'techno/enterprise/{email}/place/name'
    * @returns {Promise<Result<string>>} La URL del archivo subido.
    */
   async uploadFile(path: string, file: File): Promise<Result<string>> {
     try {
-      const storageRef = this.getReference(`technopark/enterprise/${path}`)
+      const storageRef = this.getReference(`techno/enterprise/${path}`)
       const metadata = buildStorageMetadata(file)
       const upload = await uploadBytes(storageRef, file, metadata)
       return success(await getDownloadURL(upload.ref))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'subir archivo'))) }
   }
+
+  /**
+   * Sube múltiples archivos al almacenamiento de Firebase.
+   * @param {string} path - directorio (place/products) + nombre del archivo
+   * @param {File[]} files - Array de archivos a subir
+   * @returns {Promise<Result<string[]>>} Array con las URLs de los archivos subidos
+   */
+  async uploadFiles(path: string, files: File[]): Promise<Result<string[]>> {
+    try {
+      const results = await Promise.all(files.map((file, index) => this.uploadFile(`${path}_${index + 1}`, file)))
+      const failed = results.find(result => !result.success)
+      if (failed) return failure(failed.error)
+
+      const urls = results.map(result => (result as Success<string>).data)
+      return success(urls)
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'subir múltiples archivos'))) }
+  }
+
   /**
    * Actualiza un archivo en el almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo final @example path: "users/profile/{username}"
@@ -78,6 +100,7 @@ class StorageService {
       return success(await getDownloadURL(res.ref))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar archivo'))) }
   }
+
   /**          
    * Elimina un archivo del almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo a eliminar.

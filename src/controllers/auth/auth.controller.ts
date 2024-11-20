@@ -48,12 +48,14 @@ export const register = async ({
     const emailVerification = await authFB.sendEmailVerification()
     if (!emailVerification.success) return failure(emailVerification.error)
 
-    const photoUrl = references?.photo && await storageFB.uploadFile(`${email}/preview`, references.photo)
-    if (photoUrl && !photoUrl.success) return failure(photoUrl.error)
+    const { photoUrl, socialNetworks } = references
+    const placeImages = await storageFB.uploadFiles(`${email}/place/preview`, photoUrl.place)
+    if (!placeImages.success) return failure(placeImages.error)
 
-    const credentials = { ...businessData, photoUrl: photoUrl?.data, socialNetworks: references.socialNetworks }
+    const credentials = { ...businessData, socialNetworks, photoUrl: { place: placeImages.data } }
     const userCredentials = await databaseFB.registerUserCredentials(userAccount.data, credentials)
     if (!userCredentials.success) return failure(userCredentials.error)
     return success(userAccount.data)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registro de empresa'))) }
 }
+

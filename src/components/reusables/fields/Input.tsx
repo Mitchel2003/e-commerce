@@ -32,8 +32,8 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(({
 
   return (
     <FormField
-      control={control}
       name={name}
+      control={control}
       render={({ field, fieldState: { error } }) => (
         <FormItem>
           {/* -------------------- Header label -------------------- */}

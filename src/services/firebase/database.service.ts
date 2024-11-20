@@ -37,7 +37,7 @@ class DatabaseService {
    * @param {string} name - El nombre de la subcolección a obtener.
    * @returns {CollectionReference} Una referencia a la subcolección.
   */
-  getCollection(name: string): CollectionReference { return collection(this.db, 'technopark', 'auth', name) }
+  getCollection(name: string): CollectionReference { return collection(this.db, 'techno', 'auth', name) }
 }
 /*---------------------------------------------------------------------------------------------------------*/
 export const databaseService = DatabaseService.getInstance()

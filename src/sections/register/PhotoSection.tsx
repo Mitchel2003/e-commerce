@@ -1,32 +1,49 @@
 import { ThemeContextProps } from "@/interfaces/context.interface"
 import HeaderCustom from "#/reusables/elements/HeaderCustom"
+import CardIterable from "#/reusables/fields/CardIterable"
 import ImageField from "#/reusables/fields/Image"
-import { useFormContext } from "react-hook-form"
 
 const PhotoSection = ({ theme }: ThemeContextProps) => {
-  const { control } = useFormContext()
+  const fields = photoFields({ theme })
 
   return (
     <div className="space-y-6">
       <HeaderCustom
         to="component"
         theme={theme}
-        title="Imagen"
+        title="Imágenes del lugar"
         className="text-2xl font-bold"
-        span="Tenga en cuenta que sea de buena calidad y promocione su emprendimiento"
+        span="Sube hasta 3 imágenes representativas de tu negocio"
         iconSpan="info"
       />
 
-      <div className="md:col-span-3">
-        <ImageField
-          theme={theme}
-          name="references.photo"
-          label="Imagen a publicar"
-          control={control}
-        />
-      </div>
+      <CardIterable
+        theme={theme}
+        name="references.photoUrl"
+        titleButton="Agregar imagen"
+        fields={fields}
+        limit={3}
+      />
     </div>
   )
 }
 
 export default PhotoSection
+
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------tools--------------------------------------------------*/
+const photoFields = ({ theme }: ThemeContextProps) => ([
+  {
+    name: "references.photoUrl.place",
+    component: (
+      <ImageField
+        theme={theme}
+        label="Imagen referencial"
+        name="references.photoUrl.place"
+        span="La imagen debe ser clara y representativa"
+        iconSpan="info"
+      />
+    )
+  }
+])
