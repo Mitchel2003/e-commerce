@@ -54,8 +54,10 @@ class AuthService {
   }
   /** Permite cerrar la sessión del usuario en contexto */
   async logout(): Promise<Result<string>> {
-    try { await signOut(this.auth); return success('cierre de sesión exitoso') }
-    catch (e) { return failure(new ErrorAPI(normalizeError(e, 'cerrar sesión'))) }
+    try {
+      await signOut(this.auth)
+      return success('cierre de sesión exitoso')
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'cerrar sesión'))) }
   }
 
   /*---------------> create and update <---------------*/
@@ -68,11 +70,11 @@ class AuthService {
    */
   async registerAccount(username: string, email: string, password: string): Promise<Result<User>> {
     try {
-      const res = await createUserWithEmailAndPassword(this.auth, email, password)
-      const update = await this.updateProfile(res.user, { displayName: username })
-      if (!update.success) throw new ErrorAPI(update.error)
-      return success(res.user)
-    } catch (e) { throw new ErrorAPI(normalizeError(e, 'registrar cuenta de usuario')) }
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password)
+      const profileUpdate = await this.updateProfile(userCredential.user, { displayName: username })
+      if (!profileUpdate.success) return failure(profileUpdate.error)
+      return success(userCredential.user)
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registrar cuenta'))) }
   }
   /**
    * Actualiza el perfil del usuario en Firebase.
@@ -83,8 +85,8 @@ class AuthService {
   async updateProfile(user: User, profile: Partial<UserProfile>): Promise<Result<string>> {
     try {
       await updateProfile(user, profile)
-      return success('Se han actualizado el profile')
-    } catch (e) { throw new ErrorAPI(normalizeError(e, 'actualizar credenciales de usuario')) }
+      return success('Perfil actualizado exitosamente')
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar perfil'))) }
   }
 
   /*---------------> verification <---------------*/

@@ -8,8 +8,8 @@ class HandlerErrors {
    * @returns {ErrorAPI} retorna un error de tipo ErrorAPI
    */
   public static get(e: FirebaseError): ErrorAPI {
-    const message = 'Error interno del servidor (firebase)'
-    const record = this.errorRecords[e.code] || defaultRecord(message, e.code)
+    const context = 'Error interno del servidor (firebase)'
+    const record = this.errorRecords[e.code] || defaultRecord(context, e.message)
     return new record.errorType({ message: record.message });
   }
 

@@ -65,9 +65,9 @@ export interface ErrorRecord {
  * Regresa un registro de error por defecto.
  * La idea de definir "details" como un objeto de codigo es debido a que se desconoce la procedencia del error.
  * Entonces en vez de mostrar directamente en "code", pasamos el codigo a traves de "details" para mayor flexibilidad.
- * @param {string} message: mensaje del error (Error interno del servidor)
- * @param {string} code: código del error (UNAUTHORIZED, NOT_FOUND, VALIDATION_ERROR, CONFLICT)
+ * @param {string} context: contexto del error (Error interno del servidor)
+ * @param {string} message: corresponde al mensaje del error de firebase
 */
-export function defaultRecord(message: string, code: string): unknown {
-  return { message, details: { code }, errorType: ErrorAPI }
+export function defaultRecord(context: string, message: string): unknown {
+  return { message: `${context}: ${message}`, errorType: ErrorAPI }
 }

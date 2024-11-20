@@ -29,10 +29,7 @@ class DatabaseService {
         name: auth.displayName
       })
       return success('completado')
-    } catch (e) {
-      const res = normalizeError(e, 'Registrar credenciales del usuario')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'Registrar credenciales del usuario'))) }
   }
   /**
    * Obtiene una referencia a una subcolección desde la colección principal (auth).
@@ -40,9 +37,7 @@ class DatabaseService {
    * @param {string} name - El nombre de la subcolección a obtener.
    * @returns {CollectionReference} Una referencia a la subcolección.
   */
-  getCollection(name: string): CollectionReference {
-    return collection(this.db, 'gs', 'auth', name)
-  }
+  getCollection(name: string): CollectionReference { return collection(this.db, 'technopark', 'auth', name) }
 }
 /*---------------------------------------------------------------------------------------------------------*/
 export const databaseService = DatabaseService.getInstance()

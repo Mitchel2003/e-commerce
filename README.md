@@ -7,8 +7,6 @@
 en mi proyecto react con typescript tengo un enfoque de arquitectura así (Layouts: contiene la parte mas externa de una page) (Pages: se alojan dentro de layout y es la pagina como tal que el usuario final consume) (Sections: se trata de Secciones que conforman la pagina, en mi caso en especifico, tengo una pagina para crear una hoja de vida de un equipo, entonces mis secciones son las diferentes partes de ese formato) (Components: estos son los componentes que al final se utilizan para construir la seccion, son reutilizables  y escalables lo cual incrementa el profesionalismo de mi app web)
 
 ## Prompt
-
-
 useController: Se usa cuando necesitas un control más granular sobre un campo específico. Es útil cuando estás creando componentes de campo personalizados reutilizables.
 
 useFormContext: Se utiliza para acceder al contexto del formulario en componentes anidados sin necesidad de pasar props manualmente.

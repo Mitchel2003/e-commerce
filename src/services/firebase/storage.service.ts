@@ -30,10 +30,7 @@ class StorageService {
     try {
       const res = await getDownloadURL(this.getReference(path))
       return success(res)
-    } catch (e) {
-      const res = normalizeError(e, 'enviar email de restablecimiento')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener archivo'))) }
   }
   /**
    * Obtener las URLs de todos los archivos de un directorio del almacenamiento de Firebase.
@@ -48,10 +45,7 @@ class StorageService {
       return success(await Promise.all(
         files.items.map(item => getDownloadURL(item))
       ))
-    } catch (e) {
-      const res = normalizeError(e, 'enviar email de restablecimiento')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener archivos'))) }
   }
   /**
    * Subir un archivo al almacenamiento de Firebase.
@@ -66,10 +60,7 @@ class StorageService {
       const metadata = buildStorageMetadata(file)
       const upload = await uploadBytes(storageRef, file, metadata)
       return success(await getDownloadURL(upload.ref))
-    } catch (e) {
-      const res = normalizeError(e, 'enviar email de restablecimiento')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'subir archivo'))) }
   }
   /**
    * Actualiza un archivo en el almacenamiento de Firebase.
@@ -81,12 +72,11 @@ class StorageService {
   async updateFile(path: string, file: SettableMetadata): Promise<Result<string>> {
     try {
       const res = await updateMetadata(this.getReference(path), file)
-      if (!res.ref) throw new ErrorAPI({ message: 'referencia del archivo actualizado no encontrada' })
+      if (!res.ref) return failure(new ErrorAPI({
+        message: 'referencia del archivo actualizado no encontrada'
+      }))
       return success(await getDownloadURL(res.ref))
-    } catch (e) {
-      const res = normalizeError(e, 'enviar email de restablecimiento')
-      return failure(new ErrorAPI(res))
-    }
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar archivo'))) }
   }
   /**          
    * Elimina un archivo del almacenamiento de Firebase.
@@ -95,11 +85,8 @@ class StorageService {
   async deleteFile(path: string): Promise<Result<string>> {
     try {
       await deleteObject(this.getReference(path))
-      return success('Se ha enviado un correo de restauracion de contraseña')
-    } catch (e) {
-      const res = normalizeError(e, 'enviar email de restablecimiento')
-      return failure(new ErrorAPI(res))
-    }
+      return success('archivo eliminado')
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'eliminar archivo'))) }
   }
 }
 /*---------------------------------------------------------------------------------------------------------*/

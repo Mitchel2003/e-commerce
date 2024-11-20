@@ -3,13 +3,11 @@ import { isApiResponse } from "@/interfaces/response.interface";
 import { Props } from "@/interfaces/props.interface";
 import { Result } from "@/interfaces/db.interface";
 
+import { createContext, useContext, useState, useEffect } from "react";
 import { authService as authFB } from "@/services/firebase/auth.service"
 import { login, register } from "@/controllers/auth/auth.controller";
 import { RegisterFormProps } from "@/schemas/auth/register.schema";
 import { LoginFormProps } from "@/schemas/auth/login.schema";
-
-import { createContext, useContext, useState, useEffect } from "react";
-import ErrorAPI from "@/errors";
 
 const Auth = createContext<AuthContext>(undefined)
 
@@ -37,9 +35,9 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
 
   useEffect(() => timeAlert(), [errors])
   useEffect(() => {
-    return () => authFB.observeAuth(((auth) => {
+    return () => authFB.observeAuth((auth) => {
       setEnterprise(auth); setLoading(false)
-    }))
+    })
   }, [])
 
   /** Configura un temporizador para limpiar los errores después de 5 segundos */
@@ -50,33 +48,30 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   }
 
   /** Inicia sesión con tu emprendimiento usando las credenciales de acceso */
-  const signin = async (enterprise: LoginFormProps) => {
+  const signin = async (credentials: LoginFormProps) => {
     try {
-      const res = await login(enterprise);
-      if (!res.success) throw new ErrorAPI(res.error)
-      setAuthStatus(res)
-    }
-    catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
+      const result = await login(credentials)
+      if (!result.success) return setErrors([result.error.message])
+      setAuthStatus(result)
+    } catch (e) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
   /** Registra un nuevo emprendimiento */
-  const signup = async (enterprise: RegisterFormProps) => {
+  const signup = async (data: RegisterFormProps) => {
     try {
-      const res = await register(enterprise);
-      if (!res.success) throw new ErrorAPI(res.error)
-      setAuthStatus(res)
-    }
-    catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
+      const result = await register(data)
+      if (!result.success) return setErrors([result.error.message])
+      setAuthStatus(result)
+    } catch (e) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
   /** Cierra la sesión del emprendimiento actual */
   const logout = async () => {
     try {
-      const res = await authFB.logout();
-      if (!res.success) throw new ErrorAPI(res.error)
+      const result = await authFB.logout()
+      if (!result.success) return setErrors([result.error.message])
       setAuthStatus()
-    }
-    catch (e: unknown) { if (isApiResponse(e)) setErrors([e.message]) }
+    } catch (e) { if (isApiResponse(e)) setErrors([e.message]) }
   }
 
   /** Actualiza el estado de autenticación basado en la respuesta del servidor */

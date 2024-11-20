@@ -21,11 +21,11 @@ export const login = async ({
   password
 }: LoginFormProps): Promise<Result<User>> => {
   try {
-    const result = await authFB.login(email, password);
-    if (!result.success) throw new ErrorAPI(result.error);
-    if (!result.data.photoURL) throw new Unauthorized({ message: 'Email no verificado' });
-    return success(result.data);
-  } catch (e) { throw new ErrorAPI(normalizeError(e, 'inicio de sesión')) }
+    const result = await authFB.login(email, password)
+    if (!result.success) return failure(result.error)
+    if (!result.data.photoURL) return failure(new Unauthorized({ message: 'Email no verificado' }))
+    return success(result.data)
+  } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'inicio de sesión'))) }
 }
 /**
  * Maneja el proceso de registro de un nuevo usuario.
@@ -42,17 +42,20 @@ export const register = async ({
 }: RegisterFormProps): Promise<Result<User>> => {
   try {
     const { email, password } = accessCredentials
-    const result = await authFB.registerAccount(businessData.name, email, password)
-    if (!result.success) throw new ErrorAPI(result.error)
+    const userAccount = await authFB.registerAccount(businessData.name, email, password)
+    if (!userAccount.success) return failure(userAccount.error)
 
-    const sendEmail = await authFB.sendEmailVerification()
-    if (!sendEmail.success) throw new ErrorAPI(sendEmail.error)
+    const emailVerification = await authFB.sendEmailVerification()
+    if (!emailVerification.success) return failure(emailVerification.error)
 
-    const url = references?.photo && await storageFB.uploadFile(`${email}/preview`, references.photo)
-    if (url !== undefined && !url.success) throw new ErrorAPI(url.error)
+    const photoUrl = references?.photo && await storageFB.uploadFile(`${email}/preview`, references.photo)
+    if (photoUrl && !photoUrl.success) return failure(photoUrl.error)
 
-    const register = await databaseFB.registerUserCredentials(result.data, { ...businessData, ...references });
-    if (!register.success) throw new ErrorAPI(register.error)
-    return success(result.data);
-  } catch (e) { return failure(new ErrorAPI(e as ErrorAPI)) }
+    const userCredentials = await databaseFB.registerUserCredentials(
+      userAccount.data,
+      { ...businessData, ...references, photoUrl: photoUrl?.data }
+    )
+    if (!userCredentials.success) return failure(userCredentials.error)
+    return success(userAccount.data)
+  } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registro de empresa'))) }
 }
