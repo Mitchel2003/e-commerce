@@ -2,7 +2,7 @@
 import { databaseService as databaseFB } from "@/services/firebase/database.service"
 import { storageService as storageFB } from "@/services/firebase/storage.service"
 import { authService as authFB } from "@/services/firebase/auth.service"
-import { Result, success } from "@/interfaces/db.interface"
+import { Result, success, failure } from "@/interfaces/db.interface"
 import ErrorAPI, { Unauthorized } from "@/errors"
 import { normalizeError } from "@/errors/handler"
 
@@ -54,5 +54,5 @@ export const register = async ({
     const register = await databaseFB.registerUserCredentials(result.data, { ...businessData, ...references });
     if (!register.success) throw new ErrorAPI(register.error)
     return success(result.data);
-  } catch (e) { throw new ErrorAPI(normalizeError(e, 'registro de usuario')) }
+  } catch (e) { return failure(new ErrorAPI(e as ErrorAPI)) }
 }

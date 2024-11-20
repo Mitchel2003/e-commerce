@@ -95,7 +95,7 @@ class AuthService {
       const url = `${config.frontendUrl}/auth/verify-action`
       await sendEmailVerification(this.auth.currentUser, { url })
       return success('Email de verificación enviado')
-    } catch (e) { throw new ErrorAPI(normalizeError(e, 'enviar verificación de email')) }
+    } catch (e) { throw new Error(e as string) }
   }
   /**
    * Envia un correo de restablecimiento de contraseña al correo suministrado por el usuario.
