@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
 
-  useEffect(() => timeAlert(), [errors])
+  // useEffect(() => timeAlert(), [errors])
   useEffect(() => {
     return () => authFB.observeAuth((auth) => {
       setEnterprise(auth); setLoading(false)
@@ -41,11 +41,11 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   }, [])
 
   /** Configura un temporizador para limpiar los errores después de 5 segundos */
-  const timeAlert = () => {
-    if (errors.length === 0) return;
-    const timer = setTimeout(() => setErrors([]), 5000);
-    return () => clearTimeout(timer);
-  }
+  // const timeAlert = () => {
+  //   if (errors.length === 0) return;
+  //   const timer = setTimeout(() => setErrors([]), 5000);
+  //   return () => clearTimeout(timer);
+  // }
 
   /** Inicia sesión con tu emprendimiento usando las credenciales de acceso */
   const signin = async (credentials: LoginFormProps) => {
