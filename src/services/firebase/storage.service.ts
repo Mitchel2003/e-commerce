@@ -56,7 +56,7 @@ class StorageService {
    */
   async uploadFile(path: string, file: File): Promise<Result<string>> {
     try {
-      const storageRef = this.getReference(`tech/company/${path}`)
+      const storageRef = this.getReference(`technopark/enterprise/${path}`)
       const metadata = buildStorageMetadata(file)
       const upload = await uploadBytes(storageRef, file, metadata)
       return success(await getDownloadURL(upload.ref))
