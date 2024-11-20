@@ -1,14 +1,15 @@
-import { FormControl, FormField, FormItem } from '#/ui/form'
-import { Button } from '#/ui/button'
-
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { ControlProps } from '@/interfaces/props.interface'
-import { useController } from 'react-hook-form'
 import useCallback from '@/hooks/useCallback'
+
+import { FormControl, FormField, FormItem } from '#/ui/form'
+import HeaderCustom from '#/reusables/elements/HeaderCustom'
+import { Button } from '#/ui/button'
+
+import { useController } from 'react-hook-form'
 import { Camera, X } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import HeaderCustom from '../elements/HeaderCustom'
 
 interface ImageFieldProps extends ControlProps, ThemeContextProps {
   name: string;

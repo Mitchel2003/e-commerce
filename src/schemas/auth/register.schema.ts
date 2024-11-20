@@ -25,7 +25,7 @@ export const registerSchema = z.object({
       .max(100, "Descripción demaciado larga"),
   }),
   references: z.object({
-    photo: z
+    photoUrl: z
       .instanceof(File)
       .optional(),
     socialNetworks: z.array(
