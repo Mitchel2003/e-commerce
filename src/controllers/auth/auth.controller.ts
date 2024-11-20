@@ -48,10 +48,10 @@ export const register = async ({
     const emailVerification = await authFB.sendEmailVerification()
     if (!emailVerification.success) return failure(emailVerification.error)
 
-    const photoUrl = references?.photoUrl && await storageFB.uploadFile(`${email}/preview`, references.photoUrl)
+    const photoUrl = references?.photo && await storageFB.uploadFile(`${email}/preview`, references.photo)
     if (photoUrl && !photoUrl.success) return failure(photoUrl.error)
 
-    const credentials = { photoUrl: photoUrl?.data, ...businessData, ...references }
+    const credentials = { ...businessData, photoUrl: photoUrl?.data, socialNetworks: references.socialNetworks }
     const userCredentials = await databaseFB.registerUserCredentials(userAccount.data, credentials)
     if (!userCredentials.success) return failure(userCredentials.error)
     return success(userAccount.data)
