@@ -15,6 +15,7 @@ class HandlerErrors {
 
   /** Mapeo de errores de Firebase a errores personalizados */
   private static readonly errorRecords: Record<string, ErrorRecord> = {
+    //authentication
     'auth/email-already-in-use': {
       message: 'El correo electrónico ya está en uso',
       errorType: Conflict
@@ -74,6 +75,12 @@ class HandlerErrors {
     'auth/missing-phone-number': {
       message: 'Falta el número de teléfono',
       errorType: Validation
+    },
+
+    //storage
+    'storage/unauthorized': {
+      message: 'No tienes permisos para acceder a este recurso en el storage',
+      errorType: Unauthorized
     }
   }
 }
