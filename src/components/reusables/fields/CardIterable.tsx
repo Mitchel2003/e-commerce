@@ -11,10 +11,10 @@ import { cloneElement } from 'react'
 import { cn } from '@/lib/utils'
 
 interface CardIterableFieldProps extends ThemeContextProps {
-  name: string
   fields: CardFieldProps[]
   titleButton?: string
   limit?: number
+  name: string
 }
 
 const CardIterable = ({
