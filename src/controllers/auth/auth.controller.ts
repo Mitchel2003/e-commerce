@@ -41,20 +41,25 @@ export const register = async ({
   references
 }: RegisterFormProps): Promise<Result<User>> => {
   try {
+    // Registro de cuenta
     const { email, password } = accessCredentials
     const userAccount = await authFB.registerAccount(businessData.name, email, password)
     if (!userAccount.success) return failure(userAccount.error)
 
+    // Envío de verificación
     const emailVerification = await authFB.sendEmailVerification()
     if (!emailVerification.success) return failure(emailVerification.error)
 
+    // Procesamiento de imágenes
     const { photoUrl, socialNetworks } = references
-    const placeImages = await storageFB.uploadFiles(`${email}/place/preview`, photoUrl.place)
+    const files = photoUrl.place.map(item => item.file)
+    const placeImages = await storageFB.uploadFiles(`${email}/place/preview`, files)
     if (!placeImages.success) return failure(placeImages.error)
 
     const credentials = { ...businessData, socialNetworks, photoUrl: { place: placeImages.data } }
     const userCredentials = await databaseFB.registerUserCredentials(userAccount.data, credentials)
     if (!userCredentials.success) return failure(userCredentials.error)
+
     return success(userAccount.data)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registro de empresa'))) }
 }

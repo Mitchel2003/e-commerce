@@ -51,12 +51,13 @@ const socialNetworkFields = ({ theme }: ThemeContextProps) => ([
   },
   {
     name: "references.socialNetworks.url",
-    component:
+    component: (
       <InputField
         theme={theme}
         label="URL de la red social"
         name="references.socialNetworks.url"
         placeholder="Ingrese la URL de su red social"
       />
+    )
   }
 ])

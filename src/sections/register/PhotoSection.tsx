@@ -4,7 +4,18 @@ import CardIterable from "#/reusables/fields/CardIterable"
 import ImageField from "#/reusables/fields/Image"
 
 const PhotoSection = ({ theme }: ThemeContextProps) => {
-  const fields = photoFields({ theme })
+  const fields = [{
+    name: "file",
+    component: (
+      <ImageField
+        name="file"
+        theme={theme}
+        label="Imagen referencial"
+        span="La imagen debe ser clara y representativa"
+        iconSpan="info"
+      />
+    )
+  }]
 
   return (
     <div className="space-y-6">
@@ -19,7 +30,7 @@ const PhotoSection = ({ theme }: ThemeContextProps) => {
 
       <CardIterable
         theme={theme}
-        name="references.photoUrl"
+        name="references.photoUrl.place"
         titleButton="Agregar imagen"
         fields={fields}
         limit={3}
@@ -29,21 +40,3 @@ const PhotoSection = ({ theme }: ThemeContextProps) => {
 }
 
 export default PhotoSection
-
-/*---------------------------------------------------------------------------------------------------------*/
-
-/*--------------------------------------------------tools--------------------------------------------------*/
-const photoFields = ({ theme }: ThemeContextProps) => ([
-  {
-    name: "references.photoUrl.place",
-    component: (
-      <ImageField
-        theme={theme}
-        label="Imagen referencial"
-        name="references.photoUrl.place"
-        span="La imagen debe ser clara y representativa"
-        iconSpan="info"
-      />
-    )
-  }
-])

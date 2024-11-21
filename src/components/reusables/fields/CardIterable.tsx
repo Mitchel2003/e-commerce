@@ -25,17 +25,14 @@ const CardIterable = ({
   titleButton = 'Agregar'
 }: CardIterableFieldProps) => {
   const { control } = useFormContext()
-  const { fields: items, append, remove } = useFieldArray({
-    control,
-    name
-  })
+  const { fields: items, append, remove } = useFieldArray({ control, name })
 
   const handleAppend = () => {
     const initialValue = fields.reduce((acc, field) => {
       const fieldName = field.name.split('.').pop() || field.name
       acc[fieldName] = ''
       return acc
-    }, {} as Record<string, string>)
+    }, {} as Record<string, any>)
     append(initialValue)
   }
 
@@ -56,14 +53,10 @@ const CardIterable = ({
           )}
         >
           {titleButton}
-          <PlusCircle
-            className={cn(
-              'ml-2 h-4 w-4',
-              theme === 'dark'
-                ? 'text-gray-300'
-                : 'text-zinc-600'
-            )}
-          />
+          <PlusCircle className={cn(
+            'ml-2 h-4 w-4',
+            theme === 'dark' ? 'text-gray-300' : 'text-zinc-600'
+          )} />
         </Button>
       )}
 
@@ -101,16 +94,16 @@ const CardIterable = ({
                 const fieldName = field.name.split('.').pop() || field.name
                 return (
                   <FormField
-                    key={`${name}.${index}.${fieldName}`}
                     control={control}
+                    key={`${name}.${index}.${fieldName}`}
                     name={`${name}.${index}.${fieldName}`}
                     render={({ field: formField }) => (
                       <FormItem>
                         <FormControl>
                           {cloneElement(field.component, {
+                            theme,
                             ...formField,
-                            name: `${name}.${index}.${fieldName}`,
-                            theme
+                            name: `${name}.${index}.${fieldName}`
                           })}
                         </FormControl>
                       </FormItem>

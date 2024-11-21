@@ -27,18 +27,14 @@ export const registerSchema = z.object({
   references: z.object({
     //images url
     photoUrl: z.object({
-      place: z
-        .array(z.instanceof(File))
+      place: z.array(
+        z.object({
+          file: z.instanceof(File, { message: "Debe seleccionar una imagen" })
+            .refine(file => file.size <= 5 * 1024 * 1024, "La imagen no debe exceder 5MB")
+            .refine(file => ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type), "La imagen debe ser PNG, JPG o JPEG")
+        }))
         .min(1, "Debe subir al menos una imagen")
         .max(3, "Máximo 3 imágenes permitidas")
-        .refine(
-          (files) => files.every(file => file.size <= 5 * 1024 * 1024),
-          { message: "Las imágenes no deben exceder 5MB" }
-        )
-        .refine(
-          (files) => files.every(file => ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)),
-          { message: "Las imágenes deben ser PNG, JPG o JPEG" }
-        )
     }),
 
     //social networks
