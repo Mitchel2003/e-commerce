@@ -22,7 +22,7 @@ const FooterSection = ({ theme }: FooterSectionProps) => {
           'text-lg font-semibold',
           theme === 'dark' ? 'text-zinc-100' : 'text-gray-900'
         )}>
-          Gestion salud
+          Technopark
         </h3>
         <p className={cn(
           'text-sm',

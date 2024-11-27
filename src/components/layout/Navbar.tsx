@@ -3,7 +3,7 @@ import { useAuthContext } from '@/context/AuthContext'
 import Sidebar from '#/layout/sidebar/Sidebar'
 import ThemeToggle from '#/layout/Theme'
 
-import gsIcon from '/assets/gs_icon.ico'
+import technoIcon from '/assets/techno.ico'
 import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
@@ -37,11 +37,11 @@ interface HeaderNavbarProps { isAuth: boolean }
 const HeaderNavbar = ({ isAuth }: HeaderNavbarProps) => {
   return (
     <Link to="/" className="flex items-center gap-x-4">
-      <span className="flex items-center justify-center w-14 h-14 mr-2">
-        <img src={gsIcon} alt="GS Icon" />
+      <span className="flex items-center justify-center w-20 h-20 mr-2">
+        <img src={technoIcon} alt="GS Icon" />
       </span>
       <h1 className="text-2xl">
-        {isAuth ? 'Dashboard' : 'Gestión salud'}
+        {isAuth ? 'Dashboard' : 'Technopark'}
       </h1>
     </Link>
   )
