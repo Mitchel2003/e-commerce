@@ -158,7 +158,7 @@ export const features: FeatureItem[] = [
 ]
 
 export const useNavItems = () => {
-  const { logout } = useAuthContext()
+  const { signout } = useAuthContext()
 
   const navGuestItems: NavItemProps[] = [
     {
@@ -384,7 +384,7 @@ export const useNavItems = () => {
       ]
     },
     {
-      action: logout,
+      action: signout,
       label: 'Cerrar sesión',
       icon: <LogOut className="w-6 h-6" />,
     }
