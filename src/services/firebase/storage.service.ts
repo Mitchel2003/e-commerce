@@ -2,14 +2,13 @@ import { FirebaseStorage, getDownloadURL, updateMetadata, deleteObject, uploadBy
 import { Result, success, failure, Success } from "@/interfaces/db.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI, { NotFound } from "@/errors"
-import { initializeApp } from "firebase/app"
-import config from "@/utils/config";
+import { firebaseApp } from "@/services/db"
 
 /*--------------------------------------------------Storage--------------------------------------------------*/
 class StorageService {
   private static instance: StorageService
   private readonly storage: FirebaseStorage
-  private constructor() { this.storage = getStorage(initializeApp(config.storageConfig)) }
+  private constructor() { this.storage = getStorage(firebaseApp) }
 
   public static getInstance(): StorageService {
     if (!StorageService.instance) { StorageService.instance = new StorageService() }
