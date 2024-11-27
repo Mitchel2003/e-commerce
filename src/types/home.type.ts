@@ -1,4 +1,4 @@
-export interface Business {
+export interface Store {
   id: number
   name: string
   image: string
