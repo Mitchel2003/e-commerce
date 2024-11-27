@@ -5,33 +5,15 @@ import { Button } from "#/ui/button"
 import { Form } from "#/ui/form"
 
 import { ThemeContextProps } from "@/interfaces/context.interface"
-import { useAuthContext } from "@/context/AuthContext"
-import { zodResolver } from "@hookform/resolvers/zod"
-
+import { useForgotForm } from "@/hooks/auth/useForgotForm"
 import { Mail, ChevronRight } from "lucide-react"
-import { useForm } from "react-hook-form"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
-import { z } from "zod"
-
-const forgotSchema = z.object({ email: z.string().email("Correo electrónico inválido") })
-type ForgotFormData = z.infer<typeof forgotSchema>
 
 interface ForgotPasswordProps extends ThemeContextProps { trigger: React.ReactNode }
 const ForgotPassword = ({ theme, trigger }: ForgotPasswordProps) => {
+  const { methods: form, onSubmit } = useForgotForm()
   const [open, setOpen] = useState(false)
-  const { sendResetEmail } = useAuthContext()
-
-  const form = useForm<ForgotFormData>({
-    resolver: zodResolver(forgotSchema),
-    defaultValues: { email: "" }
-  })
-
-  const onSubmit = async (data: ForgotFormData) => {
-    await sendResetEmail(data.email)
-    setOpen(false)
-    form.reset()
-  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -56,7 +38,7 @@ const ForgotPassword = ({ theme, trigger }: ForgotPasswordProps) => {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={(e) => { onSubmit(e); setOpen(false) }} className="space-y-6">
             <InputField
               name="email"
               type="email"

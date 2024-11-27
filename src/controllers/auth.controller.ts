@@ -19,7 +19,9 @@ export const login = async ({ email, password }: LoginFormProps): Promise<Result
   try {
     const result = await authFB.login(email, password)
     if (!result.success) return failure(result.error)
-    if (!result.data.photoURL) return failure(new Unauthorized({ message: 'Email no verificado' }))
+    if (!result.data.emailVerified) return failure(new Unauthorized({
+      message: 'Email no verificado'
+    }))
     return success(result.data)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'inicio de sesión'))) }
 }
