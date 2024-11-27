@@ -1,5 +1,5 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { FeatureItem } from '@/types/form/product.type'
+import { FeatureItem } from '@/types/product.type'
 import { features } from '@/utils/constants'
 import { cn } from '@/lib/utils'
 

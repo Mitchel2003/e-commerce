@@ -9,13 +9,9 @@ const Register = () => {
   const { isAuth } = useAuthContext()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (isAuth) navigate('/cvs')
-  }, [isAuth, navigate])
+  useEffect(() => { if (isAuth) navigate('/dashboard') }, [isAuth])
 
-  return (
-    <RegisterSection theme={theme} />
-  )
+  return <RegisterSection theme={theme} />
 }
 
 export default Register

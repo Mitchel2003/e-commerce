@@ -48,16 +48,16 @@ class AuthService {
    */
   async login(email: string, password: string): Promise<Result<User>> {
     try {
-      const result = await signInWithEmailAndPassword(this.auth, email, password)
-      return success(result.user)
+      return await signInWithEmailAndPassword(this.auth, email, password).then(res => success(res.user))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'verificar credenciales'))) }
   }
-  /** Permite cerrar la sessión del usuario en contexto */
-  async logout(): Promise<Result<string>> {
-    try {
-      await signOut(this.auth)
-      return success('cierre de sesión exitoso')
-    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'cerrar sesión'))) }
+  /**
+   * Permite cerrar la sessión del usuario en contexto
+   * @returns {Promise<Result<void>>} - Retorna un mensaje de éxito si la sesión se cierra correctamente.
+   */
+  async logout(): Promise<Result<void>> {
+    try { return await signOut(this.auth).then(() => success(undefined)) }
+    catch (e) { return failure(new ErrorAPI(normalizeError(e, 'cerrar sesión'))) }
   }
 
   /*---------------> create and update <---------------*/
@@ -72,7 +72,7 @@ class AuthService {
     try {
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password)
       const profileUpdate = await this.updateProfile(userCredential.user, { displayName: username })
-      if (!profileUpdate.success) return failure(profileUpdate.error)
+      if (!profileUpdate.success) throw profileUpdate.error
       return success(userCredential.user)
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registrar cuenta'))) }
   }
@@ -82,56 +82,52 @@ class AuthService {
    * @param {User} user - El usuario de firebase, representa la autenticación.
    * @param {Partial<UserProfile>} profile - El campo a actualizar.
    */
-  async updateProfile(user: User, profile: Partial<UserProfile>): Promise<Result<string>> {
+  async updateProfile(user: User, profile: Partial<UserProfile>): Promise<Result<void>> {
     try {
-      await updateProfile(user, profile)
-      return success('Perfil actualizado exitosamente')
+      return await updateProfile(user, profile).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar perfil'))) }
   }
 
   /*---------------> verification <---------------*/
   /** Envia un correo de verificación de cuenta al correo suministrado por el usuario */
-  async sendEmailVerification(): Promise<Result<string>> {
+  async sendEmailVerification(): Promise<Result<void>> {
     try {
-      if (!this.auth.currentUser) throw new NotFound({ message: 'Usuario (auth)' })
       const url = `${config.frontendUrl}/auth/verify-action`
-      await sendEmailVerification(this.auth.currentUser, { url })
-      return success('Email de verificación enviado')
-    } catch (e) { throw new Error(e as string) }
+      if (!this.auth.currentUser) throw new NotFound({ message: 'Usuario (auth)' })
+      return await sendEmailVerification(this.auth.currentUser, { url }).then(() => success(undefined))
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'enviar email de verificación'))) }
   }
   /**
    * Envia un correo de restablecimiento de contraseña al correo suministrado por el usuario.
    * Enlace de redireccion esta definido en el archivo de configuracion de firebase (templates).
    * @param {string} email - El email del usuario.
    */
-  async sendEmailResetPassword(email: string): Promise<Result<string>> {
+  async sendEmailResetPassword(email: string): Promise<Result<void>> {
     try {
-      await sendPasswordResetEmail(this.auth, email)
-      return success('Se ha enviado un correo de restauracion de contraseña')
-    } catch (e) { throw new ErrorAPI(normalizeError(e, 'enviar email de restablecimeinto')) }
+      return await sendPasswordResetEmail(this.auth, email).then(() => success(undefined))
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'enviar email de restablecimeinto'))) }
   }
   /**
    * Actualiza la contraseña del usuario mediante un token de restablecimiento (oobCode) generado por firebase.
    * @param {string} oobCode - El token de restablecimiento de contraseña.
    * @param {string} newPassword - La contraseña de la solicitud de restablecimiento (forgot password).
    */
-  async validateResetPassword(oobCode: string, newPassword: string): Promise<Result<string>> {
+  async validateResetPassword(oobCode: string, newPassword: string): Promise<Result<void>> {
     try {
-      await confirmPasswordReset(this.auth, oobCode, newPassword)
-      return success('Contraseña restablecida correctamente')
-    } catch (e) { throw new ErrorAPI(normalizeError(e, 'validar restablecimiento de contraseña')) }
+      return await confirmPasswordReset(this.auth, oobCode, newPassword).then(() => success(undefined))
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'validar restablecimiento de contraseña'))) }
   }
   /**
    * Actualiza el estado de verificación de correo electrónico del usuario actual.
    * Este metodo de vericacion usa credenciales del usuario autenticado;
    * Utilizamos photoURL para manejar el estado de verificacion de email.
    */
-  async validateEmailVerification(): Promise<Result<string>> {
+  async validateEmailVerification(): Promise<Result<void>> {
     try {
       if (!this.auth.currentUser) throw new NotFound({ message: 'Usuario (auth)' })
       await this.updateProfile(this.auth.currentUser, { photoURL: 'authenticated' })
-      return success('Se ha verificado correctamente la cuenta')
-    } catch (e) { throw new ErrorAPI(normalizeError(e, 'validar la verificación de email')) }
+      return success(undefined)
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'validar la verificación de email'))) }
   }
 }
 /*---------------------------------------------------------------------------------------------------------*/

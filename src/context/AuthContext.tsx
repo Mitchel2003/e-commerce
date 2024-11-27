@@ -1,13 +1,15 @@
-import { AuthContext, Enterprise } from "@/interfaces/context.interface";
-import { isApiResponse } from "@/interfaces/response.interface";
+import { AuthContext, Business } from "@/interfaces/context.interface";
+import { isFirebaseResponse, Result } from "@/interfaces/db.interface";
+import { useNotification } from "@/hooks/ui/useNotification";
+import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
-import { Result } from "@/interfaces/db.interface";
 
+import { authService as authFB } from "@/services/firebase/auth.service";
+import { login, register, logout } from "@/controllers/auth.controller";
+import { verifyAction } from "@/controllers/verify.controller";
+
+import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
 import { createContext, useContext, useState, useEffect } from "react";
-import { authService as authFB } from "@/services/firebase/auth.service"
-import { login, register } from "@/controllers/auth/auth.controller";
-import { RegisterFormProps } from "@/schemas/auth/register.schema";
-import { LoginFormProps } from "@/schemas/auth/login.schema";
 
 const Auth = createContext<AuthContext>(undefined)
 
@@ -28,61 +30,102 @@ export const useAuthContext = () => {
  * @returns {JSX.Element} Elemento JSX que envuelve a los hijos con el contexto de autenticación.
  */
 export const AuthProvider = ({ children }: Props): JSX.Element => {
-  const [enterprise, setEnterprise] = useState<Enterprise>({});
-  const [errors, setErrors] = useState<string[]>([]);
+  const { show: showLoading, hide: hideLoading } = useLoadingScreen()
+  const { notifySuccess, notifyError } = useNotification()
+  const [business, setBusiness] = useState<Business>({});
   const [loading, setLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
 
-  // useEffect(() => timeAlert(), [errors])
   useEffect(() => {
     return () => authFB.observeAuth((auth) => {
-      setEnterprise(auth); setLoading(false)
+      setBusiness(auth); setLoading(false)
     })
   }, [])
 
-  /** Configura un temporizador para limpiar los errores después de 5 segundos */
-  // const timeAlert = () => {
-  //   if (errors.length === 0) return;
-  //   const timer = setTimeout(() => setErrors([]), 5000);
-  //   return () => clearTimeout(timer);
-  // }
-
   /** Inicia sesión con tu emprendimiento usando las credenciales de acceso */
   const signin = async (credentials: LoginFormProps) => {
+    setLoadingStatus("Iniciando sesión...")
     try {
       const result = await login(credentials)
-      if (!result.success) return setErrors([result.error.message])
+      if (!result.success) throw result.error
+      notifySuccess({ title: "Inicio de sesión exitoso", message: "Bienvenido de nuevo" })
       setAuthStatus(result)
-    } catch (e) { if (isApiResponse(e)) setErrors([e.message]) }
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
+    } finally { setLoadingStatus() }
   }
 
-  /** Registra un nuevo emprendimiento */
+  /** Registra un nuevo negocio */
   const signup = async (data: RegisterFormProps) => {
+    setLoadingStatus("Registrando...")
     try {
       const result = await register(data)
-      if (!result.success) return setErrors([result.error.message])
-      setAuthStatus(result)
-    } catch (e) { if (isApiResponse(e)) setErrors([e.message]) }
+      if (!result.success) throw result.error
+      notifySuccess({ title: "Registro exitoso", message: "Por favor verifica tu correo para continuar" })
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
+    } finally { setLoadingStatus() }
   }
 
-  /** Cierra la sesión del emprendimiento actual */
-  const logout = async () => {
+  /** Cierra la sesión del negocio actual */
+  const signout = async () => {
+    setLoadingStatus("Cerrando sesión...")
     try {
-      const result = await authFB.logout()
-      if (!result.success) return setErrors([result.error.message])
-      setAuthStatus()
-    } catch (e) { if (isApiResponse(e)) setErrors([e.message]) }
+      const result = await logout()
+      if (!result.success) throw result.error
+      result.success && setAuthStatus()
+      notifySuccess({ title: "Sesión cerrada", message: "Has cerrado sesión correctamente" })
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
+    } finally { setLoadingStatus() }
   }
 
-  /** Actualiza el estado de autenticación basado en la respuesta del servidor */
-  const setAuthStatus = (res?: Result<any>) => {
-    setEnterprise(res?.success ? res.data : {})
-    setIsAuth(Boolean(res?.success))
-    setLoading(false)
+  /*--------------------------------------------------verification--------------------------------------------------*/
+  /**
+   * Verifica una accion publica (resetPassword or verifyEmail)
+   * la petición se ejecuta a travez de un param "mode" explicito en la url 
+   * @param {string} mode - Corresponde a la modalidad de la solicitud
+   * @param {object} data - Los datos complementarios para la ejecucion
+   */
+  const verify = async (mode: string, data: object) => {
+    setLoadingStatus("Validando solicitud...")
+    try {
+      const result = await verifyAction({ mode, body: data })
+      if (!result.success) throw result.error
+      setAuthStatus()
+      await logout()
+      notifySuccess({
+        message: "La solicitud se ha completado",
+        title: `Exito al ${mode !== 'verifyEmail' ? 'restablecer contraseña' : 'verificar email'}`
+      })
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
+    } finally { setLoadingStatus() }
   }
+  /*---------------------------------------------------------------------------------------------------------*/
+
+  /*--------------------------------------------------tools--------------------------------------------------*/
+  /**
+   * Actualiza el estado de autenticación basado en la respuesta del servidor.
+   * @param {Result<any> | undefined} res - La respuesta del servidor.
+   */
+  const setAuthStatus = (res?: Result<any>) => {
+    setBusiness(res?.success ? res.data : {})
+    setIsAuth(Boolean(res?.success))
+  }
+  /**
+   * Actualiza el estado de carga basado en un parametro opcional
+   * si valor del param es distinto a undefined, se muestra el loading
+   * @param {string | undefined} status - El estado de carga.
+   */
+  const setLoadingStatus = (status?: string) => {
+    status ? showLoading(status) : hideLoading()
+    setLoading(Boolean(status))
+  }
+  /*---------------------------------------------------------------------------------------------------------*/
 
   return (
-    <Auth.Provider value={{ isAuth, loading, enterprise, errors, signin, signup, logout }}>
+    <Auth.Provider value={{ business, isAuth, loading, signin, signup, signout, verify }}>
       {children}
     </Auth.Provider>
   )

@@ -1,5 +1,4 @@
-import { RegisterFormProps } from "@/schemas/auth/register.schema";
-import { LoginFormProps } from "@/schemas/auth/login.schema";
+import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
 /*--------------------------------------------------ThemeContext--------------------------------------------------*/
 export type Theme = 'light' | 'dark'
 
@@ -13,7 +12,7 @@ export type ThemeContextProps = { theme: Theme }
 
 /*--------------------------------------------------AuthContext--------------------------------------------------*/
 // export type User = { _id: string, role: string, email: string, username: string, permissions: object } | {}
-export type Enterprise = {
+export type Business = {
   name: string
   phone: string
   email: string
@@ -23,26 +22,13 @@ export type Enterprise = {
 } | {}
 
 export type AuthContext = {
-  enterprise: Enterprise;
+  business: Business;
   isAuth: boolean;
   loading: boolean;
-  errors: string[];
-  signin: (enter: LoginFormProps) => Promise<void>;
-  signup: (enter: RegisterFormProps) => Promise<void>;
-  logout: () => void;
-} | undefined
-/*---------------------------------------------------------------------------------------------------------*/
-
-/*--------------------------------------------------CurriculumContext--------------------------------------------------*/
-export type Curriculum = { _id: string } | undefined
-
-export type CurriculumContext = {
-  errors: string[];
-  getCV: (id: string) => Promise<Curriculum>;
-  getCVs: () => Promise<Curriculum[]>;
-  createCV: (Curriculum: object) => Promise<Curriculum>;
-  updateCV: (id: string, Curriculum: object) => Promise<Curriculum>;
-  deleteCV: (id: string) => Promise<Curriculum>;
+  signout: () => Promise<void>;
+  signin: (credentials: LoginFormProps) => Promise<void>;
+  signup: (credentials: RegisterFormProps) => Promise<void>;
+  verify: (action: string, data: object) => Promise<void>;
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/
 

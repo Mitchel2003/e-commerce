@@ -2,7 +2,7 @@ import { FirebaseStorage, getDownloadURL, updateMetadata, deleteObject, uploadBy
 import { Result, success, failure, Success } from "@/interfaces/db.interface"
 import { normalizeError } from "@/errors/handler"
 import { firebaseApp } from "@/services/db"
-import ErrorAPI from "@/errors"
+import ErrorAPI, { NotFound } from "@/errors"
 
 
 /*--------------------------------------------------Storage--------------------------------------------------*/
@@ -30,8 +30,7 @@ class StorageService {
    */
   async getFile(path: string): Promise<Result<string>> {
     try {
-      const res = await getDownloadURL(this.getReference(path))
-      return success(res)
+      return await getDownloadURL(this.getReference(path)).then(res => success(res))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener archivo'))) }
   }
 
@@ -60,8 +59,8 @@ class StorageService {
    */
   async uploadFile(path: string, file: File): Promise<Result<string>> {
     try {
-      const storageRef = this.getReference(`techno/enterprise/${path}`)
       const metadata = buildStorageMetadata(file)
+      const storageRef = this.getReference(`techno/enterprise/${path}`)
       const upload = await uploadBytes(storageRef, file, metadata)
       return success(await getDownloadURL(upload.ref))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'subir archivo'))) }
@@ -71,6 +70,9 @@ class StorageService {
    * Sube múltiples archivos al almacenamiento de Firebase.
    * @param {string} path - directorio (place/products) + nombre del archivo
    * @param {File[]} files - Array de archivos a subir
+   * @argument results - Pretende subir cada uno de los files a Firebase Storage
+   * se espera un array con las URLs de los archivos subidos, pero como el uploadFiles
+   * es un Result(success o failure), se debe manejar el error de cada uploadFile
    * @returns {Promise<Result<string[]>>} Array con las URLs de los archivos subidos
    */
   async uploadFiles(path: string, files: File[]): Promise<Result<string[]>> {
@@ -94,9 +96,7 @@ class StorageService {
   async updateFile(path: string, file: SettableMetadata): Promise<Result<string>> {
     try {
       const res = await updateMetadata(this.getReference(path), file)
-      if (!res.ref) return failure(new ErrorAPI({
-        message: 'referencia del archivo actualizado no encontrada'
-      }))
+      if (!res.ref) throw new NotFound({ message: 'referencia del archivo no encontrada' })
       return success(await getDownloadURL(res.ref))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar archivo'))) }
   }
@@ -105,10 +105,9 @@ class StorageService {
    * Elimina un archivo del almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo a eliminar.
    */
-  async deleteFile(path: string): Promise<Result<string>> {
+  async deleteFile(path: string): Promise<Result<void>> {
     try {
-      await deleteObject(this.getReference(path))
-      return success('archivo eliminado')
+      return await deleteObject(this.getReference(path)).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'eliminar archivo'))) }
   }
 }

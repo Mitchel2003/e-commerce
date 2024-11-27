@@ -6,9 +6,7 @@ const ProductsPage = () => {
   const { theme } = useThemeContext()
   useEffect(() => { document.title = 'Productos' }, [])
 
-  return (
-    <ProductSection theme={theme} />
-  )
+  return <ProductSection theme={theme} />
 }
 
 export default ProductsPage

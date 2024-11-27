@@ -10,15 +10,9 @@ const Login = () => {
   const { isAuth } = useAuthContext()
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (isAuth) navigate('/cvs')
-  }, [isAuth, navigate])
+  useEffect(() => { if (isAuth) navigate('/dashboard') }, [isAuth])
 
-  return (
-    <div className="w-full max-w-md relative">
-      <LoginSection theme={theme} />
-    </div>
-  )
+  return <LoginSection theme={theme} />
 }
 
 export default Login

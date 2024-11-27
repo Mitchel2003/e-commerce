@@ -5,7 +5,6 @@ import { User } from "firebase/auth"
 import ErrorAPI from "@/errors"
 
 import { Result, success, failure } from "@/interfaces/db.interface";
-
 /*--------------------------------------------------Database--------------------------------------------------*/
 class DatabaseService {
   private static instance: DatabaseService
@@ -21,14 +20,13 @@ class DatabaseService {
    * @param {UserCredential} auth - Contiene el usuario autenticado a registrar; en la propiedad "user" se encuentran sus datos.
    * @param {UserFB} credentials - Corresponde a las credenciales del usuario, contiene el rol del usuario en validacion.
    */
-  async registerUserCredentials(auth: User, credentials: object): Promise<Result<string>> {
+  async registerUserCredentials(auth: User, credentials: object): Promise<Result<void>> {
     try {
-      await setDoc(doc(this.getCollection('users'), auth.email as string), {
+      return await setDoc(doc(this.getCollection('users'), auth.email as string), {
         ...credentials,
         email: auth.email,
         name: auth.displayName
-      })
-      return success('completado')
+      }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'Registrar credenciales del usuario'))) }
   }
   /**

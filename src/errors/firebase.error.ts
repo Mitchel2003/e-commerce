@@ -79,8 +79,110 @@ class HandlerErrors {
 
     //storage
     'storage/unauthorized': {
-      message: 'No tienes permisos para acceder a este recurso en el storage',
+      message: 'No tienes permisos para acceder a este recurso',
       errorType: Unauthorized
+    },
+    'storage/canceled': {
+      message: 'Operación cancelada por el usuario',
+      errorType: ErrorAPI
+    },
+    'storage/unknown': {
+      message: 'Error desconocido en el almacenamiento',
+      errorType: ErrorAPI
+    },
+    'storage/object-not-found': {
+      message: 'Archivo no encontrado en el almacenamiento',
+      errorType: NotFound
+    },
+    'storage/bucket-not-found': {
+      message: 'Bucket de almacenamiento no encontrado',
+      errorType: NotFound
+    },
+    'storage/project-not-found': {
+      message: 'Proyecto no encontrado',
+      errorType: NotFound
+    },
+    'storage/quota-exceeded': {
+      message: 'Cuota de almacenamiento excedida',
+      errorType: ErrorAPI
+    },
+    'storage/invalid-checksum': {
+      message: 'El archivo está corrupto o ha sido modificado',
+      errorType: Validation
+    },
+    'storage/invalid-event-name': {
+      message: 'Nombre de evento inválido',
+      errorType: Validation
+    },
+    'storage/invalid-url': {
+      message: 'URL de almacenamiento inválida',
+      errorType: Validation
+    },
+    'storage/invalid-argument': {
+      message: 'Argumento inválido en operación de almacenamiento',
+      errorType: Validation
+    },
+    'storage/no-default-bucket': {
+      message: 'No se ha configurado un bucket por defecto',
+      errorType: ErrorAPI
+    },
+    'storage/cannot-slice-blob': {
+      message: 'Error al procesar el archivo',
+      errorType: ErrorAPI
+    },
+    'storage/server-file-wrong-size': {
+      message: 'El archivo subido no coincide con el tamaño esperado',
+      errorType: Validation
+    },
+
+    //realtime database
+    'database/permission-denied': {
+      message: 'No tienes permisos para realizar esta operación en la base de datos',
+      errorType: Unauthorized
+    },
+    'database/disconnected': {
+      message: 'Operación fallida por desconexión con la base de datos',
+      errorType: ErrorAPI
+    },
+    'database/network-error': {
+      message: 'Error de red al conectar con la base de datos',
+      errorType: ErrorAPI
+    },
+    'database/operation-failed': {
+      message: 'La operación en la base de datos ha fallado',
+      errorType: ErrorAPI
+    },
+    'database/timeout': {
+      message: 'Tiempo de espera agotado para la operación',
+      errorType: ErrorAPI
+    },
+    'database/invalid-argument': {
+      message: 'Argumento inválido en operación de base de datos',
+      errorType: Validation
+    },
+    'database/write-canceled': {
+      message: 'Operación de escritura cancelada',
+      errorType: ErrorAPI
+    },
+    'database/data-stale': {
+      message: 'Los datos no están actualizados',
+      errorType: Conflict
+    },
+    'database/transaction-aborted': {
+      message: 'Transacción abortada',
+      errorType: ErrorAPI
+    },
+    'database/user-code-exception': {
+      message: 'Error en el código de usuario',
+      errorType: ErrorAPI
+    },
+    'database/max-retries': {
+      message: 'Número máximo de reintentos alcanzado',
+      errorType: ErrorAPI
+    },
+    'database/overridden-by-set': {
+      message: 'Operación sobrescrita por una nueva actualización',
+      errorType: Conflict
     }
   }
 }

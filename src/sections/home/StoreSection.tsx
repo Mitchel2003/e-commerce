@@ -1,5 +1,5 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { Store } from '@/types/form/home.type'
+import { Store } from '@/types/home.type'
 import StoreCard from '#/home/StoreCard'
 import { cn } from '@/lib/utils'
 

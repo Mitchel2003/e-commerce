@@ -10,8 +10,9 @@ export interface Props { children?: React.ReactNode }
 export interface NavItemProps {
   icon: React.ReactNode
   label: string
-  href: string
+  href?: string
   subItems?: NavItemProps[]
+  action?: () => Promise<void>
 }
 
 //theme components

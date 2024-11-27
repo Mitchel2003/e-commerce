@@ -1,5 +1,5 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import CarouselProduct from '@/components/dashboard/CarouselProduct'
+import CarouselProduct from '@/components/pages/dashboard/CarouselProduct'
 import { motion, Variants } from 'framer-motion'
 import { products } from '@/utils/constants'
 import { PlusCircle } from 'lucide-react'
