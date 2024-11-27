@@ -1,8 +1,8 @@
-import { ThemeContextProps } from "@/interfaces/context.interface"
-import HeaderCustom from "#/reusables/elements/HeaderCustom"
-import CardIterable from "#/reusables/fields/CardIterable"
-import SelectField from "#/reusables/fields/Select"
-import InputField from "#/reusables/fields/Input"
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import HeaderCustom from '#/common/elements/HeaderCustom'
+import CardIterable from '#/common/fields/CardIterable'
+import SelectField from '#/common/fields/Select'
+import InputField from '#/common/fields/Input'
 
 interface SocialNetworkProps extends ThemeContextProps { }
 

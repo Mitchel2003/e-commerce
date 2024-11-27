@@ -1,32 +1,24 @@
-import FooterSubmit from "#/reusables/elements/FooterSubmit"
-import HeaderForm from "#/reusables/elements/HeaderForm"
-import { Card, CardContent } from "#/ui/card"
+import SubmitFooter from '#/common/fields/SubmitFooter'
+import HeaderForm from '#/common/elements/HeaderForm'
+import { Card, CardContent } from '#/ui/card'
 
-import SocialNetworkSection from "./SocialNetworkSection"
-import BusinessDataSection from "./BusinessDataSection"
-import CredentialsSection from "./CredentialsSection"
-import PhotoSection from "./PhotoSection"
+import SocialNetworkSection from './SocialNetworkSection'
+import BusinessDataSection from './BusinessDataSection'
+import CredentialsSection from './CredentialsSection'
+import PhotoSection from './PhotoSection'
 
-import { ThemeContextProps } from "@/interfaces/context.interface"
-import { useRegisterForm } from "@/hooks/form/useRegisterForm"
-import { useAuthContext } from "@/context/AuthContext"
-import { FormProvider } from "react-hook-form"
-import { RenderFormat } from "@/utils/RenderFormat"
-import { cn } from "@/lib/utils"
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import { useRegisterForm } from '@/hooks/auth/useRegisterForm'
+import { RenderFormat } from '@/utils/RenderFormat'
+import { FormProvider } from 'react-hook-form'
+import { cn } from '@/lib/utils'
 
 const RegisterSection = ({ theme }: ThemeContextProps) => {
-  const { errors: authErrors = [] } = useAuthContext()
   const { methods, onSubmit } = useRegisterForm()
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
-        {authErrors.map((error, index) => (
-          <div key={index} className="bg-red-500 text-white text-center my-2 p-2 rounded">
-            {error}
-          </div>
-        ))}
-
         <Card className={cn(
           'my-6 w-full shadow-lg',
           'transition-all duration-200 backdrop-filter backdrop-blur-lg',
@@ -51,7 +43,7 @@ const RegisterSection = ({ theme }: ThemeContextProps) => {
             />
           </CardContent>
 
-          <FooterSubmit theme={theme} />
+          <SubmitFooter theme={theme} />
         </Card>
       </form>
     </FormProvider>

@@ -1,5 +1,5 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import CarouselInfo from '#/home/CarouselInfo'
+import CarouselInfo from '#/pages/home/CarouselInfo'
 import { heroItems } from '@/utils/constants'
 
 const InfoSection = ({ theme }: ThemeContextProps) => {

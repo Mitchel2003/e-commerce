@@ -1,5 +1,5 @@
 import { Product as TypeProduct, ProductContext } from "@/interfaces/context.interface";
-import { isApiResponse } from "@/interfaces/response.interface";
+import { isFirebaseResponse } from "@/interfaces/db.interface";
 import { Props } from "@/interfaces/props.interface";
 
 import { useState, useContext, createContext, useEffect } from "react";
@@ -89,7 +89,7 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @param {unknown} e - El error capturado.
    */
   const setProductStatus = (e: unknown) => {
-    if (isApiResponse(e)) setErrors([e.message])
+    if (isFirebaseResponse(e)) setErrors([e.message])
   }
 
   return (

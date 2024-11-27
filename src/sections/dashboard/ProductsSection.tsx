@@ -1,35 +1,27 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import CarouselProduct from '@/components/pages/dashboard/CarouselProduct'
-import { motion, Variants } from 'framer-motion'
+import CarouselProduct from '#/pages/dashboard/CarouselProduct'
 import { products } from '@/utils/constants'
 import { PlusCircle } from 'lucide-react'
 import { Button } from '#/ui/button'
 import { cn } from '@/lib/utils'
 
-interface ProductsSectionProps extends ThemeContextProps { variants: Variants }
-
-const ProductsSection = ({ theme, variants }: ProductsSectionProps) => {
+const ProductsSection = ({ theme }: ThemeContextProps) => {
   return (
     <section
       className={cn(
-        'py-12 px-8 bg-gradient-to-bl',
+        'space-y-6 py-12 px-8 bg-gradient-to-bl',
         theme === 'dark'
           ? 'from-zinc-950/80 to-purple-950/80'
           : 'from-purple-500/10 to-pink-500/10'
       )}
     >
-      <motion.section
-        variants={variants}
-        className="space-y-6"
-      >
-        <Header theme={theme} />
-        <CarouselProduct
-          products={products.newProducts}
-          isLoading={false}
-          theme={theme}
-          error={null}
-        />
-      </motion.section>
+      <Header theme={theme} />
+      <CarouselProduct
+        products={products.newProducts}
+        isLoading={false}
+        theme={theme}
+        error={null}
+      />
     </section>
   )
 }

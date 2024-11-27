@@ -4,9 +4,9 @@ import { useNotification } from "@/hooks/ui/useNotification";
 import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
 
-import { authService as authFB } from "@/services/firebase/auth.service";
+import { verifyAction, forgotPassword } from "@/controllers/verify.controller";
 import { login, register, logout } from "@/controllers/auth.controller";
-import { verifyAction } from "@/controllers/verify.controller";
+import { authService as authFB } from "@/services/firebase/auth.service";
 
 import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
 import { createContext, useContext, useState, useEffect } from "react";
@@ -32,17 +32,21 @@ export const useAuthContext = () => {
 export const AuthProvider = ({ children }: Props): JSX.Element => {
   const { show: showLoading, hide: hideLoading } = useLoadingScreen()
   const { notifySuccess, notifyError } = useNotification()
-  const [business, setBusiness] = useState<Business>({});
-  const [loading, setLoading] = useState(true);
-  const [isAuth, setIsAuth] = useState(false);
+  const [business, setBusiness] = useState<Business>()
+  const [loading, setLoading] = useState(true)
+  const [isAuth, setIsAuth] = useState(false)
 
+  /** Observa el estado de autenticación del negocio en sesión */
   useEffect(() => {
     return () => authFB.observeAuth((auth) => {
       setBusiness(auth); setLoading(false)
     })
   }, [])
 
-  /** Inicia sesión con tu emprendimiento usando las credenciales de acceso */
+  /**
+   * Inicia sesión con tu emprendimiento usando las credenciales de acceso
+   * @param {LoginFormProps} credentials - Las credenciales de acceso del negocio.
+   */
   const signin = async (credentials: LoginFormProps) => {
     setLoadingStatus("Iniciando sesión...")
     try {
@@ -54,8 +58,10 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
       isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
     } finally { setLoadingStatus() }
   }
-
-  /** Registra un nuevo negocio */
+  /**
+   * Registra un nuevo negocio
+   * @param {RegisterFormProps} data - Los datos del negocio a registrar.
+   */
   const signup = async (data: RegisterFormProps) => {
     setLoadingStatus("Registrando...")
     try {
@@ -66,8 +72,9 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
       isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
     } finally { setLoadingStatus() }
   }
-
-  /** Cierra la sesión del negocio actual */
+  /**
+   * Cierra la sesión del negocio actual
+   */
   const signout = async () => {
     setLoadingStatus("Cerrando sesión...")
     try {
@@ -79,6 +86,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
       isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
     } finally { setLoadingStatus() }
   }
+  /*---------------------------------------------------------------------------------------------------------*/
 
   /*--------------------------------------------------verification--------------------------------------------------*/
   /**
@@ -100,6 +108,20 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
       })
     } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
+    } finally { setLoadingStatus() }
+  }
+  /**
+   * Envía un correo de restablecimiento de contraseña
+   * @param {string} email - El email del usuario.
+   */
+  const sendResetEmail = async (email: string) => {
+    setLoadingStatus("Enviando correo de recuperación...")
+    try {
+      const result = await forgotPassword(email)
+      if (!result.success) throw result.error
+      notifySuccess({ title: "Correo enviado", message: "Por favor revisa tu bandeja de entrada" })
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: "Error al enviar correo", message: e.message })
     } finally { setLoadingStatus() }
   }
   /*---------------------------------------------------------------------------------------------------------*/
@@ -125,7 +147,16 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   /*---------------------------------------------------------------------------------------------------------*/
 
   return (
-    <Auth.Provider value={{ business, isAuth, loading, signin, signup, signout, verify }}>
+    <Auth.Provider value={{
+      business,
+      isAuth,
+      loading,
+      signin,
+      signup,
+      signout,
+      verify,
+      sendResetEmail
+    }}>
       {children}
     </Auth.Provider>
   )

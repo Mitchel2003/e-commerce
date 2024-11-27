@@ -19,7 +19,7 @@ export type Business = {
   address: string
   description: string
   photoUrl: string | undefined
-} | {}
+} | undefined
 
 export type AuthContext = {
   business: Business;
@@ -29,6 +29,7 @@ export type AuthContext = {
   signin: (credentials: LoginFormProps) => Promise<void>;
   signup: (credentials: RegisterFormProps) => Promise<void>;
   verify: (action: string, data: object) => Promise<void>;
+  sendResetEmail: (email: string) => Promise<void>;
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/
 

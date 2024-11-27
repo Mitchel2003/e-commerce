@@ -1,7 +1,7 @@
-import { ThemeContextProps } from "@/interfaces/context.interface"
-import HeaderCustom from "#/reusables/elements/HeaderCustom"
-import CardIterable from "#/reusables/fields/CardIterable"
-import ImageField from "#/reusables/fields/Image"
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import HeaderCustom from '#/common/elements/HeaderCustom'
+import CardIterable from '#/common/fields/CardIterable'
+import ImageField from '#/common/fields/Image'
 
 const PhotoSection = ({ theme }: ThemeContextProps) => {
   const fields = [{

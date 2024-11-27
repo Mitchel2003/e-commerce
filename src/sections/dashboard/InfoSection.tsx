@@ -1,25 +1,34 @@
-import { ThemeContextProps } from '@/interfaces/context.interface'
-import { motion, Variants } from 'framer-motion'
+import { Business, ThemeContextProps } from '@/interfaces/context.interface'
+import { Card } from '#/ui/card'
 import { cn } from '@/lib/utils'
 
-interface InfoSectionProps extends ThemeContextProps { variants: Variants }
+interface InfoSectionProps extends ThemeContextProps { auth: Business }
+const InfoSection = ({ theme, auth }: InfoSectionProps) => {
+  const complement = auth?.name.slice(1).toLowerCase()
+  const first = auth?.name.charAt(0).toUpperCase()
 
-const InfoSection = ({ theme, variants }: InfoSectionProps) => {
   return (
-    <motion.section variants={variants} className="text-center space-y-4">
+    <Card className={cn(
+      'text-center space-y-4 p-10',
+      'transition-all duration-200',
+      'backdrop-filter backdrop-blur-lg hover:shadow-md',
+      theme === 'dark'
+        ? 'bg-zinc-800/40 hover:shadow-purple-900/60'
+        : 'bg-white/50 hover:shadow-purple-500/60'
+    )}>
       <h1 className={cn(
         'text-4xl font-bold',
         theme === 'dark' ? 'text-purple-100' : 'text-purple-400'
       )}>
-        Bienvenido a tu Dashboard de Emprendedor
+        Bienvenido {first}{complement}
       </h1>
       <p className={cn(
         'text-xl',
         theme === 'dark' ? 'text-zinc-300' : 'text-gray-600'
       )}>
-        Aquí puedes gestionar tus productos y ver tus estadísticas
+        Aquí podrás gestionar tus productos y personalizar tu perfil
       </p>
-    </motion.section>
+    </Card>
   )
 }
 

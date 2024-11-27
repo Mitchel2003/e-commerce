@@ -9,7 +9,7 @@ const defaultValues = {
 }
 
 export const useResetPasswordForm = () => {
-  const { verifyAction } = useAuthContext()
+  const { verify } = useAuthContext()
 
   const methods = useForm<ResetPasswordFormProps>({
     resolver: zodResolver(resetPasswordSchema),
@@ -17,6 +17,6 @@ export const useResetPasswordForm = () => {
     defaultValues
   })
 
-  const onSubmit = methods.handleSubmit(async (data: object) => await verifyAction('resetPassword', data))
+  const onSubmit = methods.handleSubmit(async (data: object) => await verify('resetPassword', data))
   return { methods, onSubmit }
 }

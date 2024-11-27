@@ -1,7 +1,7 @@
-import { ThemeContextProps } from "@/interfaces/context.interface"
-import HeaderCustom from "#/reusables/elements/HeaderCustom"
-import InputField from "#/reusables/fields/Input"
-import { Lock, Mail } from "lucide-react"
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import HeaderCustom from '#/common/elements/HeaderCustom'
+import InputField from '#/common/fields/Input'
+import { Lock, Mail } from 'lucide-react'
 
 const CredentialsSection = ({ theme }: ThemeContextProps) => {
   return (

@@ -13,13 +13,13 @@ import { cn } from '@/lib/utils'
 const VerifyEmail = ({ theme }: ThemeContextProps) => {
   const [searchParams] = useSearchParams()
   const continueUrl = searchParams.get('continueUrl')
-  const { loading, verifyAction } = useAuthContext()
+  const { loading, verify } = useAuthContext()
 
   useEffect(() => { validateEmail() }, [continueUrl])
 
   const validateEmail = async () => {
     const userCredentials = getParams(continueUrl)
-    await verifyAction('verifyEmail', userCredentials)
+    await verify('verifyEmail', userCredentials)
   }
 
   return (

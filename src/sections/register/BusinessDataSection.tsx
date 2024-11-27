@@ -1,7 +1,7 @@
-import { ThemeContextProps } from "@/interfaces/context.interface"
-import HeaderCustom from "#/reusables/elements/HeaderCustom"
-import InputField from "#/reusables/fields/Input"
-import AreaField from "#/reusables/fields/Area"
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import HeaderCustom from '#/common/elements/HeaderCustom'
+import InputField from '#/common/fields/Input'
+import AreaField from '#/common/fields/Area'
 
 const BusinessDataSection = ({ theme }: ThemeContextProps) => {
   return (
