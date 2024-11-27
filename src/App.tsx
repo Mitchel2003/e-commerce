@@ -29,10 +29,14 @@ function App() {
                 <Route path="/auth/register" element={<Register />} />
 
                 {/* mean while */}
-                <Route path="/products" element={<Products />} />
                 <Route path="/dashboard" element={<Dashboard />} />
 
-                <Route element={<ProtectedRoute />}>{/* forms routes */}</Route>
+                <Route element={<ProtectedRoute />}>
+                  {/* forms routes */}
+                  {/* <Route path="/business" element={<Business />} /> */}
+                  <Route path="/products" element={<Products />} />
+
+                </Route>
               </Route>
             </Routes>
           </BrowserRouter>

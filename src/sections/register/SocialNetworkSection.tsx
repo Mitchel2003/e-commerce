@@ -15,8 +15,8 @@ const SocialNetworkSection = ({ theme }: SocialNetworkProps) => {
         to="component"
         theme={theme}
         title="Enlaces de redes sociales"
-        className="text-2xl font-bold"
-        span="Comparta sus redes sociales o medios de difusión (opcional)"
+        className="text-2xl font-semibold"
+        span="Comparta sus medios de difusión (opcional)"
         iconSpan="warn"
       />
 

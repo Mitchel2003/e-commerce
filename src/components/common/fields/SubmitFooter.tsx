@@ -1,13 +1,18 @@
 import { ThemeContextProps } from "@/interfaces/context.interface"
 import { Ban, CheckSquare } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import { CardFooter } from "#/ui/card"
 import { Button } from "#/ui/button"
 import { cn } from "@/lib/utils"
 
-const SubmitFooter = ({ theme }: ThemeContextProps) => {
+interface SubmitFooterProps extends ThemeContextProps { to?: string }
+const SubmitFooter = ({ theme, to = '/' }: SubmitFooterProps) => {
+  const navigate = useNavigate()
+
   return (
     <CardFooter className="flex justify-between">
       <Button
+        onClick={() => navigate(to)}
         variant="outline"
         className={cn(
           'hover:scale-105',

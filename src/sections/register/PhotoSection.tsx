@@ -23,7 +23,7 @@ const PhotoSection = ({ theme }: ThemeContextProps) => {
         to="component"
         theme={theme}
         title="Imágenes del lugar"
-        className="text-2xl font-bold"
+        className="text-2xl font-semibold"
         span="Sube hasta 3 imágenes representativas de tu negocio"
         iconSpan="info"
       />

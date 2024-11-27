@@ -25,6 +25,10 @@ export const registerSchema = z.object({
     phone: z
       .string()
       .min(1, "El teléfono es requerido"),
+    category: z
+      .string()
+      .min(1, "La categoría es requerida")
+      .max(20, "La categoría debe tener menos de 20 caracteres"),
     address: z
       .string()
       .min(1, "La dirección es requerida"),

@@ -10,15 +10,21 @@ const BusinessDataSection = ({ theme }: ThemeContextProps) => {
         to="component"
         theme={theme}
         title="Información General"
-        className="text-2xl font-bold"
+        className="text-2xl font-semibold"
         span="Proporcione los datos básicos del emprendimiento"
         iconSpan="info"
       />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <InputField
           name="businessData.name"
-          placeholder="Nombre del emprendimiento"
-          label="Nombre"
+          placeholder="Digite el negocio"
+          label="Nombre negocio"
+          theme={theme}
+        />
+        <InputField
+          name="businessData.category"
+          placeholder="Digite la categoría del negocio"
+          label="Categoría"
           theme={theme}
         />
         <InputField

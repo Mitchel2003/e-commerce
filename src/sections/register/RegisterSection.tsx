@@ -20,16 +20,17 @@ const RegisterSection = ({ theme }: ThemeContextProps) => {
     <FormProvider {...methods}>
       <form onSubmit={onSubmit}>
         <Card className={cn(
-          'my-6 w-full shadow-lg',
-          'transition-all duration-200 backdrop-filter backdrop-blur-lg',
+          'my-6 w-full lg:w-[calc(100vw-300px)]',
+          'transition-all duration-300',
+          'backdrop-filter backdrop-blur-lg',
           theme === 'dark'
-            ? 'bg-zinc-800 hover:shadow-gray-900'
-            : 'bg-purple-50 hover:shadow-purple-500/60'
+            ? 'bg-zinc-800 hover:shadow-gray-900/60'
+            : 'bg-white hover:shadow-purple-500/60'
         )}>
           <HeaderForm
             theme={theme}
-            title="Registro de usuario"
-            description="Diligencia la información correspondiente"
+            title="Registra tu negocio"
+            description="Diligencia la información correspondiente, para que tu negocio sea visible para los usuarios"
           />
 
           <CardContent className="pt-6 space-y-8">

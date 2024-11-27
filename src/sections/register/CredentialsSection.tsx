@@ -9,10 +9,10 @@ const CredentialsSection = ({ theme }: ThemeContextProps) => {
       <HeaderCustom
         to="component"
         theme={theme}
-        title="Credenciales de acceso"
-        className="text-2xl font-bold"
-        span="Proporcione su correo electrónico y una contraseña"
         iconSpan="alert"
+        title="Credenciales de acceso"
+        className="text-2xl font-semibold"
+        span="Para acceder a tus datos y productos"
       />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

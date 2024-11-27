@@ -12,6 +12,7 @@ const defaultValues = {
     name: '',
     phone: '',
     address: '',
+    category: '',
     description: '',
   },
   references: {

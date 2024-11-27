@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav
       className={cn(
-        'flex justify-between items-center py-2 px-6 z-10',
+        'flex justify-between items-center px-6 z-10',
         'shadow-md backdrop-blur-md transition-colors duration-500',
         theme === 'dark' ? 'bg-zinc-800/90 text-zinc-100' : 'bg-white/90 text-gray-900'
       )}
