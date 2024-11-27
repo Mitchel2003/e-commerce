@@ -2,7 +2,7 @@ import { ThemeContextProps } from '@/interfaces/context.interface'
 import DiscoverSection from '@/sections/home/DiscoverSection'
 import StoreSection from '@/sections/home/StoreSection'
 import InfoSection from '@/sections/home/InfoSection'
-import { Store } from '@/types/home.type'
+import { Business } from '@/types/home.type'
 
 const HomeSection = ({ theme }: ThemeContextProps) => {
   return (
@@ -16,7 +16,7 @@ const HomeSection = ({ theme }: ThemeContextProps) => {
 
 export default HomeSection
 
-const stores: Store[] = [
+const stores: Business[] = [
   {
     id: 1,
     name: 'Anita',
