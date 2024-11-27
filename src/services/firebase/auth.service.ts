@@ -4,14 +4,12 @@ import ErrorAPI from "@/errors"
 
 import { firebaseApp } from "@/services/db"
 import { NotFound } from "@/errors"
-import config from "@/utils/config"
 
 import {
+  sendEmailVerification as sendEmailVerificationFB,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  sendEmailVerification,
-  confirmPasswordReset,
   onAuthStateChanged,
   updateProfile,
   UserProfile,
@@ -89,12 +87,14 @@ class AuthService {
   }
 
   /*---------------> verification <---------------*/
-  /** Envia un correo de verificación de cuenta al correo suministrado por el usuario */
+  /**
+   * Envia un correo de verificación de cuenta al correo suministrado por el usuario
+   * Anteriormente manejaba un enlace de redireccionamiento, pero se ha eliminado por cuestiones de reutilización..
+   */
   async sendEmailVerification(): Promise<Result<void>> {
     try {
-      const url = `${config.frontendUrl}/auth/verify-action`
       if (!this.auth.currentUser) throw new NotFound({ message: 'Usuario (auth)' })
-      return await sendEmailVerification(this.auth.currentUser, { url }).then(() => success(undefined))
+      return await sendEmailVerificationFB(this.auth.currentUser).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'enviar email de verificación'))) }
   }
   /**
@@ -105,29 +105,7 @@ class AuthService {
   async sendEmailResetPassword(email: string): Promise<Result<void>> {
     try {
       return await sendPasswordResetEmail(this.auth, email).then(() => success(undefined))
-    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'enviar email de restablecimeinto'))) }
-  }
-  /**
-   * Actualiza la contraseña del usuario mediante un token de restablecimiento (oobCode) generado por firebase.
-   * @param {string} oobCode - El token de restablecimiento de contraseña.
-   * @param {string} newPassword - La contraseña de la solicitud de restablecimiento (forgot password).
-   */
-  async validateResetPassword(oobCode: string, newPassword: string): Promise<Result<void>> {
-    try {
-      return await confirmPasswordReset(this.auth, oobCode, newPassword).then(() => success(undefined))
-    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'validar restablecimiento de contraseña'))) }
-  }
-  /**
-   * Actualiza el estado de verificación de correo electrónico del usuario actual.
-   * Este metodo de vericacion usa credenciales del usuario autenticado;
-   * Utilizamos photoURL para manejar el estado de verificacion de email.
-   */
-  async validateEmailVerification(): Promise<Result<void>> {
-    try {
-      if (!this.auth.currentUser) throw new NotFound({ message: 'Usuario (auth)' })
-      await this.updateProfile(this.auth.currentUser, { photoURL: 'authenticated' })
-      return success(undefined)
-    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'validar la verificación de email'))) }
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'enviar email de restablecimiento'))) }
   }
 }
 /*---------------------------------------------------------------------------------------------------------*/

@@ -28,7 +28,6 @@ export type AuthContext = {
   signout: () => Promise<void>;
   signin: (credentials: LoginFormProps) => Promise<void>;
   signup: (credentials: RegisterFormProps) => Promise<void>;
-  verify: (action: string, data: object) => Promise<void>;
   sendResetEmail: (email: string) => Promise<void>;
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

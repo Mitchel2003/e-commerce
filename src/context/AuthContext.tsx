@@ -4,9 +4,9 @@ import { useNotification } from "@/hooks/ui/useNotification";
 import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
 
-import { verifyAction, forgotPassword } from "@/controllers/verify.controller";
-import { login, register, logout } from "@/controllers/auth.controller";
 import { authService as authFB } from "@/services/firebase/auth.service";
+import { login, register, logout } from "@/controllers/auth.controller";
+import { forgotPassword } from "@/controllers/verify.controller";
 
 import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
 import { createContext, useContext, useState, useEffect } from "react";
@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
     })
   }, [])
 
+  /*--------------------------------------------------authentication--------------------------------------------------*/
   /**
    * Inicia sesión con tu emprendimiento usando las credenciales de acceso
    * @param {LoginFormProps} credentials - Las credenciales de acceso del negocio.
@@ -90,27 +91,6 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
 
   /*--------------------------------------------------verification--------------------------------------------------*/
   /**
-   * Verifica una accion publica (resetPassword or verifyEmail)
-   * la petición se ejecuta a travez de un param "mode" explicito en la url 
-   * @param {string} mode - Corresponde a la modalidad de la solicitud
-   * @param {object} data - Los datos complementarios para la ejecucion
-   */
-  const verify = async (mode: string, data: object) => {
-    setLoadingStatus("Validando solicitud...")
-    try {
-      const result = await verifyAction({ mode, body: data })
-      if (!result.success) throw result.error
-      setAuthStatus()
-      await logout()
-      notifySuccess({
-        message: "La solicitud se ha completado",
-        title: `Exito al ${mode !== 'verifyEmail' ? 'restablecer contraseña' : 'verificar email'}`
-      })
-    } catch (e: unknown) {
-      isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
-    } finally { setLoadingStatus() }
-  }
-  /**
    * Envía un correo de restablecimiento de contraseña
    * @param {string} email - El email del usuario.
    */
@@ -154,7 +134,6 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
       signin,
       signup,
       signout,
-      verify,
       sendResetEmail
     }}>
       {children}
