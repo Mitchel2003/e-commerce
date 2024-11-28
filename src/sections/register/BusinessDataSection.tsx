@@ -30,7 +30,6 @@ const BusinessDataSection = ({ theme }: ThemeContextProps) => {
         />
 
         <div className="col-span-2">
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <InputField
               name="businessData.address"
