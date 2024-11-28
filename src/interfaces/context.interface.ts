@@ -23,7 +23,7 @@ export type AuthContext = {
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------ProductContext--------------------------------------------------*/
-export interface Product { _id: string }
+export type Product = { _id: string } | undefined
 
 export type ProductContext = {
   errors: string[];
