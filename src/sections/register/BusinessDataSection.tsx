@@ -1,5 +1,6 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import HeaderCustom from '#/common/elements/HeaderCustom'
+import CheckboxField from '#/common/fields/Checkbox'
 import InputField from '#/common/fields/Input'
 import AreaField from '#/common/fields/Area'
 
@@ -14,7 +15,7 @@ const BusinessDataSection = ({ theme }: ThemeContextProps) => {
         span="Proporcione los datos básicos del emprendimiento"
         iconSpan="info"
       />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
         <InputField
           name="businessData.name"
           placeholder="Digite el negocio"
@@ -27,18 +28,26 @@ const BusinessDataSection = ({ theme }: ThemeContextProps) => {
           label="Categoría"
           theme={theme}
         />
-        <InputField
-          name="businessData.address"
-          placeholder="Digite su dirección"
-          label="Dirección"
-          theme={theme}
-        />
-        <InputField
-          name="businessData.phone"
-          placeholder="Digite su teléfono de contacto"
-          label="Teléfono"
-          theme={theme}
-        />
+        <div className="col-span-2">
+          <InputField
+            name="businessData.address"
+            placeholder="Digite su dirección"
+            label="Dirección"
+            theme={theme}
+          />
+          <InputField
+            name="businessData.phone"
+            placeholder="Digite su teléfono de contacto"
+            label="Teléfono"
+            theme={theme}
+          />
+          <CheckboxField
+            name="businessData.isLocal"
+            description="¿Es regional?"
+            label="Registrar como negocio regional"
+            theme={theme}
+          />
+        </div>
       </div>
       <AreaField
         name="businessData.description"

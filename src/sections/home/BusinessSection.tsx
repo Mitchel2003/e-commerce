@@ -1,13 +1,10 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { Business } from '@/interfaces/context.interface'
-import StoreCard from '#/pages/home/StoreCard'
+import BusinessCard from '#/pages/home/BusinessCard'
 import { cn } from '@/lib/utils'
 
-interface StoreSectionProps extends ThemeContextProps {
-  stores: Business[]
-}
-
-const StoreSection = ({ stores, theme }: StoreSectionProps) => {
+interface BusinessSectionProps extends ThemeContextProps { businesses: Business[] }
+const BusinessSection = ({ businesses, theme }: BusinessSectionProps) => {
   return (
     <section
       className={cn(
@@ -30,12 +27,16 @@ const StoreSection = ({ stores, theme }: StoreSectionProps) => {
       </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {stores.map((store) => (
-          <StoreCard key={store?.id} store={store} theme={theme} />
+        {businesses.map((business) => (
+          <BusinessCard
+            key={business.id}
+            business={business}
+            theme={theme}
+          />
         ))}
       </div>
     </section>
   )
 }
 
-export default StoreSection
+export default BusinessSection

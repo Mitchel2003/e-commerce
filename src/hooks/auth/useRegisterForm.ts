@@ -13,7 +13,8 @@ const defaultValues = {
     phone: '',
     address: '',
     category: '',
-    description: '',
+    isLocal: false,
+    description: ''
   },
   references: {
     photoUrl: { place: [] },

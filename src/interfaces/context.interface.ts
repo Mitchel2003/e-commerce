@@ -15,7 +15,7 @@ export type ThemeContextProps = { theme: Theme }
 export type AuthContext = {
   isAuth: boolean;
   loading: boolean;
-  business: Business;
+  business: Business | undefined;
   signout: () => Promise<void>;
   signin: (credentials: LoginFormProps) => Promise<void>;
   signup: (credentials: RegisterFormProps) => Promise<void>;
@@ -37,15 +37,15 @@ export type ProductContext = {
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------BusinessContext--------------------------------------------------*/
+//id representa el email del negocio (folder name)
 export type Business = {
   id: string
   name: string
-  email: string
   phone: string
   address: string
   category: string
+  isLocal: boolean
   description: string
-  location: string
   photoUrl: {
     place: string[]
   }
@@ -53,14 +53,13 @@ export type Business = {
     type: 'Facebook' | 'Instagram' | 'Otro'
     url: string
   }[]
-} | undefined
+}
 
 export type BusinessContext = {
   loading: boolean
-  businesses: Business[]
-  getBusinesses: () => Promise<Business[]>
-  getBusinessById: (id: string) => Promise<Business>
-  getBusinessByQuery: (query: string) => Promise<Business[]>
-  filterBusinessByCategory: (category: string) => Promise<Business[]>
+  getAll: () => Promise<Business[]>
+  getById: (id: string) => Promise<Business | undefined>
+  getByQuery: (query: string) => Promise<Business[]>
+  filterByCategory: (category: string) => Promise<Business[]>
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

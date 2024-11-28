@@ -1,20 +1,19 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import DiscoverSection from '@/sections/home/DiscoverSection'
-import { useBusinesses } from '@/hooks/business/useBusinessQuery'
-import StoreSection from '@/sections/home/StoreSection'
+import BusinessSection from '@/sections/home/BusinessSection'
+import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import InfoSection from '@/sections/home/InfoSection'
 
 const HomeSection = ({ theme }: ThemeContextProps) => {
-  const { businesses } = useBusinesses()
+  const { fetchAllBusinesses } = useQueryBusiness()
+  const { data: businesses, isLoading } = fetchAllBusinesses()
 
+  if (isLoading) return <div> Cargando... </div>
   return (
     <div>
       <InfoSection theme={theme} />
       <DiscoverSection theme={theme} />
-      <StoreSection
-        stores={businesses}
-        theme={theme}
-      />
+      <BusinessSection businesses={businesses} theme={theme} />
     </div>
   )
 }
