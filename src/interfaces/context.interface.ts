@@ -22,21 +22,8 @@ export type AuthContext = {
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/
 
-/*--------------------------------------------------ProductContext--------------------------------------------------*/
-export type Product = { _id: string } | undefined
-
-export type ProductContext = {
-  errors: string[];
-  getProduct: (id: string) => Promise<Product>;
-  getProducts: () => Promise<Product[]>;
-  createProduct: (product: object) => Promise<Product>;
-  updateProduct: (id: string, product: object) => Promise<Product>;
-  deleteProduct: (id: string) => Promise<Product>;
-} | undefined
-/*---------------------------------------------------------------------------------------------------------*/
-
 /*--------------------------------------------------BusinessContext--------------------------------------------------*/
-//id representa el email del negocio (folder name)
+//id represent the uid of the business (auth)
 export interface Business {
   id: string
   name: string
@@ -45,13 +32,8 @@ export interface Business {
   category: string
   isLocal: boolean
   description: string
-  photoUrl: {
-    place: string[]
-  }
-  socialNetworks?: {
-    type: 'Facebook' | 'Instagram' | 'Otro'
-    url: string
-  }[]
+  photoUrl: string[]
+  socialNetworks?: { type: 'Facebook' | 'Instagram' | 'Otro'; url: string }[]
 }
 
 export type BusinessContext = {
@@ -60,5 +42,24 @@ export type BusinessContext = {
   getById: (id: string) => Promise<Business | undefined>
   getByQuery: (query: string) => Promise<Business[]>
   filterByCategory: (category: string) => Promise<Business[]>
+} | undefined
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------ProductContext--------------------------------------------------*/
+export type Product = {
+  id: string
+  name: string
+  price: number
+  imageUrl: string
+  description: string
+}
+
+export type ProductContext = {
+  loading: boolean
+  getProduct: (id: string) => Promise<Product>;
+  getProducts: () => Promise<Product[]>;
+  createProduct: (product: object) => Promise<void>;
+  updateProduct: (id: string, product: object) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

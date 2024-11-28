@@ -4,7 +4,6 @@ import { normalizeError } from "@/errors/handler"
 import ErrorAPI, { NotFound } from "@/errors"
 import { firebaseApp } from "@/services/db"
 
-/*--------------------------------------------------Storage--------------------------------------------------*/
 class StorageService {
   private static instance: StorageService
   private readonly storage: FirebaseStorage
@@ -15,12 +14,15 @@ class StorageService {
     return StorageService.instance
   }
 
+  /*---------------> reference <---------------*/
   /**
    * Obtiene una referencia a un archivo en el almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo al que se accede.
    */
   private getReference(path: string) { return ref(this.storage, path) }
+  /*----------------------------------------------------*/
 
+  /*---------------> storage <---------------*/
   /**
    * Obtener la URL de un archivo del almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo al que se accede.
@@ -110,7 +112,6 @@ class StorageService {
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'eliminar archivo'))) }
   }
 }
-/*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------tools--------------------------------------------------*/
 /**

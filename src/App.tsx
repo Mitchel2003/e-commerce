@@ -10,6 +10,7 @@ import RootLayout from "@/layouts/Root";
 import Dashboard from "@/pages/Dashboard";
 import Products from "@/pages/Products";
 import Register from "@/pages/Register";
+import Company from "@/pages/Company";
 import Login from "@/pages/Login";
 import Home from "@/pages/Home";
 
@@ -30,12 +31,15 @@ function App() {
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/register" element={<Register />} />
 
+                  {/* company routes */}
+                  <Route path="/company/:id" element={<Company />} />
+
                   {/* protected routes */}
                   <Route element={<ProtectedRoute />}>
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/products" element={<Products />} />
-
                   </Route>
+
                 </Route>
               </Routes>
             </BrowserRouter>

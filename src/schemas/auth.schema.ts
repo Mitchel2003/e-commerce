@@ -10,6 +10,7 @@ export const loginSchema = z.object({
 })
 
 export const registerSchema = z.object({
+  //Access credentials
   accessCredentials: z.object({
     email: z
       .string()
@@ -18,6 +19,8 @@ export const registerSchema = z.object({
       .string()
       .min(6, "La contraseña debe tener al menos 6 caracteres"),
   }),
+
+  //Business data
   businessData: z.object({
     name: z
       .string()
@@ -39,20 +42,20 @@ export const registerSchema = z.object({
     description: z
       .string()
       .min(1, "La descripción es requerida")
-      .max(100, "Descripción demaciado larga"),
+      .max(250, "Descripción demasiado larga"),
   }),
+
+  //References (like images and social networks)
   references: z.object({
     //images url
-    photoUrl: z.object({
-      place: z.array(
-        z.object({
-          file: z.instanceof(File, { message: "Debe seleccionar una imagen" })
-            .refine(file => file.size <= 5 * 1024 * 1024, "La imagen no debe exceder 5MB")
-            .refine(file => ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type), "La imagen debe ser PNG, JPG o JPEG")
-        }))
-        .min(1, "Debe subir al menos una imagen")
-        .max(3, "Máximo 3 imágenes permitidas")
-    }),
+    photoUrl: z.array(
+      z.object({
+        file: z.instanceof(File, { message: "Debe seleccionar una imagen" })
+          .refine(file => file.size <= 5 * 1024 * 1024, "La imagen no debe exceder 5MB")
+          .refine(file => ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type), "La imagen debe ser PNG, JPG o JPEG")
+      }))
+      .min(1, "Debe subir al menos una imagen")
+      .max(3, "Máximo 3 imágenes permitidas"),
 
     //social networks
     socialNetworks: z.array(

@@ -17,7 +17,7 @@ const defaultValues = {
     description: ''
   },
   references: {
-    photoUrl: { place: [] },
+    photoUrl: [],
     socialNetworks: []
   }
 }

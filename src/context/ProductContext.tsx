@@ -1,8 +1,9 @@
 import { Product as TypeProduct, ProductContext } from "@/interfaces/context.interface";
 import { isFirebaseResponse } from "@/interfaces/db.interface";
+import { useNotification } from "@/hooks/ui/useNotification";
+import { useState, useContext, createContext } from "react";
+import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
-
-import { useState, useContext, createContext, useEffect } from "react";
 
 const Product = createContext<ProductContext>(undefined)
 
@@ -23,16 +24,9 @@ export const useProductContext = () => {
  * @returns {JSX.Element} Elemento JSX que envuelve a los hijos con el contexto de productos.
  */
 export const ProductProvider = ({ children }: Props): JSX.Element => {
-  const [errors, setErrors] = useState<string[]>([]);
-
-  useEffect(() => timeAlert(), [errors])
-
-  /** Configura un temporizador para limpiar los errores después de 5 segundos */
-  const timeAlert = () => {
-    if (errors.length === 0) return;
-    const timer = setTimeout(() => setErrors([]), 5000);
-    return () => clearTimeout(timer);
-  }
+  const { show: showLoading, hide: hideLoading } = useLoadingScreen()
+  const { notifyError } = useNotification()
+  const [loading, setLoading] = useState(false)
 
   /**
    * Obtiene un producto específico por su ID.
@@ -40,8 +34,10 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @returns {Promise<TypeProduct>} Los datos del producto o undefined en caso de error.
    */
   const getProduct = async (id: string): Promise<TypeProduct> => {
-    try { console.log(`getProduct ${id}`); return undefined }
-    catch (e: unknown) { setProductStatus(e); return undefined }
+    showLoading('Cargando producto...')
+    try { }
+    catch (e: unknown) { }
+    finally { hideLoading() }
   }
 
   /**

@@ -28,8 +28,9 @@ class AuthService {
     if (!AuthService.instance) { AuthService.instance = new AuthService() }
     return AuthService.instance
   }
+  /*----------------------------------------------------*/
 
-  /*---------------> authenticatión <---------------*/
+  /*---------------> authentication <---------------*/
   /**
    * Es un observador que ejecuta un callback cuando el estado de la sesion cambia.
    * @param {(user: any) => void} callback - Accion a desencadenar tras el cambio en el estado del usuario
@@ -56,6 +57,7 @@ class AuthService {
     try { return await signOut(this.auth).then(() => success(undefined)) }
     catch (e) { return failure(new ErrorAPI(normalizeError(e, 'cerrar sesión'))) }
   }
+  /*----------------------------------------------------*/
 
   /*---------------> create and update <---------------*/
   /**
@@ -84,6 +86,7 @@ class AuthService {
       return await updateProfile(user, profile).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar perfil'))) }
   }
+  /*----------------------------------------------------*/
 
   /*---------------> verification <---------------*/
   /**

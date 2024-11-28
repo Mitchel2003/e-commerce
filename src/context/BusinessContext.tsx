@@ -25,7 +25,7 @@ export const useBusinessContext = () => {
  * @param {Props} props - Las propiedades del componente.
  * @returns {JSX.Element} Elemento JSX que envuelve a los hijos con el contexto de negocios.
  */
-export const BusinessProvider = ({ children }: Props) => {
+export const BusinessProvider = ({ children }: Props): JSX.Element => {
   const { show: showLoading, hide: hideLoading } = useLoadingScreen()
   const { notifyError } = useNotification()
   const [loading, setLoading] = useState(false)

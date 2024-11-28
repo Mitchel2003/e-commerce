@@ -13,21 +13,21 @@ const BusinessCard = ({ business, theme }: BusinessCardProps) => {
   const navigate = useNavigate()
   return (
     <Card
-      onClick={() => navigate(`/store/${business.id}`)}
+      onClick={() => navigate(`/company/${business.id}`)}
       className={cn(
         'grid grid-cols-2 overflow-hidden shadow-lg',
         'transition-all duration-300 transform hover:scale-[1.02]',
         'cursor-pointer hover:shadow-xl',
         theme === 'dark'
           ? 'bg-zinc-900 hover:bg-zinc-800/90'
-          : 'bg-purple-50 hover:bg-purple-100/90'
+          : 'bg-white hover:bg-purple-50'
       )}
     >
       {/* Image */}
       <CardHeader className="relative p-0">
         <img
           alt={business.name}
-          src={business.photoUrl.place[0]}
+          src={business.photoUrl[0]}
           className="w-full h-[400px] object-cover"
         />
       </CardHeader>

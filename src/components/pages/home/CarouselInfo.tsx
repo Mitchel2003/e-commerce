@@ -2,18 +2,12 @@ import { ThemeContextProps } from '@/interfaces/context.interface'
 import Carousel from '#/common/elements/Carousel'
 import ItemInfo from '#/pages/home/ItemInfo'
 
-interface Info {
-  image: string
-  title: string
-  description: string
-}
-
+interface Info { image: string, title: string, description: string }
 interface CarouselInfoProps extends ThemeContextProps {
   informations?: Info[]
   isLoading: boolean
   error: Error | null
 }
-
 const CarouselInfo = ({ informations, isLoading, error, theme }: CarouselInfoProps) => {
   if (isLoading) return <div>Cargando...</div>
   if (error) return <div className="text-center text-red-500">Error al cargar el carousel</div>

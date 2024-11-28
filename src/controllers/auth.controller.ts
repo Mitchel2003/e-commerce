@@ -41,11 +41,11 @@ export const register = async ({ accessCredentials, businessData, references }: 
     if (!emailVerification.success) throw emailVerification.error
 
     const { photoUrl, socialNetworks } = references
-    const files = photoUrl.place.map(item => item.file)
+    const files = photoUrl.map(item => item.file)
     const placeImages = await storageFB.uploadFiles(`${email}/place/preview`, files)
     if (!placeImages.success) throw placeImages.error
 
-    const credentials = { ...businessData, socialNetworks, photoUrl: { place: placeImages.data } }
+    const credentials = { ...businessData, socialNetworks, photoUrl: placeImages.data }
     const userCredentials = await databaseFB.registerUserCredentials(userAccount.data, credentials)
     if (!userCredentials.success) throw userCredentials.error
     return success(userAccount.data)
