@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import RootLayout from "@/layouts/Root";
+import { BusinessProvider } from "@/context/BusinessContext"
 
 import Dashboard from "@/pages/Dashboard";
 import Products from "@/pages/Products";
@@ -16,32 +17,34 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <ProductProvider>
+        <BusinessProvider>
+          <ProductProvider>
 
-          <BrowserRouter>
-            <Routes>
-              <Route element={<RootLayout />}>
-                {/* home index */}
-                <Route path="/" index element={<Home />} />
+            <BrowserRouter>
+              <Routes>
+                <Route element={<RootLayout />}>
+                  {/* home index */}
+                  <Route path="/" index element={<Home />} />
 
-                {/* auth routes */}
-                <Route path="/auth/login" element={<Login />} />
-                <Route path="/auth/register" element={<Register />} />
+                  {/* auth routes */}
+                  <Route path="/auth/login" element={<Login />} />
+                  <Route path="/auth/register" element={<Register />} />
 
-                {/* mean while */}
-                <Route path="/dashboard" element={<Dashboard />} />
+                  {/* mean while */}
+                  <Route path="/dashboard" element={<Dashboard />} />
 
-                <Route element={<ProtectedRoute />}>
-                  {/* forms routes */}
-                  {/* <Route path="/business" element={<Business />} /> */}
-                  <Route path="/products" element={<Products />} />
+                  <Route element={<ProtectedRoute />}>
+                    {/* forms routes */}
+                    {/* <Route path="/business" element={<Business />} /> */}
+                    <Route path="/products" element={<Products />} />
 
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
-          </BrowserRouter>
+              </Routes>
+            </BrowserRouter>
 
-        </ProductProvider>
+          </ProductProvider>
+        </BusinessProvider>
       </AuthProvider>
     </ThemeProvider >
   )

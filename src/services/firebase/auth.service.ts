@@ -19,7 +19,6 @@ import {
   User,
 } from "firebase/auth"
 
-/*--------------------------------------------------Auth--------------------------------------------------*/
 class AuthService {
   private static instance: AuthService
   private readonly auth: Auth
@@ -108,5 +107,5 @@ class AuthService {
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'enviar email de restablecimiento'))) }
   }
 }
-/*---------------------------------------------------------------------------------------------------------*/
+
 export const authService = AuthService.getInstance()

@@ -1,10 +1,10 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
+import { Business } from '@/interfaces/context.interface'
 import StoreCard from '#/pages/home/StoreCard'
-import { Store } from '@/types/home.type'
 import { cn } from '@/lib/utils'
 
 interface StoreSectionProps extends ThemeContextProps {
-  stores: Store[]
+  stores: Business[]
 }
 
 const StoreSection = ({ stores, theme }: StoreSectionProps) => {
@@ -31,7 +31,7 @@ const StoreSection = ({ stores, theme }: StoreSectionProps) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {stores.map((store) => (
-          <StoreCard key={store.id} store={store} theme={theme} />
+          <StoreCard key={store?.id} store={store} theme={theme} />
         ))}
       </div>
     </section>

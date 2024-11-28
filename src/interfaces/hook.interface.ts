@@ -1,5 +1,3 @@
-import { ControllerRenderProps } from "react-hook-form"
-import { SetStateAction, Dispatch } from "react"
 import { LucideIcon } from "lucide-react"
 
 //items actions to dropdown (data-table)
@@ -8,13 +6,6 @@ export interface ActionProps {
   icon: LucideIcon
   className?: string
   onClick: () => void | Promise<void>
-}
-
-
-/*useCallback (react)*/
-export type UseCallbackProps = {
-  field: ControllerRenderProps<any, string>;
-  setPreview: Dispatch<SetStateAction<string | null>>;
 }
 
 // /*useQuery and useMutation*/

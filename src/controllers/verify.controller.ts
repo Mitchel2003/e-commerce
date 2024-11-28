@@ -1,7 +1,6 @@
 import { authService as authFB } from "@/services/firebase/auth.service"
 import { Result, success, failure } from "@/interfaces/db.interface"
 import { normalizeError } from "@/errors/handler"
-import ErrorAPI from "@/errors"
 
 /**
  * Maneja el proceso de restablecimiento de contraseña.
@@ -12,7 +11,7 @@ import ErrorAPI from "@/errors"
 export const forgotPassword = async (email: string): Promise<Result<void>> => {
   try {
     const result = await authFB.sendEmailResetPassword(email);
-    if (!result.success) throw new ErrorAPI(result.error);
+    if (!result.success) throw result.error
     return success(undefined)
   } catch (e: unknown) { return failure(normalizeError(e, 'envio de correo de restablecimiento de contraseña')) }
 }

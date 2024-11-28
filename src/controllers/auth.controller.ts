@@ -18,10 +18,8 @@ import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema"
 export const login = async ({ email, password }: LoginFormProps): Promise<Result<User>> => {
   try {
     const result = await authFB.login(email, password)
-    if (!result.success) return failure(result.error)
-    if (!result.data.emailVerified) return failure(new Unauthorized({
-      message: 'Email no verificado'
-    }))
+    if (!result.success) throw result.error
+    if (!result.data.emailVerified) return failure(new Unauthorized({ message: 'Email no verificado' }))
     return success(result.data)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'inicio de sesión'))) }
 }
@@ -37,19 +35,19 @@ export const register = async ({ accessCredentials, businessData, references }: 
   try {
     const { email, password } = accessCredentials
     const userAccount = await authFB.registerAccount(businessData.name, email, password)
-    if (!userAccount.success) return failure(userAccount.error)
+    if (!userAccount.success) throw userAccount.error
 
     const emailVerification = await authFB.sendEmailVerification()
-    if (!emailVerification.success) return failure(emailVerification.error)
+    if (!emailVerification.success) throw emailVerification.error
 
     const { photoUrl, socialNetworks } = references
     const files = photoUrl.place.map(item => item.file)
     const placeImages = await storageFB.uploadFiles(`${email}/place/preview`, files)
-    if (!placeImages.success) return failure(placeImages.error)
+    if (!placeImages.success) throw placeImages.error
 
     const credentials = { ...businessData, socialNetworks, photoUrl: { place: placeImages.data } }
     const userCredentials = await databaseFB.registerUserCredentials(userAccount.data, credentials)
-    if (!userCredentials.success) return failure(userCredentials.error)
+    if (!userCredentials.success) throw userCredentials.error
     return success(userAccount.data)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registro de empresa'))) }
 }
@@ -60,7 +58,7 @@ export const register = async ({ accessCredentials, businessData, references }: 
 export const logout = async (): Promise<Result<void>> => {
   try {
     const result = await authFB.logout()
-    if (!result.success) return failure(result.error)
+    if (!result.success) throw result.error
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'cierre de sesión'))) }
-} 
+}
