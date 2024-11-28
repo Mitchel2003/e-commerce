@@ -113,8 +113,8 @@ export const products = {
 export const heroItems = [
   {
     image: 'assets/adds/parqueOca.jpg',
-    title: 'Bienvenido a nuestro app de gestión',
-    description: 'Descubre una experiencia de administración única',
+    title: 'Bienvenido a nuestro app',
+    description: 'Descubre una experiencia de tiendas única',
   },
   {
     image: 'assets/adds/comercio.jpg',

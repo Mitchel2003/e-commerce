@@ -1,21 +1,35 @@
 import { Card, CardContent, CardFooter, CardHeader } from '#/ui/card'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { Business } from '@/interfaces/context.interface'
+import { useNavigate } from 'react-router-dom'
 import { StarIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-interface BusinessCardProps extends ThemeContextProps { business: Business }
+interface BusinessCardProps extends ThemeContextProps {
+  business: Business
+}
+
 const BusinessCard = ({ business, theme }: BusinessCardProps) => {
+  const navigate = useNavigate()
   return (
     <Card
+      onClick={() => navigate(`/store/${business.id}`)}
       className={cn(
         'grid grid-cols-2 overflow-hidden shadow-lg',
-        theme === 'dark' ? 'bg-zinc-900' : 'bg-purple-50'
+        'transition-all duration-300 transform hover:scale-[1.02]',
+        'cursor-pointer hover:shadow-xl',
+        theme === 'dark'
+          ? 'bg-zinc-900 hover:bg-zinc-800/90'
+          : 'bg-purple-50 hover:bg-purple-100/90'
       )}
     >
       {/* Image */}
       <CardHeader className="relative p-0">
-        <img src={business.photoUrl.place[0]} alt={business.name} className="w-full h-[400px] object-cover" />
+        <img
+          alt={business.name}
+          src={business.photoUrl.place[0]}
+          className="w-full h-[400px] object-cover"
+        />
       </CardHeader>
 
       <div className="flex flex-col relative">
@@ -44,7 +58,7 @@ const BusinessCard = ({ business, theme }: BusinessCardProps) => {
           </p>
 
           {/* Description */}
-          <p className="text-sm">{business.description}</p>
+          <p className="text-sm line-clamp-3">{business.description}</p>
         </CardContent>
 
         {/* Footer */}
@@ -53,7 +67,7 @@ const BusinessCard = ({ business, theme }: BusinessCardProps) => {
           theme === 'dark' ? 'bg-zinc-800' : 'bg-purple-200/30'
         )}>
           <p className={cn(theme === 'dark' ? 'text-zinc-300' : 'text-gray-600')}>
-            Ubicación: {business.address}
+            {business.address}
           </p>
         </CardFooter>
       </div>
