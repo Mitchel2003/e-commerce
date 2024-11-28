@@ -7,6 +7,8 @@ import InfoSection from './InfoSection'
 const DashboardSection = ({ theme }: ThemeContextProps) => {
   const { business } = useAuthContext()
 
+  if (!business) return <div>No business found</div>
+  
   return (
     <div className="container space-y-8 p-0 mx-auto">
       <InfoSection theme={theme} auth={business} />

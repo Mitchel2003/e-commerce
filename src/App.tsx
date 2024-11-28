@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import { BusinessProvider } from "@/context/BusinessContext"
 import { ProductProvider } from "@/context/ProductContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import RootLayout from "@/layouts/Root";
-import { BusinessProvider } from "@/context/BusinessContext"
 
 import Dashboard from "@/pages/Dashboard";
 import Products from "@/pages/Products";
@@ -30,12 +30,9 @@ function App() {
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/register" element={<Register />} />
 
-                  {/* mean while */}
-                  <Route path="/dashboard" element={<Dashboard />} />
-
+                  {/* protected routes */}
                   <Route element={<ProtectedRoute />}>
-                    {/* forms routes */}
-                    {/* <Route path="/business" element={<Business />} /> */}
+                    <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/products" element={<Products />} />
 
                   </Route>
