@@ -1,25 +1,39 @@
-import { getBusinesses, getBusinessById, getBusinessByQuery } from '@/controllers/business.controller'
 import { BusinessContext, Business as TypeBusiness } from '@/interfaces/context.interface'
 import { isFirebaseResponse } from '@/interfaces/db.interface'
 import { useNotification } from '@/hooks/ui/useNotification'
 import { useLoadingScreen } from '@/hooks/ui/useLoading'
 import { Props } from '@/interfaces/props.interface'
+
+import { getBusinesses, getBusinessById, getBusinessByQuery } from '@/controllers/business.controller'
 import { createContext, useContext, useState } from 'react'
 
 const Business = createContext<BusinessContext>(undefined)
 
+/**
+ * Hook personalizado para acceder al contexto de negocios.
+ * @throws {Error} Si se intenta usar fuera del BusinessProvider.
+ */
 export const useBusinessContext = () => {
   const context = useContext(Business)
   if (!context) throw new Error('Error al intentar usar businessContext')
   return context
 }
 
+/**
+ * Proveedor del contexto de negocios.
+ * Maneja el estado de carga y proporciona funciones para obtener negocios.
+ * @param {Props} props - Las propiedades del componente.
+ * @returns {JSX.Element} Elemento JSX que envuelve a los hijos con el contexto de negocios.
+ */
 export const BusinessProvider = ({ children }: Props) => {
   const { show: showLoading, hide: hideLoading } = useLoadingScreen()
   const { notifyError } = useNotification()
   const [loading, setLoading] = useState(false)
 
-  /** Obtiene todos los negocios registrados */
+  /**
+   * Obtiene todos los negocios registrados
+   * @returns {Promise<TypeBusiness[]>} Un array de negocios.
+   */
   const getAll = async (): Promise<TypeBusiness[]> => {
     setLoadingStatus('Cargando negocios...')
     try {
@@ -31,8 +45,11 @@ export const BusinessProvider = ({ children }: Props) => {
       return []
     } finally { setLoadingStatus() }
   }
-
-  /** Obtiene un negocio específico por su ID */
+  /**
+   * Obtiene un negocio específico por su ID
+   * @param {string} id - El ID del negocio.
+   * @returns {Promise<TypeBusiness | undefined>} Un negocio encontrado o undefined si no se encuentra.
+   */
   const getById = async (id: string): Promise<TypeBusiness | undefined> => {
     setLoadingStatus('Cargando negocio...')
     try {
@@ -43,8 +60,11 @@ export const BusinessProvider = ({ children }: Props) => {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
     } finally { setLoadingStatus() }
   }
-
-  /** Busca negocios por término de búsqueda */
+  /**
+   * Busca negocios por término de búsqueda
+   * @param {string} query - El término de búsqueda.
+   * @returns {Promise<TypeBusiness[]>} Un array de negocios encontrados.
+   */
   const getByQuery = async (query: string): Promise<TypeBusiness[]> => {
     setLoadingStatus('Buscando negocios...')
     try {
@@ -56,8 +76,11 @@ export const BusinessProvider = ({ children }: Props) => {
       return []
     } finally { setLoadingStatus() }
   }
-
-  /** Filtra negocios por categoría */
+  /**
+   * Filtra negocios por categoría
+   * @param {string} category - La categoría a filtrar.
+   * @returns {Promise<TypeBusiness[]>} Un array de negocios filtrados.
+   */
   const filterByCategory = async (category: string): Promise<TypeBusiness[]> => {
     setLoadingStatus('Filtrando negocios...')
     try {

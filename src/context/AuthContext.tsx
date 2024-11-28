@@ -47,8 +47,9 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   /**
    * Inicia sesión con tu emprendimiento usando las credenciales de acceso
    * @param {LoginFormProps} credentials - Las credenciales de acceso del negocio.
+   * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion login
    */
-  const signin = async (credentials: LoginFormProps) => {
+  const signin = async (credentials: LoginFormProps): Promise<void> => {
     setLoadingStatus("Iniciando sesión...")
     try {
       const result = await login(credentials)
@@ -62,8 +63,9 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   /**
    * Registra un nuevo negocio
    * @param {RegisterFormProps} data - Los datos del negocio a registrar.
+   * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion register
    */
-  const signup = async (data: RegisterFormProps) => {
+  const signup = async (data: RegisterFormProps): Promise<void> => {
     setLoadingStatus("Registrando...")
     try {
       const result = await register(data)
@@ -75,8 +77,9 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   }
   /**
    * Cierra la sesión del negocio actual
+   * @returns {Promise<void>} Un void que cierra la sesion del negocio
    */
-  const signout = async () => {
+  const signout = async (): Promise<void> => {
     setLoadingStatus("Cerrando sesión...")
     try {
       const result = await logout()
@@ -93,8 +96,9 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   /**
    * Envía un correo de restablecimiento de contraseña
    * @param {string} email - El email del usuario.
+   * @returns {Promise<void>} Un void que envia al correo la recuperacion de contraseña
    */
-  const sendResetEmail = async (email: string) => {
+  const sendResetEmail = async (email: string): Promise<void> => {
     setLoadingStatus("Enviando correo de recuperación...")
     try {
       const result = await forgotPassword(email)

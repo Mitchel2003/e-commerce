@@ -11,7 +11,6 @@ export type ThemeContextProps = { theme: Theme }
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------AuthContext--------------------------------------------------*/
-// export type User = { _id: string, role: string, email: string, username: string, permissions: object } | {}
 export type AuthContext = {
   isAuth: boolean;
   loading: boolean;
@@ -24,7 +23,7 @@ export type AuthContext = {
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------ProductContext--------------------------------------------------*/
-export type Product = { _id: string } | undefined
+export interface Product { _id: string }
 
 export type ProductContext = {
   errors: string[];
@@ -38,7 +37,7 @@ export type ProductContext = {
 
 /*--------------------------------------------------BusinessContext--------------------------------------------------*/
 //id representa el email del negocio (folder name)
-export type Business = {
+export interface Business {
   id: string
   name: string
   phone: string
