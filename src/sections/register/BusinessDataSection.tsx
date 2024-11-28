@@ -15,7 +15,7 @@ const BusinessDataSection = ({ theme }: ThemeContextProps) => {
         span="Proporcione los datos básicos del emprendimiento"
         iconSpan="info"
       />
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <InputField
           name="businessData.name"
           placeholder="Digite el negocio"
@@ -28,26 +28,33 @@ const BusinessDataSection = ({ theme }: ThemeContextProps) => {
           label="Categoría"
           theme={theme}
         />
+
         <div className="col-span-2">
-          <InputField
-            name="businessData.address"
-            placeholder="Digite su dirección"
-            label="Dirección"
-            theme={theme}
-          />
-          <InputField
-            name="businessData.phone"
-            placeholder="Digite su teléfono de contacto"
-            label="Teléfono"
-            theme={theme}
-          />
-          <CheckboxField
-            name="businessData.isLocal"
-            description="¿Es regional?"
-            label="Registrar como negocio regional"
-            theme={theme}
-          />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <InputField
+              name="businessData.address"
+              placeholder="Digite su dirección"
+              label="Dirección"
+              theme={theme}
+            />
+            <InputField
+              name="businessData.phone"
+              placeholder="Digite su teléfono de contacto"
+              label="Teléfono"
+              theme={theme}
+            />
+            <CheckboxField
+              name="businessData.isLocal"
+              description="¿Es regional?"
+              label="Negocio regional"
+              span="Opcional"
+              iconSpan="info"
+              theme={theme}
+            />
+          </div>
         </div>
+
       </div>
       <AreaField
         name="businessData.description"

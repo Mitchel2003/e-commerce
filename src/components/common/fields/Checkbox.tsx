@@ -79,14 +79,16 @@ const CheckboxField = React.forwardRef<HTMLButtonElement, CheckboxFieldProps>(({
               </div>
             ) : (
               /* -------------------- Single checkbox -------------------- */
-              <CheckboxOption
-                ref={ref}
-                id={name}
-                theme={theme}
-                label={description || ''}
-                checked={field.value}
-                onChecked={field.onChange}
-              />
+              <div className="flex justify-center">
+                <CheckboxOption
+                  ref={ref}
+                  id={name}
+                  theme={theme}
+                  label={description || ''}
+                  checked={field.value}
+                  onChecked={field.onChange}
+                />
+              </div>
             )}
           </FormControl>
 
