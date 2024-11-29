@@ -8,7 +8,6 @@ import ProtectedRoute from "@/auth/ProtectedRoute";
 import RootLayout from "@/layouts/Root";
 
 import Dashboard from "@/pages/Dashboard";
-import Products from "@/pages/Products";
 import Register from "@/pages/Register";
 import Business from "@/pages/Business";
 import Login from "@/pages/Login";
@@ -33,7 +32,6 @@ function App() {
 
                   {/* business routes */}
                   <Route path="/business/:id" element={<Business />} />
-                  <Route path="/products" element={<Products />} />
 
                   {/* protected routes */}
                   <Route element={<ProtectedRoute />}>
