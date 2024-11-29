@@ -56,7 +56,6 @@ const CreateProduct = ({ theme, trigger }: CreateProductProps) => {
             />
             <InputField
               name="price"
-              type="number"
               label="Precio"
               icon={DollarSign}
               theme={theme}

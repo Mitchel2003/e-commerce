@@ -52,7 +52,7 @@ export type BusinessContext = {
 export type Product = {
   id: string
   name: string
-  price: number
+  price: string
   imageUrl: string
   description: string
 }
