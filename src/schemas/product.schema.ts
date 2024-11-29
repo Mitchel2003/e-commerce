@@ -6,11 +6,10 @@ export const productSchema = z.object({
     .min(1, "El nombre es requerido")
     .max(50, "El nombre es demasiado largo"),
   price: z
-    .number({
+    .string({
       required_error: "El precio es requerido",
     })
-    .min(0, "El precio no puede ser negativo")
-    .max(999999, "El precio es demasiado alto"),
+    .min(3, "El precio no puede ser tan bajo"),
   description: z
     .string()
     .min(1, "La descripción es requerida")

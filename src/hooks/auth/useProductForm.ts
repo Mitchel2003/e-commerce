@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 
 const defaultValues = {
   name: '',
-  price: 0,
+  price: '',
   description: '',
   imageUrl: undefined
 }
