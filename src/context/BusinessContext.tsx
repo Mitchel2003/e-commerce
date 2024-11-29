@@ -40,7 +40,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
       const result = await getBusinesses()
       if (!result.success) throw result.error
       return result.data
-    } catch (e) {
+    } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
       return []
     } finally { setLoadingStatus() }
@@ -56,7 +56,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
       const result = await getBusinessById(id)
       if (!result.success) throw result.error
       return result.data
-    } catch (e) {
+    } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
     } finally { setLoadingStatus() }
   }
@@ -71,7 +71,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
       const result = await getBusinessByQuery(query)
       if (!result.success) throw result.error
       return result.data
-    } catch (e) {
+    } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
       return []
     } finally { setLoadingStatus() }
@@ -86,7 +86,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
     try {
       const businesses = await getAll()
       return businesses.filter(business => business?.category.toLowerCase().includes(category.toLowerCase()))
-    } catch (e) {
+    } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
       return []
     } finally { setLoadingStatus() }

@@ -1,9 +1,11 @@
 import { Product as TypeProduct, ProductContext } from "@/interfaces/context.interface";
 import { isFirebaseResponse } from "@/interfaces/db.interface";
 import { useNotification } from "@/hooks/ui/useNotification";
-import { useState, useContext, createContext } from "react";
 import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
+
+import { getProducts, getProductById, getProductByQuery, createProduct, updateProduct, deleteProduct } from "@/controllers/product.controller";
+import { useState, useContext, createContext } from "react";
 
 const Product = createContext<ProductContext>(undefined)
 
@@ -25,28 +27,77 @@ export const useProductContext = () => {
  */
 export const ProductProvider = ({ children }: Props): JSX.Element => {
   const { show: showLoading, hide: hideLoading } = useLoadingScreen()
-  const { notifyError } = useNotification()
   const [loading, setLoading] = useState(false)
+  const { notifyError } = useNotification()
+
+  /**
+   * Obtiene todos los productos de un negocio.
+   * @param {string} id - El ID del negocio (uid).
+   * @returns {Promise<TypeProduct[]>} Un array con los datos de los productos encontrados.
+   */
+  const getAll = async (id: string): Promise<TypeProduct[]> => {
+    setLoadingStatus('Cargando productos...')
+    try {
+      const result = await getProducts(id)
+      if (!result.success) throw result.error
+      return result.data
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
+      return []
+    } finally { setLoadingStatus() }
+  }
 
   /**
    * Obtiene un producto específico por su ID.
    * @param {string} id - El ID del producto a obtener.
-   * @returns {Promise<TypeProduct>} Los datos del producto o undefined en caso de error.
+   * @returns {Promise<TypeProduct | undefined>} Los datos del producto o undefined en caso de error.
    */
-  const getProduct = async (id: string): Promise<TypeProduct> => {
-    showLoading('Cargando producto...')
-    try { }
-    catch (e: unknown) { }
-    finally { hideLoading() }
+  const getById = async (id: string): Promise<TypeProduct | undefined> => {
+    setLoadingStatus('Cargando producto...')
+    try {
+      const result = await getProductById(id)
+      if (!result.success) throw result.error
+      return result.data
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
+    } finally { setLoadingStatus() }
   }
 
   /**
-   * Obtiene todos los productos.
-   * @returns {Promise<TypeProduct[]>} Un array con los datos de todos los productos.
+   * Busca productos por nombre.
+   * @param {string} query - El nombre del producto a buscar.
+   * @param {string} id - El ID del negocio (uid) con el que se relaciona el producto.
+   * @returns {Promise<TypeProduct[]>} Un array con los datos de los productos encontrados.
    */
-  const getProducts = async (): Promise<TypeProduct[]> => {
-    try { console.log('getProducts'); return [] }
-    catch (e: unknown) { setProductStatus(e); return [] }
+  const getByQuery = async (query: string, id: string): Promise<TypeProduct[]> => {
+    setLoadingStatus('Buscando producto...')
+    try {
+      const result = await getProductByQuery(query, id)
+      if (!result.success) throw result.error
+      return result.data
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
+      return []
+    } finally { setLoadingStatus() }
+  }
+
+  /**
+   * Filtra productos por nombre.
+   * @param {string} name - El nombre a filtrar.
+   * @param {string} id - El ID del negocio (uid) con el que se relaciona el producto.
+   * @returns {Promise<TypeProduct[]>} Un array con los datos de los productos encontrados.
+   */
+  //need see this
+  //working here...
+  const filterByName = async (name: string, id: string): Promise<TypeProduct[]> => {
+    setLoadingStatus('Filtrando productos...')
+    try {
+      const products = await getAll(id)
+      return products.filter(product => product.name.toLowerCase().includes(name.toLowerCase()))
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
+      return []
+    } finally { setLoadingStatus() }
   }
 
   /**
@@ -87,6 +138,17 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
   const setProductStatus = (e: unknown) => {
     if (isFirebaseResponse(e)) setErrors([e.message])
   }
+  /*--------------------------------------------------tools--------------------------------------------------*/
+  /**
+   * Actualiza el estado de carga basado en un parametro opcional
+   * si valor del param es distinto a undefined, se muestra el loading
+   * @param {string | undefined} status - El estado de carga.
+   */
+  const setLoadingStatus = (status?: string) => {
+    status ? showLoading(status) : hideLoading()
+    setLoading(Boolean(status))
+  }
+  /*---------------------------------------------------------------------------------------------------------*/
 
   return (
     <Product.Provider value={{ errors, getProduct, getProducts, createProduct, updateProduct, deleteProduct }}>
