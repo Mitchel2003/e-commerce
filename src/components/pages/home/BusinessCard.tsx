@@ -13,7 +13,7 @@ const BusinessCard = ({ business, theme }: BusinessCardProps) => {
   const navigate = useNavigate()
   return (
     <Card
-      onClick={() => navigate(`/company/${business.id}`)}
+      onClick={() => navigate(`/business/${business.id}`)}
       className={cn(
         'grid grid-cols-2 overflow-hidden shadow-lg',
         'transition-all duration-300 transform hover:scale-[1.02]',

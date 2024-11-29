@@ -3,8 +3,8 @@ import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
 export type Theme = 'light' | 'dark'
 
 export type ThemeContext = {
-  theme: Theme;
-  toggleTheme: () => void;
+  toggleTheme: () => void
+  theme: Theme
 } | undefined
 
 export type ThemeContextProps = { theme: Theme }
@@ -56,10 +56,11 @@ export type Product = {
 
 export type ProductContext = {
   loading: boolean
-  getProduct: (id: string) => Promise<Product>;
-  getProducts: () => Promise<Product[]>;
-  createProduct: (product: object) => Promise<void>;
-  updateProduct: (id: string, product: object) => Promise<void>;
-  deleteProduct: (id: string) => Promise<void>;
+  getAll: (id: string) => Promise<Product[]>
+  getById: (id: string) => Promise<Product | undefined>
+  filterByName: (id: string, name: string) => Promise<Product[]>
+  create: (id: string, product: Product) => Promise<void>
+  update: (id: string, product: Partial<Product>) => Promise<void>
+  delete: (id: string) => Promise<void>
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

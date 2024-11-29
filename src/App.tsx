@@ -10,7 +10,7 @@ import RootLayout from "@/layouts/Root";
 import Dashboard from "@/pages/Dashboard";
 import Products from "@/pages/Products";
 import Register from "@/pages/Register";
-import Company from "@/pages/Company";
+import Business from "@/pages/Business";
 import Login from "@/pages/Login";
 import Home from "@/pages/Home";
 
@@ -31,8 +31,8 @@ function App() {
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/register" element={<Register />} />
 
-                  {/* company routes */}
-                  <Route path="/company/:id" element={<Company />} />
+                  {/* business routes */}
+                  <Route path="/business/:id" element={<Business />} />
 
                   {/* protected routes */}
                   <Route element={<ProtectedRoute />}>
