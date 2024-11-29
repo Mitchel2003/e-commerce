@@ -132,24 +132,6 @@ class DatabaseService {
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener producto'))) }
   }
   /**
-   * Permite buscar productos por nombre.
-   * @param {string} searchTerm - El término de búsqueda.
-   * @param {string} idBusiness - El identificador del negocio, corresponde al uid del negocio en cuestión (auth).
-   * @returns {Promise<Result<Product[]>>} Una lista de productos.
-   */
-  async getProductByQuery(searchTerm: string, idBusiness: string): Promise<Result<Product[]>> {
-    try {
-      const req = query(
-        this.getCollection('products'),
-        where('id', '==', idBusiness),
-        where('name', '>=', searchTerm),
-        where('name', '<=', searchTerm + '\uf8ff')
-      )
-      const snapshot = await getDocs(req)
-      return success(snapshot.docs.map(doc => ({ ...doc.data() })) as Product[])
-    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'buscar productos'))) }
-  }
-  /**
    * id represent the id of the business (this is the name folder of each business)
    * @param {string} id - El identificador del producto, corresponde al uid del negocio en cuestión.
    * @param {Product} product - El producto a crear.

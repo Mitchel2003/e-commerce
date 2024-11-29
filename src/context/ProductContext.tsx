@@ -4,7 +4,7 @@ import { useNotification } from "@/hooks/ui/useNotification";
 import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
 
-import { getProducts, getProductById, getProductByQuery, createProduct, updateProduct, deleteProduct } from "@/controllers/product.controller";
+import { getProducts, getProductById, createProduct as create, updateProduct as update, deleteProduct as delete } from "@/controllers/product.controller";
 import { useState, useContext, createContext } from "react";
 
 const Product = createContext<ProductContext>(undefined)
@@ -64,31 +64,11 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
   }
 
   /**
-   * Busca productos por nombre.
-   * @param {string} query - El nombre del producto a buscar.
-   * @param {string} id - El ID del negocio (uid) con el que se relaciona el producto.
-   * @returns {Promise<TypeProduct[]>} Un array con los datos de los productos encontrados.
-   */
-  const getByQuery = async (query: string, id: string): Promise<TypeProduct[]> => {
-    setLoadingStatus('Buscando producto...')
-    try {
-      const result = await getProductByQuery(query, id)
-      if (!result.success) throw result.error
-      return result.data
-    } catch (e: unknown) {
-      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
-      return []
-    } finally { setLoadingStatus() }
-  }
-
-  /**
    * Filtra productos por nombre.
    * @param {string} name - El nombre a filtrar.
    * @param {string} id - El ID del negocio (uid) con el que se relaciona el producto.
    * @returns {Promise<TypeProduct[]>} Un array con los datos de los productos encontrados.
    */
-  //need see this
-  //working here...
   const filterByName = async (name: string, id: string): Promise<TypeProduct[]> => {
     setLoadingStatus('Filtrando productos...')
     try {
@@ -105,9 +85,14 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @param {object} product - Los datos del producto a crear.
    * @returns {Promise<TypeProduct>} Los datos del producto creado o undefined en caso de error.
    */
-  const createProduct = async (product: object): Promise<TypeProduct> => {
-    try { console.log(`createProduct ${product}`); return undefined }
-    catch (e: unknown) { setProductStatus(e); return undefined }
+  const createProduct = async (product: object): Promise<void> => {
+    setLoadingStatus('Filtrando productos...')
+    try {
+      const product = await create(id, Product)
+      if (!product.success) throw product.error
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
+    } finally { setLoadingStatus() }
   }
 
   /**

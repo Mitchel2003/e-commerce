@@ -29,19 +29,6 @@ export const getProductById = async (id: string): Promise<Result<Product>> => {
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener producto'))) }
 }
 /**
- * Busca productos por nombre.
- * @param {string} query - El término de búsqueda.
- * @param {string} id - El identificador del negocio, corresponde al uid del negocio en cuestión (auth).
- * @returns {Promise<Result<Product[]>>} Una lista de productos.
- */
-export const getProductByQuery = async (query: string, id: string): Promise<Result<Product[]>> => {
-  try {
-    const result = await databaseService.getProductByQuery(query, id)
-    if (!result.success) throw result.error
-    return success(result.data)
-  } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'buscar productos'))) }
-}
-/**
  * Crea un producto nuevo.
  * @param {string} id - El identificador del negocio, corresponde al uid del negocio en cuestión (auth).
  * @param {Product} product - El producto a crear.
