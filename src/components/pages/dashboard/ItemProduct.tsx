@@ -15,7 +15,7 @@ const ItemProduct = ({ theme, name, price, imageUrl }: ItemProductProps) => (
     {/* Header */}
     <CardHeader>
       <CardTitle className="text-lg">{name}</CardTitle>
-      <CardDescription>${price.toFixed(2)}</CardDescription>
+      <CardDescription>${Number(price).toFixed(2)}</CardDescription>
     </CardHeader>
 
     {/* Content */}
