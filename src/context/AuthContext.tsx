@@ -4,9 +4,8 @@ import { useNotification } from "@/hooks/ui/useNotification";
 import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
 
+import { login, register, logout, forgotPassword } from "@/controllers/auth.controller";
 import { authService as authFB } from "@/services/firebase/auth.service";
-import { login, register, logout } from "@/controllers/auth.controller";
-import { forgotPassword } from "@/controllers/verify.controller";
 
 import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
 import { createContext, useContext, useState, useEffect } from "react";

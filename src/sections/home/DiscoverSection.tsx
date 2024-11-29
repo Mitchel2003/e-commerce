@@ -1,5 +1,5 @@
+import { ShoppingBag, Coffee, CheckCircle, SparklesIcon } from 'lucide-react'
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { ShoppingBag, Coffee, Film, Music } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -76,6 +76,6 @@ interface Feature {
 const features: Feature[] = [
   { icon: ShoppingBag, title: 'Compras', description: 'Explora nuestras tiendas' },
   { icon: Coffee, title: 'Restaurantes', description: 'Disfruta de la mejor gastronomía' },
-  { icon: Film, title: 'Cine', description: 'Vive la magia del séptimo arte' },
-  { icon: Music, title: 'Eventos', description: 'Participa en nuestras actividades' },
+  { icon: SparklesIcon, title: 'Moda', description: 'Encuentra productos para tí' },
+  { icon: CheckCircle, title: 'Calidad', description: 'Garantizamos la mejor calidad' },
 ]

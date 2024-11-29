@@ -3,6 +3,7 @@ import { useThemeContext } from '@/context/ThemeContext'
 
 const Business = () => {
   const { theme } = useThemeContext()
+  
   return <BusinessSection theme={theme} />
 }
 

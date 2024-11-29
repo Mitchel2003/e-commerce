@@ -10,21 +10,17 @@ interface BusinessHeaderProps extends ThemeContextProps {
 export const BusinessHeader = ({ name, imageUrl, theme }: BusinessHeaderProps) => {
   return (
     <motion.header
-      className="relative h-[60vh] flex items-center justify-center"
+      className="relative h-[80vh] flex items-center justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      <div className="absolute inset-0 z-10 bg-opacity-50 bg-black/50" />
       <div
         className="absolute inset-0 bg-cover bg-center z-0"
         style={{ backgroundImage: `url(${imageUrl})` }}
       />
-      <div className={cn(
-        'absolute inset-0 z-10 bg-opacity-50',
-        theme === 'dark' 
-          ? 'bg-zinc-900/70' 
-          : 'bg-black/50'
-      )} />
+
       <div className="relative z-20 text-center px-4">
         <motion.h1
           className={cn(
