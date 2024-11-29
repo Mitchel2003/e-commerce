@@ -30,7 +30,7 @@ const PhotoSection = ({ theme }: ThemeContextProps) => {
 
       <CardIterable
         theme={theme}
-        name="references.photoUrl.place"
+        name="references.photoUrl"
         titleButton="Agregar imagen"
         fields={fields}
         limit={3}
