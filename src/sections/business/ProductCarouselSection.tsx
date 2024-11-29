@@ -88,7 +88,7 @@ export const ProductCarousel = ({ products, theme }: ProductCarouselProps) => {
                     'text-lg font-bold',
                     theme === 'dark' ? 'text-purple-400' : 'text-purple-600'
                   )}>
-                    ${product.price.toFixed(2)}
+                    ${Number(product.price).toFixed(2)}
                   </p>
                   <p className={cn(
                     'mt-2 text-sm line-clamp-2',
