@@ -57,7 +57,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(({
                 autoComplete='off'
                 placeholder={placeholder}
                 className={cn(
-                  (type === 'email' || type === 'password') && 'pl-10',
+                  (type === 'email' || type === 'password' || Icon !== undefined) && 'pl-10',
                   theme === 'dark'
                     ? 'bg-zinc-700 border-zinc-600 text-zinc-100 hover:bg-zinc-600'
                     : 'bg-white border-gray-300 text-gray-900'

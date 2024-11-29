@@ -52,9 +52,8 @@ const CreateProduct = ({ theme, trigger }: CreateProductProps) => {
               label="Nombre del producto"
               icon={Package2}
               theme={theme}
-              placeholder="Ej: Hamburguesa Clásica"
+              placeholder="Ej: Zapatos de Running"
             />
-
             <InputField
               name="price"
               type="number"
@@ -63,7 +62,6 @@ const CreateProduct = ({ theme, trigger }: CreateProductProps) => {
               theme={theme}
               placeholder="0.00"
             />
-
             <InputField
               name="description"
               label="Descripción"
@@ -71,7 +69,6 @@ const CreateProduct = ({ theme, trigger }: CreateProductProps) => {
               theme={theme}
               placeholder="Describe tu producto..."
             />
-
             <ImageField
               name="imageUrl"
               label="Imagen"
