@@ -41,7 +41,10 @@ const EmptyProduct = () => (
       <p className="mt-2 text-muted-foreground">Comienza añadiendo tu primer producto para mostrar en tu tienda.</p>
     </CardContent>
     <CardFooter className="justify-center">
-      <Button><PlusCircle className="mr-2 h-4 w-4" /> Añadir tu primer producto</Button>
+      <Button>
+        <PlusCircle className="mr-2 h-4 w-4" />
+        Añadir tu primer producto
+      </Button>
     </CardFooter>
   </Card>
 )

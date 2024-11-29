@@ -2,10 +2,10 @@ import { Business, ThemeContextProps } from '@/interfaces/context.interface'
 import { Card } from '#/ui/card'
 import { cn } from '@/lib/utils'
 
-interface InfoSectionProps extends ThemeContextProps { auth: Business }
-const InfoSection = ({ theme, auth }: InfoSectionProps) => {
-  const complement = auth?.name.slice(1).toLowerCase()
-  const first = auth?.name.charAt(0).toUpperCase()
+interface InfoSectionProps extends ThemeContextProps { business: Business }
+const InfoSection = ({ theme, business }: InfoSectionProps) => {
+  const complement = business?.name.slice(1).toLowerCase()
+  const first = business?.name.charAt(0).toUpperCase()
 
   return (
     <Card className={cn(

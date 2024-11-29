@@ -1,15 +1,18 @@
-import { ThemeContextProps } from '@/interfaces/context.interface'
+import { Product, ThemeContextProps } from '@/interfaces/context.interface'
 import CarouselProduct from '#/pages/dashboard/CarouselProduct'
-import { products } from '@/utils/constants'
 import { PlusCircle } from 'lucide-react'
 import { Button } from '#/ui/button'
 import { cn } from '@/lib/utils'
 
-const ProductsSection = ({ theme }: ThemeContextProps) => {
+interface ProductsSectionProps extends ThemeContextProps {
+  products: Product[]
+}
+
+const ProductsSection = ({ theme, products }: ProductsSectionProps) => {
   return (
     <section
       className={cn(
-        'space-y-6 py-12 px-8 bg-gradient-to-bl',
+        'space-y-6 py-12 px-8 bg-gradient-to-bl rounded-xl',
         theme === 'dark'
           ? 'from-zinc-950/80 to-purple-950/80'
           : 'from-purple-500/10 to-pink-500/10'
@@ -17,7 +20,7 @@ const ProductsSection = ({ theme }: ThemeContextProps) => {
     >
       <Header theme={theme} />
       <CarouselProduct
-        products={products.newProducts}
+        products={products}
         isLoading={false}
         theme={theme}
         error={null}

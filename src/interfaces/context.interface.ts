@@ -11,10 +11,12 @@ export type ThemeContextProps = { theme: Theme }
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------AuthContext--------------------------------------------------*/
+export type User = { uid: string }
+
 export type AuthContext = {
   isAuth: boolean;
   loading: boolean;
-  business: Business | undefined;
+  user: User | undefined;
   signout: () => Promise<void>;
   signin: (credentials: LoginFormProps) => Promise<void>;
   signup: (credentials: RegisterFormProps) => Promise<void>;

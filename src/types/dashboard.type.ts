@@ -9,11 +9,3 @@ export interface CardDay {
   events: EventMaintenance[];
   date: Date;
 }
-
-export interface Equipment {
-  nextMaintenance: Date;
-  imageUrl: string;
-  status: string;
-  name: string;
-  id: string;
-}

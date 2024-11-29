@@ -33,11 +33,11 @@ function App() {
 
                   {/* business routes */}
                   <Route path="/business/:id" element={<Business />} />
+                  <Route path="/products" element={<Products />} />
 
                   {/* protected routes */}
                   <Route element={<ProtectedRoute />}>
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/products" element={<Products />} />
                   </Route>
 
                 </Route>

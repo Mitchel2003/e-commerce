@@ -30,6 +30,7 @@ export const BusinessSection = ({ theme }: ThemeContextProps) => {
       />
       <BusinessDescription
         description={business.description}
+        images={business.photoUrl}
         theme={theme}
       />
       <ProductCarousel

@@ -16,7 +16,7 @@ import {
   getAuth,
   signOut,
   Auth,
-  User,
+  User
 } from "firebase/auth"
 
 class AuthService {

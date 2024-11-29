@@ -1,5 +1,5 @@
-import { AuthContext, Business } from "@/interfaces/context.interface";
 import { isFirebaseResponse, Result } from "@/interfaces/db.interface";
+import { AuthContext, User } from "@/interfaces/context.interface";
 import { useNotification } from "@/hooks/ui/useNotification";
 import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
@@ -31,14 +31,14 @@ export const useAuthContext = () => {
 export const AuthProvider = ({ children }: Props): JSX.Element => {
   const { show: showLoading, hide: hideLoading } = useLoadingScreen()
   const { notifySuccess, notifyError } = useNotification()
-  const [business, setBusiness] = useState<Business>()
   const [loading, setLoading] = useState(true)
   const [isAuth, setIsAuth] = useState(false)
+  const [user, setUser] = useState<User>()
 
   /** Observa el estado de autenticación del negocio en sesión */
   useEffect(() => {
     return () => authFB.observeAuth((auth) => {
-      setBusiness(auth); setLoading(false)
+      setUser(auth); setLoading(false)
     })
   }, [])
 
@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
    * @param {Result<any> | undefined} res - La respuesta del servidor.
    */
   const setAuthStatus = (res?: Result<any>) => {
-    setBusiness(res?.success ? res.data : {})
+    setUser(res?.success ? res.data : undefined)
     setIsAuth(Boolean(res?.success))
   }
   /**
@@ -131,7 +131,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
 
   return (
     <Auth.Provider value={{
-      business,
+      user,
       isAuth,
       loading,
       signin,
