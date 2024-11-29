@@ -1,4 +1,5 @@
 import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
+import { ProductFormProps } from "@/schemas/product.schema";
 /*--------------------------------------------------ThemeContext--------------------------------------------------*/
 export type Theme = 'light' | 'dark'
 
@@ -61,8 +62,8 @@ export type ProductContext = {
   getAll: (id: string) => Promise<Product[]>
   getById: (id: string) => Promise<Product | undefined>
   filterByName: (id: string, name: string) => Promise<Product[]>
-  create: (id: string, product: Product) => Promise<void>
-  update: (id: string, product: Partial<Product>) => Promise<void>
-  delete: (id: string) => Promise<void>
+  create: (id: string, product: ProductFormProps) => Promise<void>
+  update: (id: string, product: Partial<ProductFormProps>) => Promise<void>
+  delete: (id: string, name: string) => Promise<void>
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

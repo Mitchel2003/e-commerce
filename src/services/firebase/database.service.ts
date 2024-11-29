@@ -133,14 +133,13 @@ class DatabaseService {
   }
   /**
    * id represent the id of the business (this is the name folder of each business)
-   * @param {string} id - El identificador del producto, corresponde al uid del negocio en cuestión.
    * @param {Product} product - El producto a crear.
    * @returns {Promise<Result<void>>} Crea un producto.
    */
-  async createProduct(id: string, product: Product): Promise<Result<void>> {
+  async createProduct(product: Product): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('products')), {
-        ...product, id
+      return await setDoc(doc(this.getCollection('products'), product.id), {
+        ...product
       }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'crear producto'))) }
   }
@@ -150,9 +149,11 @@ class DatabaseService {
    * @param {Product} product - El producto con los nuevos datos.
    * @returns {Promise<Result<void>>} Actualiza un producto.
    */
-  async updateProduct(id: string, product: Partial<Product>): Promise<Result<void>> {
+  async updateProduct(product: Partial<Product>): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('products'), id), product).then(() => success(undefined))
+      return await setDoc(doc(this.getCollection('products'), product.id), {
+        ...product
+      }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar producto'))) }
   }
   /**

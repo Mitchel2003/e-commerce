@@ -6,6 +6,7 @@ import { Props } from "@/interfaces/props.interface";
 
 import { getProducts, getProductById, createProduct, updateProduct, deleteProduct } from "@/controllers/product.controller";
 import { useState, useContext, createContext } from "react";
+import { ProductFormProps } from "@/schemas/product.schema";
 
 const Product = createContext<ProductContext>(undefined)
 
@@ -27,8 +28,8 @@ export const useProductContext = () => {
  */
 export const ProductProvider = ({ children }: Props): JSX.Element => {
   const { show: showLoading, hide: hideLoading } = useLoadingScreen()
+  const { notifyError, notifySuccess } = useNotification()
   const [loading, setLoading] = useState(false)
-  const { notifyError } = useNotification()
 
   /**
    * Obtiene todos los productos de un negocio.
@@ -86,11 +87,12 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @param {TypeProduct} product - Los datos del producto a crear.
    * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion create
    */
-  const create = async (id: string, product: TypeProduct): Promise<void> => {
+  const create = async (id: string, product: ProductFormProps): Promise<void> => {
     setLoadingStatus('Creando producto...')
     try {
       const result = await createProduct(id, product)
       if (!result.success) throw result.error
+      notifySuccess({ title: 'Exito', message: 'Producto creado exitosamente' })
     } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
     } finally { setLoadingStatus() }
@@ -102,11 +104,12 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * @param {Partial<TypeProduct>} product - Los nuevos datos del producto.
    * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion update
    */
-  const update = async (id: string, product: Partial<TypeProduct>): Promise<void> => {
+  const update = async (id: string, product: Partial<ProductFormProps>): Promise<void> => {
     setLoadingStatus('Actualizando producto...')
     try {
       const result = await updateProduct(id, product)
       if (!result.success) throw result.error
+      notifySuccess({ title: 'Exito', message: 'Producto actualizado exitosamente' })
     } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
     } finally { setLoadingStatus() }
@@ -115,13 +118,15 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
   /**
    * Elimina un producto por su ID.
    * @param {string} id - El ID del producto a eliminar.
+   * @param {string} name - El nombre del producto a eliminar.
    * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion delete
    */
-  const delete_ = async (id: string): Promise<void> => {
+  const delete_ = async (id: string, name: string): Promise<void> => {
     setLoadingStatus('Eliminando producto...')
     try {
-      const result = await deleteProduct(id)
+      const result = await deleteProduct(id, name)
       if (!result.success) throw result.error
+      notifySuccess({ title: 'Exito', message: 'Producto eliminado exitosamente' })
     } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
     } finally { setLoadingStatus() }

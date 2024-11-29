@@ -1,4 +1,4 @@
-import { FirebaseStorage, getDownloadURL, updateMetadata, deleteObject, uploadBytes, getStorage, listAll, ref, SettableMetadata } from "firebase/storage"
+import { FirebaseStorage, getDownloadURL, updateMetadata, deleteObject, uploadBytes, getStorage, listAll, ref } from "firebase/storage"
 import { Result, success, failure, Success } from "@/interfaces/db.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI, { NotFound } from "@/errors"
@@ -94,9 +94,11 @@ class StorageService {
    * @link https://github.com/Mitchel2003/rest-api/blob/main/README.md#003
    * @returns {Promise<Result<string>>} La URL del archivo actualizado.
    */
-  async updateFile(path: string, file: SettableMetadata): Promise<Result<string>> {
+  async updateFile(path: string, file: File): Promise<Result<string>> {
     try {
-      const res = await updateMetadata(this.getReference(path), file)
+      const metadata = buildStorageMetadata(file)
+      const storageRef = this.getReference(`techno/business/${path}`)
+      const res = await updateMetadata(storageRef, metadata)
       if (!res.ref) throw new NotFound({ message: 'referencia del archivo no encontrada' })
       return success(await getDownloadURL(res.ref))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar archivo'))) }
@@ -105,10 +107,12 @@ class StorageService {
   /**          
    * Elimina un archivo del almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo a eliminar.
+   * @example path = '{user.uid}/products/{name}'
+   * @returns {Promise<Result<void>>} Elimina un archivo.
    */
   async deleteFile(path: string): Promise<Result<void>> {
     try {
-      return await deleteObject(this.getReference(path)).then(() => success(undefined))
+      return await deleteObject(this.getReference(`techno/business/${path}`)).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'eliminar archivo'))) }
   }
 }

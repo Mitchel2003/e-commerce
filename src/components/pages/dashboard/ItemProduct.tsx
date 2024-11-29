@@ -1,13 +1,12 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '#/ui/card'
-import { ThemeContextProps } from '@/interfaces/context.interface'
-import { Product } from '@/types/product.type'
+import { Product, ThemeContextProps } from '@/interfaces/context.interface'
 import { Trash2, Edit } from 'lucide-react'
 import { Button } from '#/ui/button'
 import { cn } from '@/lib/utils'
 
 interface ItemProductProps extends Product, ThemeContextProps { }
 
-const ItemProduct = ({ theme, name, price, image }: ItemProductProps) => (
+const ItemProduct = ({ theme, name, price, imageUrl }: ItemProductProps) => (
   <Card className={cn(
     theme === 'dark'
       ? 'bg-zinc-900 border-zinc-800 text-white'
@@ -23,7 +22,7 @@ const ItemProduct = ({ theme, name, price, image }: ItemProductProps) => (
     <CardContent>
       <img
         alt={name}
-        src={image}
+        src={imageUrl}
         className={cn('w-full h-[calc(100vh-300px)] object-cover rounded-md')}
       />
     </CardContent>

@@ -1,5 +1,6 @@
 import { Product, ThemeContextProps } from '@/interfaces/context.interface'
 import CarouselProduct from '#/pages/dashboard/CarouselProduct'
+import CreateProduct from '#/common/dialogs/CreateProduct'
 import { PlusCircle } from 'lucide-react'
 import { Button } from '#/ui/button'
 import { cn } from '@/lib/utils'
@@ -38,9 +39,14 @@ const Header = ({ theme }: ThemeContextProps) => (
       theme === 'dark' ? 'text-white' : 'text-gray-900'
     )}> Tus Productos </h2>
 
-    <Button variant="outline">
-      <PlusCircle className="mr-2 h-4 w-4" />
-      Añadir Producto
-    </Button>
+    <CreateProduct
+      theme={theme}
+      trigger={
+        <Button variant="outline">
+          <PlusCircle className="mr-2 h-4 w-4" />
+          Añadir Producto
+        </Button>
+      }
+    />
   </div>
 )

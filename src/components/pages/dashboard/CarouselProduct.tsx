@@ -1,7 +1,7 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
+import { Product } from '@/interfaces/context.interface'
 import ItemProduct from '#/pages/dashboard/ItemProduct'
 import { ShoppingBag, PlusCircle } from 'lucide-react'
-import { Product } from '@/types/product.type'
 import Carousel from '#/common/elements/Carousel'
 
 import { Card, CardContent, CardFooter, CardHeader } from '#/ui/card'

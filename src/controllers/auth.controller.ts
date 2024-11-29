@@ -42,7 +42,7 @@ export const register = async ({ accessCredentials, businessData, references }: 
 
     const { photoUrl, socialNetworks } = references
     const files = photoUrl.map(item => item.file)
-    const placeImages = await storageFB.uploadFiles(`${email}/place/preview`, files)
+    const placeImages = await storageFB.uploadFiles(`${userAccount.data.uid}/place/preview`, files)
     if (!placeImages.success) throw placeImages.error
 
     const credentials = { ...businessData, socialNetworks, photoUrl: placeImages.data }

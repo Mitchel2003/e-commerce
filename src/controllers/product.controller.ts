@@ -1,8 +1,10 @@
 import { databaseService } from "@/services/firebase/database.service"
+import { storageService } from "@/services/firebase/storage.service"
 import { Result, success, failure } from "@/interfaces/db.interface"
 import { Product } from "@/interfaces/context.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI from "@/errors"
+import { ProductFormProps } from "@/schemas/product.schema"
 
 /**
  * Obtiene todos los productos de un negocio.
@@ -31,25 +33,38 @@ export const getProductById = async (id: string): Promise<Result<Product>> => {
 /**
  * Crea un producto nuevo.
  * @param {string} id - El identificador del negocio, corresponde al uid del negocio en cuestión (auth).
- * @param {Product} product - El producto a crear.
+ * @param {ProductFormProps} product - El producto a crear.
  * @returns {Promise<Result<void>>} Crea un producto.
  */
-export const createProduct = async (id: string, product: Product): Promise<Result<void>> => {
+export const createProduct = async (id: string, product: ProductFormProps): Promise<Result<void>> => {
   try {
-    const result = await databaseService.createProduct(id, product)
+    //first we need save the image in the storage
+    const imageUrl = await storageService.uploadFile(`${id}/products/${product.name}`, product.imageUrl)
+    if (!imageUrl.success) throw imageUrl.error
+
+    const productData = { id, ...product, imageUrl: imageUrl.data }
+    const result = await databaseService.createProduct(productData)
     if (!result.success) throw result.error
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'crear producto'))) }
 }
 /**
  * Actualiza un producto existente.
- * @param {string} id - El identificador del producto, representa el uid default.
- * @param {Partial<Product>} product - El producto con los nuevos datos.
+ * @param {string} id - El identificador del producto, representa el uid del negocio (auth).
+ * @param {Partial<ProductFormProps>} product - El producto con los nuevos datos.
  * @returns {Promise<Result<void>>} Actualiza un producto.
  */
-export const updateProduct = async (id: string, product: Partial<Product>): Promise<Result<void>> => {
+/** (warning: i need test this) */
+export const updateProduct = async (id: string, product: Partial<ProductFormProps>): Promise<Result<void>> => {
   try {
-    const result = await databaseService.updateProduct(id, product)
+    //first we need update the image in the storage
+    const path = `${id}/products/${product.name}`
+    const imageUrl = await storageService.updateFile(path, product.imageUrl as File)
+    if (!imageUrl.success) throw imageUrl.error
+
+    //then we need update the product in the database
+    const productData = { id, ...product, imageUrl: imageUrl.data }
+    const result = await databaseService.updateProduct(productData)
     if (!result.success) throw result.error
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar producto'))) }
@@ -57,12 +72,19 @@ export const updateProduct = async (id: string, product: Partial<Product>): Prom
 /**
  * Elimina un producto existente.
  * @param {string} id - El identificador del producto, representa el uid default.
+ * @param {string} name - El nombre del producto a eliminar.
  * @returns {Promise<Result<void>>} Elimina un producto.
  */
-export const deleteProduct = async (id: string): Promise<Result<void>> => {
+export const deleteProduct = async (id: string, name: string): Promise<Result<void>> => {
   try {
-    const result = await databaseService.deleteProduct(id)
-    if (!result.success) throw result.error
+    //first we need delete the image in the storage
+    const path = `${id}/products/${name}`
+    const removeImage = await storageService.deleteFile(path)
+    if (!removeImage.success) throw removeImage.error
+
+    //then we need delete the product in the database
+    const removeProduct = await databaseService.deleteProduct(id)
+    if (!removeProduct.success) throw removeProduct.error
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'eliminar producto'))) }
 }
