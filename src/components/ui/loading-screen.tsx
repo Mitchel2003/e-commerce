@@ -15,7 +15,7 @@ export const LoadingScreen = () => {
           exit={{ opacity: 0 }}
           className={cn(
             "fixed inset-0 flex items-center justify-center",
-            "bg-background/80 backdrop-blur-[2px]",
+            "bg-background/50 backdrop-blur-[1px]",
             "z-[9999]"
           )}
         >

@@ -1,25 +1,33 @@
-import { ProductCarousel } from '@/sections/business/ProductCarouselSection';
-import { BusinessDescription } from '@/sections/business/DescriptionSection';
-import { SocialMediaSection } from '@/sections/business/SocialMediaSection';
-import { BusinessHeader } from '@/sections/business/HeaderSection';
-import { ThemeContextProps } from '@/interfaces/context.interface';
-import { useQueryBusiness } from '@/hooks/useBusinessQuery';
-import { useQueryProduct } from '@/hooks/useProductQuery';
-import { useParams } from 'react-router-dom';
+import BusinessSkeleton from '#/common/skeletons/BusinessSkeleton'
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import { useQueryBusiness } from '@/hooks/useBusinessQuery'
+import { useQueryProduct } from '@/hooks/useProductQuery'
+import NotFound from '#/common/states/NotFound'
+import { useParams } from 'react-router-dom'
+import { Building2 } from 'lucide-react'
+
+import { ProductCarousel } from './ProductCarouselSection'
+import { BusinessDescription } from './DescriptionSection'
+import { SocialMediaSection } from './SocialMediaSection'
+import { BusinessHeader } from './HeaderSection'
 
 export const BusinessSection = ({ theme }: ThemeContextProps) => {
-  const { id = '' } = useParams();
+  const { id = '' } = useParams()
+  const { fetchBusinessById } = useQueryBusiness()
+  const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(id)
 
-  // Fetch business data
-  const { fetchBusinessById } = useQueryBusiness();
-  const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(id);
+  const { fetchAllProducts } = useQueryProduct()
+  const { data: products, isLoading: isLoadingProducts } = fetchAllProducts(id)
 
-  // Fetch products data
-  const { fetchProducts } = useQueryProduct();
-  const { data: products, isLoading: isLoadingProducts } = fetchProducts(id);
-
-  if (isLoadingBusiness || isLoadingProducts) return <div>Cargando...</div>
-  if (!business) return <div>Negocio no encontrado</div>
+  if (isLoadingBusiness || isLoadingProducts) return <BusinessSkeleton theme={theme} />
+  if (!business) return (
+    <NotFound
+      theme={theme}
+      title="Negocio no encontrado"
+      message="No pudimos encontrar la información de este negocio."
+      illustration={<Building2 className="w-16 h-16" />}
+    />
+  )
 
   return (
     <div className="container p-0 mx-auto">

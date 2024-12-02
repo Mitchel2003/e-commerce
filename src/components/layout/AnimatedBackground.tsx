@@ -1,4 +1,4 @@
-import { useAnimatedBackground } from '@/hooks/useAnimatedBackground'
+import { useAnimatedBackground } from '@/hooks/ui/useAnimatedBackground'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { Props } from '@/interfaces/props.interface'
 import { animated } from '@react-spring/web'

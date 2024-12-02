@@ -1,15 +1,15 @@
 import { Product, ThemeContextProps } from '@/interfaces/context.interface'
 import CarouselProduct from '#/pages/dashboard/CarouselProduct'
-import CreateProduct from '#/common/dialogs/CreateProduct'
-import { PlusCircle } from 'lucide-react'
-import { Button } from '#/ui/button'
+import NewProduct from '#/common/dialogs/NewProduct'
 import { cn } from '@/lib/utils'
 
 interface ProductsSectionProps extends ThemeContextProps {
   products: Product[]
+  isLoading: boolean
+  error: Error | null
 }
 
-const ProductsSection = ({ theme, products }: ProductsSectionProps) => {
+const ProductsSection = ({ theme, products, isLoading, error }: ProductsSectionProps) => {
   return (
     <section
       className={cn(
@@ -21,10 +21,10 @@ const ProductsSection = ({ theme, products }: ProductsSectionProps) => {
     >
       <Header theme={theme} />
       <CarouselProduct
-        products={products}
-        isLoading={false}
+        error={error}
         theme={theme}
-        error={null}
+        products={products}
+        isLoading={isLoading}
       />
     </section>
   )
@@ -32,21 +32,15 @@ const ProductsSection = ({ theme, products }: ProductsSectionProps) => {
 
 export default ProductsSection
 
-const Header = ({ theme }: ThemeContextProps) => (
-  <div className="flex justify-between items-center">
-    <h2 className={cn(
-      'text-3xl font-bold',
-      theme === 'dark' ? 'text-white' : 'text-gray-900'
-    )}> Tus Productos </h2>
+const Header = ({ theme }: ThemeContextProps) => {
+  return (
+    <div className="flex justify-between items-center">
+      <h2 className={cn(
+        'text-3xl font-bold',
+        theme === 'dark' ? 'text-white' : 'text-gray-900'
+      )}> Tus Productos </h2>
 
-    <CreateProduct
-      theme={theme}
-      trigger={
-        <Button variant="outline">
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Añadir Producto
-        </Button>
-      }
-    />
-  </div>
-)
+      <NewProduct theme={theme} />
+    </div>
+  )
+}

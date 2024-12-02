@@ -23,17 +23,14 @@ export interface HeaderBreadcrumbProps { description: string }
 
 // HeaderCustom
 export interface HeaderSpanProps {
-  span?: string;
-  iconSpan?: 'info' | 'warn' | 'alert' | 'none';
+  iconSpan?: 'info' | 'warn' | 'alert' | 'none'
+  span?: string
 }
 
 // StatusCheck
-export interface CheckProps {
-  name: string
-  label: string
-  color: string
-}
-/*---------------------- Carousel ----------------------*/
+export interface CheckProps { name: string, label: string, color: string }
+
+// Carousel
 /** @description permite crear un carousel de imagenes con un intervalo de tiempo */
 export interface CarouselProps { children: React.ReactNode, autoPlay?: boolean, interval?: number }
 export interface CarouselContext {
@@ -42,4 +39,6 @@ export interface CarouselContext {
   next: () => void
   prev: () => void
 }
-/*---------------------------------------------------------------------------------------------------------*/
+
+// Dialog
+export interface DialogField { name: string, component: React.ReactElement }
