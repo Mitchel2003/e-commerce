@@ -1,11 +1,12 @@
-import { HeaderSpanProps, HtmlForProps } from "@/interfaces/props.interface";
 import { ThemeContextProps } from "@/interfaces/context.interface";
+import { HeaderSpanProps } from "@/interfaces/props.interface";
 
 import { InfoIcon, SirenIcon, TriangleAlertIcon } from "lucide-react"
+import { LabelHTMLAttributes } from "react"
 import { FormLabel } from "#/ui/form"
 import { cn } from "@/lib/utils";
 
-interface HeaderCustomProps extends ThemeContextProps, HeaderSpanProps, HtmlForProps {
+interface HeaderCustomProps extends ThemeContextProps, HeaderSpanProps, Pick<LabelHTMLAttributes<HTMLLabelElement>, 'htmlFor'> {
   to: 'input' | 'component';
   title?: string;
   className?: string;

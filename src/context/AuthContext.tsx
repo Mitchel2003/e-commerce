@@ -37,9 +37,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
 
   /** Observa el estado de autenticación del negocio en sesión */
   useEffect(() => {
-    return () => authFB.observeAuth((auth) => {
-      setUser(auth); setLoading(false)
-    })
+    return () => authFB.observeAuth((auth) => { setUser(auth); setLoading(false) })
   }, [])
 
   /*--------------------------------------------------authentication--------------------------------------------------*/
@@ -59,6 +57,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
       isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
     } finally { setLoadingStatus() }
   }
+
   /**
    * Registra un nuevo negocio
    * @param {RegisterFormProps} data - Los datos del negocio a registrar.
@@ -74,6 +73,7 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
       isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
     } finally { setLoadingStatus() }
   }
+  
   /**
    * Cierra la sesión del negocio actual
    * @returns {Promise<void>} Un void que cierra la sesion del negocio

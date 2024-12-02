@@ -1,14 +1,14 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { CardFieldProps } from '@/interfaces/props.interface'
-
 import { FormField, FormItem, FormControl } from '#/ui/form'
 import { Card, CardContent } from '#/ui/card'
 import { Button } from '#/ui/button'
 
 import { useFieldArray, useFormContext } from 'react-hook-form'
+import { cloneElement, ReactElement } from 'react'
 import { PlusCircle, X } from 'lucide-react'
-import { cloneElement } from 'react'
 import { cn } from '@/lib/utils'
+
+export interface CardFieldProps { name: string, component: ReactElement }
 
 interface CardIterableFieldProps extends ThemeContextProps {
   fields: CardFieldProps[]

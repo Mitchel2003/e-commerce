@@ -15,6 +15,7 @@ export const getBusinesses = async (): Promise<Result<Business[]>> => {
     return success(result.data)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener lista de negocios'))) }
 }
+
 /**
  * Obtiene un negocio por su id, representa el uid del negocio en cuestión (auth).
  * @param {string} id - El identificador del negocio.
@@ -27,6 +28,7 @@ export const getBusinessById = async (id: string): Promise<Result<Business>> => 
     return success(result.data)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener negocio'))) }
 }
+
 /**
  * Busca negocios por nombre.
  * @param {string} query - El término de búsqueda.

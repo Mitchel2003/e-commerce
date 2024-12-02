@@ -23,11 +23,12 @@ export const login = async ({ email, password }: LoginFormProps): Promise<Result
     return success(result.data)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'inicio de sesión'))) }
 }
+
 /**
  * Maneja el proceso de registro de un nuevo usuario.
  * primero que todo, registramos la cuenta con la respectiva verificación de correo
  * luego, necesitamos subir las imagenes al storage de firebase y obtener las urls
- * finalmente registramos las credenciales en el database, "photoUrl" etc.
+ * finalmente registramos las credenciales del negocio en el database, "photoUrl" etc.
  * @param {Request} req - Objeto de solicitud Express. Debe contener los datos del nuevo usuario en el body.
  * @returns {Promise<void>} - Envía el usuario creado o un mensaje de error.
  */
@@ -46,11 +47,12 @@ export const register = async ({ accessCredentials, businessData, references }: 
     if (!placeImages.success) throw placeImages.error
 
     const credentials = { ...businessData, socialNetworks, photoUrl: placeImages.data }
-    const userCredentials = await databaseFB.registerUserCredentials(userAccount.data, credentials)
+    const userCredentials = await databaseFB.createBusiness(userAccount.data, credentials)
     if (!userCredentials.success) throw userCredentials.error
     return success(userAccount.data)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registro de empresa'))) }
 }
+
 /**
  * Maneja el proceso de cierre de sesión del usuario.
  * @returns {Promise<void>} - Envía un mensaje de éxito.
@@ -62,6 +64,7 @@ export const logout = async (): Promise<Result<void>> => {
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'cierre de sesión'))) }
 }
+
 /**
  * Maneja el proceso de restablecimiento de contraseña.
  * Establece un token de restablecimiento de contraseña para el usuario

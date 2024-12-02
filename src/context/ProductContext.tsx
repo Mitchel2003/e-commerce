@@ -31,6 +31,7 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
   const { notifyError, notifySuccess } = useNotification()
   const [loading, setLoading] = useState(false)
 
+  /*--------------------------------------------------crud product--------------------------------------------------*/
   /**
    * Obtiene todos los productos de un negocio.
    * @param {string} id - El ID del negocio (uid).

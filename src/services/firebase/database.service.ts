@@ -1,3 +1,4 @@
+import { DatabaseService as IDatabase } from "@/interfaces/db.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI, { NotFound } from "@/errors"
 import { firebaseApp } from "@/services/db"
@@ -11,16 +12,37 @@ import {
   getFirestore,
   collection,
   Firestore,
+  deleteDoc,
   getDocs,
   setDoc,
   getDoc,
   query,
   where,
-  doc,
-  deleteDoc
+  doc
 } from "firebase/firestore"
 
-class DatabaseService {
+/**
+ * Allow us conect with database firebase through an instance firestore
+ * This class provides us various methods CRUD, among them we have the following
+ * Business => to keep data important about business context like photoUrl etc.
+ * Products => to save the diferents products of each business
+ * 
+ * ¿who are estructured the database?
+ * 
+ * techno (database)
+ *   ===> auth (document)
+ *       ===>> business (folder)
+ *           ===>>> uid (document auth)
+ *               ===>>>> {name: string, email: string, phone: string, photoURL: string[]...}
+ * 
+ *       ===>> products (folder)
+ *           ===>>> uid (default) (document)
+ *               ===>>>> {id: uid (auth), name: string, description: string, price: number, photoURL: string}
+ * 
+ * @argument uid(auth) represent the id of the business authenticate,
+ * so we use this uid to identify the products of the business (crud).
+ */
+class DatabaseService implements IDatabase {
   private static instance: DatabaseService
   private readonly db: Firestore
   private constructor() { this.db = getFirestore(firebaseApp) }
@@ -30,24 +52,7 @@ class DatabaseService {
     return DatabaseService.instance
   }
 
-  /*---------------> authentication <---------------*/
-  /**
-   * Crea las credenciales de un usuario en la base de datos de firebase.
-   * @param {UserCredential} auth - Contiene el usuario autenticado a registrar.
-   * @param {UserFB} credentials - Corresponde a las credenciales del usuario, contiene el rol del usuario en validacion.
-   */
-  async registerUserCredentials(auth: User, credentials: object): Promise<Result<void>> {
-    try {
-      return await setDoc(doc(this.getCollection('business'), auth.uid), {
-        ...credentials,
-        email: auth.email,
-        name: auth.displayName
-      }).then(() => success(undefined))
-    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'Registrar credenciales del usuario'))) }
-  }
-  /*----------------------------------------------------*/
-
-  /*---------------> business <---------------*/
+  /*-----------------> business <-----------------*/
   /**
    * Obtiene todos los negocios
    * @returns {Promise<Result<Business[]>>} Una lista de negocios.
@@ -58,24 +63,26 @@ class DatabaseService {
       return success(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Business[])
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener negocios'))) }
   }
+
   /**
    * id represent the uid of the business (this is the name folder of each business)
-   * @param {string} idBusiness - El identificador del negocio, corresponde al uid del negocio en cuestión (auth).
+   * @param {string} id - El identificador del negocio, corresponde al uid del negocio en cuestión (auth).
    * @returns {Promise<Result<Business>>} Un negocio.
    */
-  async getBusinessById(idBusiness: string): Promise<Result<Business>> {
+  async getBusinessById(id: string): Promise<Result<Business>> {
     try {
-      const docRef = doc(this.getCollection('business'), idBusiness)
+      const docRef = doc(this.getCollection('business'), id)
       const docSnap = await getDoc(docRef)
       if (!docSnap.exists()) return failure(new NotFound({ message: 'Negocio no encontrado' }))
       return success({ id: docSnap.id, ...docSnap.data() } as Business)
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener negocio'))) }
   }
+
   /**
    * Permite buscar negocios por nombre.
    * @param {string} searchTerm - El término de búsqueda.
    * @returns {Promise<Result<Business[]>>} Una lista de negocios.
-   */
+  */
   async getBusinessByQuery(searchTerm: string): Promise<Result<Business[]>> {
     try {
       const req = query(
@@ -87,26 +94,50 @@ class DatabaseService {
       return success(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Business[])
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'buscar negocios'))) }
   }
-  /*----------------------------------------------------*/
 
   /**
-   * this is tom explain we who using the id of the business (auth):
-   * first, i need explain who is estructured the database:
-   * 
-   * techno (database)
-   *   -> auth (document)
-   *     --> business (folder)
-   *       ---> uid (auth) (document)
-   *         ----> {name: string, email: string, phone: string, photoURL: string[]...}
-   * 
-   *     --> products (folder)
-   *       ---> uid (default) (document)
-   *         ----> {id: uid (auth), name: string, description: string, price: number, photoURL: string}
-   * 
-   * idBusiness represent the id of the business (auth),
-   * so we use this uid to identify the products of the business.
+   * Crea un negocio con las credenciales del usuario asociado.
+   * Utilizamos el unique id (UID) del usuario para establecer el uid del documento (negocio)
+   * De este modo una cuenta (correo) está relacionada a su emprendimeinto correspondiente
+   * @param {UserCredential} auth - Contiene el usuario autenticado para asociar al negocio.
+   * @param {UserFB} credentials - Corresponde a las credenciales del usuario, contiene el rol del usuario en validacion.
    */
-  /*---------------> products <---------------*/
+  async createBusiness(auth: User, credentials: object): Promise<Result<void>> {
+    try {
+      return await setDoc(doc(this.getCollection('business'), auth.uid), {
+        ...credentials,
+        email: auth.email,
+        name: auth.displayName
+      }).then(() => success(undefined))
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'Registrar credenciales del usuario'))) }
+  }
+
+  /**
+   * Actualiza un negocio existente.
+   * @param {Partial<Business>} business - El negocio con los nuevos datos.
+   * @returns {Promise<Result<void>>} Actualiza un negocio.
+   */
+  async updateBusiness(business: Partial<Business>): Promise<Result<void>> {
+    try {
+      return await setDoc(doc(this.getCollection('business'), business.id), {
+        ...business
+      }).then(() => success(undefined))
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar negocio'))) }
+  }
+
+  /**
+   * Elimina un negocio existente
+   * @param {string} id - El identificador del documento negocio, representa el uid (auth)
+   * @returns {Promise<Result<void>>} Elimina un negocio
+   */
+  async deleteBusiness(id: string): Promise<Result<void>> {
+    try {
+      return await deleteDoc(doc(this.getCollection('business'), id)).then(() => success(undefined))
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'eliminar negocio'))) }
+  }
+  /*----------------------------------------------------*/
+
+  /*-----------------> products <-----------------*/
   /**
    * Obtiene todos los productos de un negocio
    * @param {string} idBusiness - El identificador del negocio, corresponde al uid del negocio en cuestión (auth).
@@ -118,6 +149,7 @@ class DatabaseService {
       return success(snapshot.docs.map(doc => ({ ...doc.data() })) as Product[])
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener productos'))) }
   }
+
   /**
    * Obtiene un producto por su id, corresponde directamente a su uid default.
    * @param {string} idProduct - El identificador del producto.
@@ -131,6 +163,7 @@ class DatabaseService {
       return success({ ...docSnap.data() } as Product)
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener producto'))) }
   }
+
   /**
    * id represent the id of the business (this is the name folder of each business)
    * @param {Product} product - El producto a crear.
@@ -138,24 +171,28 @@ class DatabaseService {
    */
   async createProduct(product: Product): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('products'), product.id), {
+      return await setDoc(doc(this.getCollection('products')), {
         ...product
       }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'crear producto'))) }
   }
+
   /**
    * Actualiza un producto existente.
-   * @param {string} id - El identificador del producto, representa el uid default.
-   * @param {Product} product - El producto con los nuevos datos.
+   * @param {string} id - Representa el uid del documento producto a actualizar.
+   * @param {Partial<Product>} product - El producto con los nuevos datos.
+   * @argument id - remember that about UPDATE we dont know the uid document; so, if we need update, using us directly id of product (from card)
+   * @argument product - The final product is saved with an "id" variable that belongs to uid business
    * @returns {Promise<Result<void>>} Actualiza un producto.
    */
-  async updateProduct(product: Partial<Product>): Promise<Result<void>> {
+  async updateProduct(id: string, product: Partial<Product>): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('products'), product.id), {
+      return await setDoc(doc(this.getCollection('products'), id), {
         ...product
       }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar producto'))) }
   }
+
   /**
    * Elimina un producto existente.
    * @param {string} id - El identificador del producto, representa el uid default.

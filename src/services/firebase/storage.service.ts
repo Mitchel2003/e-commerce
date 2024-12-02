@@ -1,10 +1,36 @@
-import { FirebaseStorage, getDownloadURL, updateMetadata, deleteObject, uploadBytes, getStorage, listAll, ref } from "firebase/storage"
-import { Result, success, failure, Success } from "@/interfaces/db.interface"
+import { Result, success, failure, Success, StorageService as IStorage } from "@/interfaces/db.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI, { NotFound } from "@/errors"
 import { firebaseApp } from "@/services/db"
 
-class StorageService {
+import {
+  FirebaseStorage,
+  getDownloadURL,
+  updateMetadata,
+  deleteObject,
+  uploadBytes,
+  getStorage,
+  listAll,
+  ref
+} from "firebase/storage"
+
+/**
+ * 
+ * ¿who are estructured the database?
+ * 
+ * techno (storage)
+ *     ===> business (folder)
+ *         ===>> uid (folder auth)
+ *             ===>>> place (folder)
+ *                 ===>>>> preview_1 ... (limit 3)
+ * 
+ *             ===>>> products (folder)
+ *                 ===>>>> product.name ... (Xn)
+ * 
+ * @argument uid(auth) represent the id of the business,
+ * so, just like that, each folder that represent a business could have many products
+ */
+class StorageService implements IStorage {
   private static instance: StorageService
   private readonly storage: FirebaseStorage
   private constructor() { this.storage = getStorage(firebaseApp) }
@@ -14,19 +40,11 @@ class StorageService {
     return StorageService.instance
   }
 
-  /*---------------> reference <---------------*/
-  /**
-   * Obtiene una referencia a un archivo en el almacenamiento de Firebase.
-   * @param {string} path - La ruta del archivo al que se accede.
-   */
-  private getReference(path: string) { return ref(this.storage, path) }
-  /*----------------------------------------------------*/
-
   /*---------------> storage <---------------*/
   /**
    * Obtener la URL de un archivo del almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo al que se accede.
-   * @example path = 'users/profile/{username}/imagen.png'
+   * @example path = '.../{user.uid}/products/{product.name}'
    * @returns {Promise<Result<string>>} La URL del archivo.
    */
   async getFile(path: string): Promise<Result<string>> {
@@ -38,7 +56,7 @@ class StorageService {
   /**
    * Obtener las URLs de todos los archivos de un directorio del almacenamiento de Firebase.
    * @param {string} path - La ruta del directorio al que se accede.
-   * @example path = 'users/profile/{username}'
+   * @example path = '.../{user.uid}/products' => folder
    * @returns {Promise<Result<string[]>>} Un array con las URLs de los archivos.
    */
   async getFiles(path: string): Promise<Result<string[]>> {
@@ -55,13 +73,13 @@ class StorageService {
    * Subir un archivo al almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo final.
    * @param {File} file - El archivo a subir.
-   * @example path = 'techno/business/{email}/place/name'
+   * @example path = '.../{user.uid}/place/{product.name}'
    * @returns {Promise<Result<string>>} La URL del archivo subido.
    */
   async uploadFile(path: string, file: File): Promise<Result<string>> {
     try {
       const metadata = buildStorageMetadata(file)
-      const storageRef = this.getReference(`techno/business/${path}`)
+      const storageRef = this.getReference(path)
       const upload = await uploadBytes(storageRef, file, metadata)
       return success(await getDownloadURL(upload.ref))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'subir archivo'))) }
@@ -89,15 +107,14 @@ class StorageService {
 
   /**
    * Actualiza un archivo en el almacenamiento de Firebase.
-   * @param {string} path - La ruta del archivo final @example path: "users/profile/{username}"
-   * @param {File} file - El archivo nuevo a subir, con su nombre y extension @example file: "imagen.png"
-   * @link https://github.com/Mitchel2003/rest-api/blob/main/README.md#003
+   * @param {string} path - La ruta del archivo final @example path: "{uid}/products/{product.name}"
+   * @param {File} file - El archivo nuevo a subir, con su nombre y extension @example file: "image.png"
    * @returns {Promise<Result<string>>} La URL del archivo actualizado.
    */
   async updateFile(path: string, file: File): Promise<Result<string>> {
     try {
       const metadata = buildStorageMetadata(file)
-      const storageRef = this.getReference(`techno/business/${path}`)
+      const storageRef = this.getReference(path)
       const res = await updateMetadata(storageRef, metadata)
       if (!res.ref) throw new NotFound({ message: 'referencia del archivo no encontrada' })
       return success(await getDownloadURL(res.ref))
@@ -112,9 +129,17 @@ class StorageService {
    */
   async deleteFile(path: string): Promise<Result<void>> {
     try {
-      return await deleteObject(this.getReference(`techno/business/${path}`)).then(() => success(undefined))
+      return await deleteObject(this.getReference(path)).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'eliminar archivo'))) }
   }
+  /*----------------------------------------------------*/
+
+  /*---------------> getReferences <---------------*/
+  /**
+   * Obtiene una referencia a un archivo en el almacenamiento de Firebase.
+   * @param {string} path - La ruta del archivo al que se accede.
+   */
+  private getReference(path: string) { return ref(this.storage, `techno/business/${path}`) }
 }
 
 /*--------------------------------------------------tools--------------------------------------------------*/

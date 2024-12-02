@@ -1,10 +1,10 @@
 import { databaseService } from "@/services/firebase/database.service"
 import { storageService } from "@/services/firebase/storage.service"
 import { Result, success, failure } from "@/interfaces/db.interface"
+import { ProductFormProps } from "@/schemas/product.schema"
 import { Product } from "@/interfaces/context.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI from "@/errors"
-import { ProductFormProps } from "@/schemas/product.schema"
 
 /**
  * Obtiene todos los productos de un negocio.
@@ -48,41 +48,49 @@ export const createProduct = async (id: string, product: ProductFormProps): Prom
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'crear producto'))) }
 }
+
 /**
  * Actualiza un producto existente.
- * @param {string} id - El identificador del producto, representa el uid del negocio (auth).
+ * first we need update the image in the storage
+ * then we need update the product in the database
+ * @param {string} idBusiness - Representa el uid del negocio asociado, recordemos que tenemos unos folders asociados
+ * @param {string} idProduct - El identificador del producto, representa el uid default del documento
  * @param {Partial<ProductFormProps>} product - El producto con los nuevos datos.
  * @returns {Promise<Result<void>>} Actualiza un producto.
  */
-/** (warning: i need test this) */
-export const updateProduct = async (id: string, product: Partial<ProductFormProps>): Promise<Result<void>> => {
+export const updateProduct = async (idBusiness: string, idProduct: string, product: Partial<ProductFormProps>): Promise<Result<void>> => {
   try {
-    //first we need update the image in the storage
-    const path = `${id}/products/${product.name}`
-    const imageUrl = await storageService.updateFile(path, product.imageUrl as File)
-    if (!imageUrl.success) throw imageUrl.error
+    //working here...
+    let productData: Partial<Product>
 
-    //then we need update the product in the database
-    const productData = { id, ...product, imageUrl: imageUrl.data }
-    const result = await databaseService.updateProduct(productData)
+    if (product.imageUrl) {
+      const path = `${idBusiness}/products/${product.name}`
+      const url = await storageService.updateFile(path, product.imageUrl)
+      if (!url.success) throw url.error
+      productData.imageUrl = url.data
+    }
+
+    // const productData = { ...product, imageUrl }
+    const result = await databaseService.updateProduct(idProduct, productData)
     if (!result.success) throw result.error
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar producto'))) }
 }
+
 /**
  * Elimina un producto existente.
+ * first we need delete the image in the storage.
+ * then we can delete the product in the database.
  * @param {string} id - El identificador del producto, representa el uid default.
  * @param {string} name - El nombre del producto a eliminar.
  * @returns {Promise<Result<void>>} Elimina un producto.
  */
 export const deleteProduct = async (id: string, name: string): Promise<Result<void>> => {
   try {
-    //first we need delete the image in the storage
     const path = `${id}/products/${name}`
     const removeImage = await storageService.deleteFile(path)
     if (!removeImage.success) throw removeImage.error
 
-    //then we need delete the product in the database
     const removeProduct = await databaseService.deleteProduct(id)
     if (!removeProduct.success) throw removeProduct.error
     return success(undefined)

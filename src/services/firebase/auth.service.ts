@@ -1,4 +1,4 @@
-import { Result, failure, success } from "@/interfaces/db.interface"
+import { Result, failure, success, AuthService as IAuth } from "@/interfaces/db.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI from "@/errors"
 
@@ -19,7 +19,11 @@ import {
   User
 } from "firebase/auth"
 
-class AuthService {
+/**
+ * Consist on a class that works above an instance auth
+ * Have various functions like observer, verification or overwrite data
+ */
+class AuthService implements IAuth {
   private static instance: AuthService
   private readonly auth: Auth
   private constructor() { this.auth = getAuth(firebaseApp) }
@@ -28,7 +32,6 @@ class AuthService {
     if (!AuthService.instance) { AuthService.instance = new AuthService() }
     return AuthService.instance
   }
-  /*----------------------------------------------------*/
 
   /*---------------> authentication <---------------*/
   /**
@@ -38,6 +41,7 @@ class AuthService {
   observeAuth(callback: (user: any) => void) {
     onAuthStateChanged(this.auth, callback)
   }
+
   /**
    * Crea una autenticación por medio de la verificación de credenciales.
    * @param {string} email - El email del usuario.
@@ -49,6 +53,7 @@ class AuthService {
       return await signInWithEmailAndPassword(this.auth, email, password).then(res => success(res.user))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'verificar credenciales'))) }
   }
+
   /**
    * Permite cerrar la sessión del usuario en contexto
    * @returns {Promise<Result<void>>} - Retorna un mensaje de éxito si la sesión se cierra correctamente.
@@ -75,6 +80,7 @@ class AuthService {
       return success(userCredential.user)
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registrar cuenta'))) }
   }
+
   /**
    * Actualiza el perfil del usuario en Firebase.
    * Los campos editables son limitados: displayName, photoURL;
@@ -99,6 +105,7 @@ class AuthService {
       return await sendEmailVerificationFB(this.auth.currentUser).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'enviar email de verificación'))) }
   }
+
   /**
    * Envia un correo de restablecimiento de contraseña al correo suministrado por el usuario.
    * Enlace de redireccion esta definido en el archivo de configuracion de firebase (templates).

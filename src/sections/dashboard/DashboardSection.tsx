@@ -14,7 +14,7 @@ const DashboardSection = ({ theme }: ThemeContextProps) => {
   const { fetchProducts } = useQueryProduct()
   const { data: products } = fetchProducts(user?.uid || '')
 
-  if (!business) return <div>No business found</div>
+  if (!business) return <div>Business not found</div>
 
   return (
     <div className="container p-8 space-y-8 mx-auto">
