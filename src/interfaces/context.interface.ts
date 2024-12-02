@@ -26,7 +26,7 @@ export type AuthContext = {
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------BusinessContext--------------------------------------------------*/
-//id represent the uid of the business (auth)
+//This id attribute not belong to the business document
 export interface Business {
   id: string
   name: string
@@ -49,6 +49,7 @@ export type BusinessContext = {
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------ProductContext--------------------------------------------------*/
+//Remember that the this id attribute represent the uid of the business associated (auth)
 export type Product = {
   id: string
   name: string
@@ -63,7 +64,7 @@ export type ProductContext = {
   getById: (id: string) => Promise<Product | undefined>
   filterByName: (id: string, name: string) => Promise<Product[]>
   create: (id: string, product: ProductFormProps) => Promise<void>
-  update: (id: string, product: Partial<ProductFormProps>) => Promise<void>
-  delete: (id: string, name: string) => Promise<void>
+  update: (idBusiness: string, idProduct: string, product: Partial<ProductFormProps>) => Promise<void>
+  delete: (idBusiness: string, idProduct: string, product: Product) => Promise<void>
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

@@ -11,6 +11,7 @@ export const useQueryBusiness = () => {
     select: (data) => data || [],
     initialData: []
   })
+
   // Obtener negocio por ID
   const fetchBusinessById = (id: string) => useQuery({
     queryKey: ['business', id],
@@ -18,6 +19,7 @@ export const useQueryBusiness = () => {
     select: (data) => data || undefined,
     enabled: Boolean(id)
   })
+
   // Buscar negocios por término
   const fetchBusinessByQuery = (query: string) => useQuery({
     queryKey: ['businesses', 'search', query],
@@ -25,6 +27,7 @@ export const useQueryBusiness = () => {
     select: (data) => data || [],
     enabled: Boolean(query)
   })
+
   // Filtrar negocios por categoría
   const fetchBusinessByCategory = (category: string) => useQuery({
     queryKey: ['businesses', 'category', category],

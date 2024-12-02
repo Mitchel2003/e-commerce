@@ -1,12 +1,11 @@
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { Product } from '@/interfaces/context.interface'
 import ItemProduct from '#/pages/dashboard/ItemProduct'
-import { ShoppingBag, PlusCircle } from 'lucide-react'
 import Carousel from '#/common/elements/Carousel'
+import { ShoppingBag } from 'lucide-react'
 
 import { Card, CardContent, CardFooter, CardHeader } from '#/ui/card'
 import { Skeleton } from '#/ui/skeleton'
-import { Button } from '#/ui/button'
 
 interface CarouselProductProps extends ThemeContextProps {
   products?: Product[]
@@ -40,15 +39,8 @@ const EmptyProduct = () => (
       <h3 className="mt-4 text-xl font-semibold">No tienes productos aún</h3>
       <p className="mt-2 text-muted-foreground">Comienza añadiendo tu primer producto para mostrar en tu tienda.</p>
     </CardContent>
-    <CardFooter className="justify-center">
-      <Button>
-        <PlusCircle className="mr-2 h-4 w-4" />
-        Añadir tu primer producto
-      </Button>
-    </CardFooter>
   </Card>
 )
-
 
 export const SkeletonProduct = () => (
   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

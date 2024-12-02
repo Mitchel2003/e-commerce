@@ -84,14 +84,14 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
 
   /**
    * Crea un nuevo producto.
-   * @param {string} id - El ID del negocio (uid) con el que se relaciona el producto.
-   * @param {TypeProduct} product - Los datos del producto a crear.
+   * @param {string} idBusiness - El ID del negocio (uid) con el que se relaciona el producto.
+   * @param {ProductFormProps} product - Los datos del producto a crear.
    * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion create
    */
-  const create = async (id: string, product: ProductFormProps): Promise<void> => {
+  const create = async (idBusiness: string, product: ProductFormProps): Promise<void> => {
     setLoadingStatus('Creando producto...')
     try {
-      const result = await createProduct(id, product)
+      const result = await createProduct(idBusiness, product)
       if (!result.success) throw result.error
       notifySuccess({ title: 'Exito', message: 'Producto creado exitosamente' })
     } catch (e: unknown) {
@@ -101,14 +101,15 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
 
   /**
    * Actualiza un producto existente por su ID.
-   * @param {string} id - El ID del producto a actualizar.
-   * @param {Partial<TypeProduct>} product - Los nuevos datos del producto.
+   * @param {string} idBusiness - El ID del negocio (uid).
+   * @param {string} idProduct - El ID del producto a actualizar.
+   * @param {Partial<ProductFormProps>} product - Los nuevos datos del producto.
    * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion update
    */
-  const update = async (id: string, product: Partial<ProductFormProps>): Promise<void> => {
+  const update = async (idBusiness: string, idProduct: string, product: Partial<ProductFormProps>): Promise<void> => {
     setLoadingStatus('Actualizando producto...')
     try {
-      const result = await updateProduct(id, product)
+      const result = await updateProduct(idBusiness, idProduct, product)
       if (!result.success) throw result.error
       notifySuccess({ title: 'Exito', message: 'Producto actualizado exitosamente' })
     } catch (e: unknown) {
@@ -118,14 +119,15 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
 
   /**
    * Elimina un producto por su ID.
-   * @param {string} id - El ID del producto a eliminar.
-   * @param {string} name - El nombre del producto a eliminar.
+   * @param {string} idBusiness - El ID del negocio (uid).
+   * @param {string} idProduct - El ID del producto a eliminar.
+   * @param {TypeProduct} product - El producto a eliminar, se necesita para obtener el nombre del producto.
    * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion delete
    */
-  const delete_ = async (id: string, name: string): Promise<void> => {
+  const delete_ = async (idBusiness: string, idProduct: string, product: TypeProduct): Promise<void> => {
     setLoadingStatus('Eliminando producto...')
     try {
-      const result = await deleteProduct(id, name)
+      const result = await deleteProduct(idBusiness, idProduct, product)
       if (!result.success) throw result.error
       notifySuccess({ title: 'Exito', message: 'Producto eliminado exitosamente' })
     } catch (e: unknown) {

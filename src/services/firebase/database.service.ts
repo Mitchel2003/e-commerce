@@ -71,8 +71,7 @@ class DatabaseService implements IDatabase {
    */
   async getBusinessById(id: string): Promise<Result<Business>> {
     try {
-      const docRef = doc(this.getCollection('business'), id)
-      const docSnap = await getDoc(docRef)
+      const docSnap = await getDoc(doc(this.getCollection('business'), id))
       if (!docSnap.exists()) return failure(new NotFound({ message: 'Negocio no encontrado' }))
       return success({ id: docSnap.id, ...docSnap.data() } as Business)
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener negocio'))) }
@@ -85,12 +84,12 @@ class DatabaseService implements IDatabase {
   */
   async getBusinessByQuery(searchTerm: string): Promise<Result<Business[]>> {
     try {
-      const req = query(
+      const queryRef = query(
         this.getCollection('business'),
         where('name', '>=', searchTerm),
         where('name', '<=', searchTerm + '\uf8ff')
       )
-      const snapshot = await getDocs(req)
+      const snapshot = await getDocs(queryRef)
       return success(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Business[])
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'buscar negocios'))) }
   }
@@ -99,8 +98,8 @@ class DatabaseService implements IDatabase {
    * Crea un negocio con las credenciales del usuario asociado.
    * Utilizamos el unique id (UID) del usuario para establecer el uid del documento (negocio)
    * De este modo una cuenta (correo) está relacionada a su emprendimeinto correspondiente
-   * @param {UserCredential} auth - Contiene el usuario autenticado para asociar al negocio.
-   * @param {UserFB} credentials - Corresponde a las credenciales del usuario, contiene el rol del usuario en validacion.
+   * @param {User} auth - Contiene el usuario autenticado para asociar al negocio.
+   * @param {object} credentials - Corresponde a las credenciales del usuario, contiene el rol del usuario en validacion.
    */
   async createBusiness(auth: User, credentials: object): Promise<Result<void>> {
     try {
@@ -117,11 +116,9 @@ class DatabaseService implements IDatabase {
    * @param {Partial<Business>} business - El negocio con los nuevos datos.
    * @returns {Promise<Result<void>>} Actualiza un negocio.
    */
-  async updateBusiness(business: Partial<Business>): Promise<Result<void>> {
+  async updateBusiness({ id, ...business }: Partial<Business>): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('business'), business.id), {
-        ...business
-      }).then(() => success(undefined))
+      return await setDoc(doc(this.getCollection('business'), id), { ...business }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar negocio'))) }
   }
 
@@ -145,7 +142,11 @@ class DatabaseService implements IDatabase {
    */
   async getAllProducts(idBusiness: string): Promise<Result<Product[]>> {
     try {
-      const snapshot = await getDocs(query(this.getCollection('products'), where('id', '==', idBusiness)))
+      const queryRef = query(
+        this.getCollection('products'),
+        where('id', '==', idBusiness)
+      )
+      const snapshot = await getDocs(queryRef)
       return success(snapshot.docs.map(doc => ({ ...doc.data() })) as Product[])
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener productos'))) }
   }
@@ -157,8 +158,7 @@ class DatabaseService implements IDatabase {
    */
   async getProductById(idProduct: string): Promise<Result<Product>> {
     try {
-      const docRef = doc(this.getCollection('products'), idProduct)
-      const docSnap = await getDoc(docRef)
+      const docSnap = await getDoc(doc(this.getCollection('products'), idProduct))
       if (!docSnap.exists()) return failure(new NotFound({ message: 'Producto no encontrado' }))
       return success({ ...docSnap.data() } as Product)
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener producto'))) }
@@ -171,9 +171,7 @@ class DatabaseService implements IDatabase {
    */
   async createProduct(product: Product): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('products')), {
-        ...product
-      }).then(() => success(undefined))
+      return await setDoc(doc(this.getCollection('products')), { ...product }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'crear producto'))) }
   }
 
@@ -187,9 +185,7 @@ class DatabaseService implements IDatabase {
    */
   async updateProduct(id: string, product: Partial<Product>): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('products'), id), {
-        ...product
-      }).then(() => success(undefined))
+      return await setDoc(doc(this.getCollection('products'), id), { ...product }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar producto'))) }
   }
 

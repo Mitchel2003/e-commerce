@@ -5,7 +5,7 @@ export const useQueryProduct = () => {
   const context = useProductContext()
 
   // Obtener todos los productos de un negocio
-  const fetchProducts = (businessId: string) => useQuery({
+  const fetchAllProducts = (businessId: string) => useQuery({
     queryKey: ['products', businessId],
     queryFn: () => context.getAll(businessId),
     select: (data) => data || [],
@@ -30,7 +30,7 @@ export const useQueryProduct = () => {
   })
 
   return {
-    fetchProducts,
+    fetchAllProducts,
     fetchProductById,
     fetchProductsByName
   }
