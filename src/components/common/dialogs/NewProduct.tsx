@@ -1,6 +1,6 @@
 import { DollarSign, FileText, Package2, PlusCircle } from "lucide-react"
 import { ThemeContextProps } from "@/interfaces/context.interface"
-import { useProductForm } from "@/hooks/auth/useProductForm"
+import { useCreateProductForm } from "@/hooks/auth/useProductForm"
 import { DialogField } from "@/interfaces/props.interface"
 import InputField from "#/common/fields/Input"
 import ImageField from "#/common/fields/Image"
@@ -9,7 +9,7 @@ import { Button } from "#/ui/button"
 import { cn } from "@/lib/utils"
 
 const NewProduct = ({ theme }: ThemeContextProps) => {
-  const { methods, onSubmit } = useProductForm()
+  const { methods, onSubmit } = useCreateProductForm()
 
   return (
     <Dialog

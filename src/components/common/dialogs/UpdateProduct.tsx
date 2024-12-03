@@ -1,36 +1,37 @@
 import { DollarSign, FileText, Package2, PlusCircle } from "lucide-react"
 import { ThemeContextProps } from "@/interfaces/context.interface"
-import { useProductForm } from "@/hooks/auth/useProductForm"
+import { useUpdateProductForm } from "@/hooks/auth/useProductForm"
 import { DialogField } from "@/interfaces/props.interface"
+import { Product } from "@/interfaces/context.interface"
 import InputField from "#/common/fields/Input"
 import ImageField from "#/common/fields/Image"
 import Dialog from "#/common/dialogs/Dialog"
 import { Button } from "#/ui/button"
 import { cn } from "@/lib/utils"
+import { useEffect } from "react"
 
-const UpdateProduct = ({ theme }: ThemeContextProps) => {
-  const { methods, onSubmit } = useProductForm()
+interface UpdateProductProps extends ThemeContextProps {
+  businessId: string
+  product: Product
+}
 
-  //En este componente recuerda que el mecanismo es el de un Partial<> dado que
-  //estamos usando el mismo formulario de product
+const UpdateProduct = ({ theme, product, businessId }: UpdateProductProps) => {
+  const { methods, onSubmit } = useUpdateProductForm(businessId, product)
 
-  //podria ser de otra manera, sin embargo, el detalles esta en que, si se supone que
-  //es un update, entonces la idea es renderizar el form con los fields diligenciados
-  //de modo que, la persona solo actualize o edite los campos que desea, eso implica
-  //cargar los datos del producto (database) y cargar la imagen (storage), esto se obtiene
-  //con sencilles, el detalle u complejidad se basa en como hacemos el partial<>? osea;
-  //tenemos que lograr que tan solo considere el campo que hemos editado; quizas hacer una
-  //comparacion directamente no sea la mejor opcion, o no se, quizas halla una mejor manera
-  //de lograr lo que buscamos
+  useEffect(() => {
+    product && methods.reset({
+      name: product.name,
+      price: product.price,
+      description: product.description
+    })
+  }, [product, methods])
+
   return (
     <Dialog
-      // props header custom
       theme={theme}
       iconSpan="info"
       title="Actualizar producto"
-      description="Completa los campos"
-
-      // props form
+      description="Modifica solo los campos que deseas actualizar"
       trigger={<Trigger />}
       fields={fields({ theme })}
       form={{ methods, onSubmit }}
@@ -41,11 +42,9 @@ const UpdateProduct = ({ theme }: ThemeContextProps) => {
 
 export default UpdateProduct
 
-/*---------------------------------------------------------------------------------------------------------*/
-
 /*--------------------------------------------------tools--------------------------------------------------*/
 const Trigger = () => (
-  <Button variant="outline">
+  <Button variant="outline" size="sm">
     <PlusCircle className="mr-2 h-4 w-4" />
     Actualizar
   </Button>
@@ -74,6 +73,8 @@ const fields = ({ theme }: ThemeContextProps): DialogField[] => [
         label="Nombre del producto"
         icon={Package2}
         placeholder="Ej: Zapatos de Running"
+        span="Opcional"
+        iconSpan="info"
       />
     )
   }, {
@@ -85,6 +86,8 @@ const fields = ({ theme }: ThemeContextProps): DialogField[] => [
         label="Precio"
         icon={DollarSign}
         placeholder="0.00"
+        span="Opcional"
+        iconSpan="info"
       />
     )
   }, {
@@ -96,6 +99,8 @@ const fields = ({ theme }: ThemeContextProps): DialogField[] => [
         label="Descripción"
         icon={FileText}
         placeholder="Describe tu producto..."
+        span="Opcional"
+        iconSpan="info"
       />
     )
   }, {
@@ -105,6 +110,8 @@ const fields = ({ theme }: ThemeContextProps): DialogField[] => [
         name="imageUrl"
         label="Imagen"
         theme={theme}
+        span="Opcional"
+        iconSpan="info"
       />
     )
   }

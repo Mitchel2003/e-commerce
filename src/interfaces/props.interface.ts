@@ -1,4 +1,6 @@
 import { ThemeContextProps } from "@/interfaces/context.interface"
+import { LucideIcon } from "lucide-react"
+
 /*--------------------------------------------------Component Props--------------------------------------------------*/
 //interface defautl props
 export interface Props { children?: React.ReactNode }
@@ -14,9 +16,16 @@ export interface NavItemProps {
 
 //theme components
 export interface LoginComponentsProps extends ThemeContextProps { }
-/*---------------------------------------------------------------------------------------------------------*/
 
-/*--------------------------------------------------Component ui--------------------------------------------------*/
+/*---------------------- ui components ----------------------*/
+// items actions to dropdown (data-table)
+export interface ActionProps {
+  label: string
+  icon: LucideIcon
+  className?: string
+  onClick: () => void | Promise<void>
+}
+
 /*---------------------- Reusables ----------------------*/
 // HeaderForm
 export interface HeaderBreadcrumbProps { description: string }

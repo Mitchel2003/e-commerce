@@ -16,11 +16,11 @@ interface ImageFieldProps extends HeaderSpanProps, ThemeContextProps {
 }
 
 const ImageField = React.forwardRef<HTMLInputElement, ImageFieldProps>(({
-  name,
+  iconSpan = 'none',
   label,
   theme,
-  span,
-  iconSpan = 'none'
+  name,
+  span
 }, ref) => {
   const [preview, setPreview] = useState<string | null>(null)
   const { control } = useFormContext()

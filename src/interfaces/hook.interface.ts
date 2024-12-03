@@ -1,19 +1,21 @@
-import { LucideIcon } from "lucide-react"
+import { UseQueryResult, UseMutateFunction } from "@tanstack/react-query"
+import { Product } from "./context.interface"
+import { ProductFormProps } from "@/schemas/product.schema"
 
-//items actions to dropdown (data-table)
-export interface ActionProps {
-  label: string
-  icon: LucideIcon
-  className?: string
-  onClick: () => void | Promise<void>
+
+export interface DeleteProductProps { productId: string, productName: Product['name'] }
+export interface UpdateProductProps { productId: string, data: Partial<ProductFormProps> }
+
+/*useQuery and useMutation*/
+export type QueryReact_Product = {//to product
+  fetchAllProducts: UseQueryResult<Product[], Error>
+  fetchProductById: (id: string) => UseQueryResult<Product | undefined, Error>
+  fetchProductsByName: (name: string) => UseQueryResult<Product[], Error>
 }
 
-// /*useQuery and useMutation*/
-// export type QueryReact_CV = {//to curriculum
-//   fetchCV: (id: string) => UseQueryResult<Curriculum, Error>
-//   fetchCVs: () => UseQueryResult<Curriculum[], Error>
-// }
-// export type CustomMutation_CV = {
-//   createOrUpdateCV: (id: string) => UseMutationResult<Curriculum, Error, object, unknown>
-//   deleteCV: () => UseMutationResult<Curriculum, Error, string, unknown>
-// }
+export type CustomMutation_Product = {
+  createProduct: UseMutateFunction<void, Error, ProductFormProps, unknown>
+  updateProduct: UseMutateFunction<void, Error, UpdateProductProps, unknown>
+  deleteProduct: UseMutateFunction<void, Error, DeleteProductProps, unknown>
+  isLoading: boolean
+}

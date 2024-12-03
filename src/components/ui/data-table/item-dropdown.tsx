@@ -1,5 +1,5 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "#/ui/dropdown-menu"
-import { ActionProps } from "@/interfaces/hook.interface"
+import { ActionProps } from "@/interfaces/props.interface"
 import { MoreHorizontal } from "lucide-react"
 import { Button } from "#/ui/button"
 import { cn } from "@/lib/utils"

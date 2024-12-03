@@ -24,4 +24,31 @@ export const productSchema = z.object({
     )
 })
 
-export type ProductFormProps = z.infer<typeof productSchema> 
+export const productUpdateSchema = z.object({
+  name: z
+    .string()
+    .min(1, "El nombre es requerido")
+    .max(50, "El nombre es demasiado largo")
+    .optional(),
+  price: z
+    .string()
+    .min(3, "El precio no puede ser tan bajo")
+    .optional(),
+  description: z
+    .string()
+    .min(1, "La descripción es requerida")
+    .max(200, "La descripción es demasiado larga")
+    .optional(),
+  imageUrl: z
+    .custom<File>()
+    .refine((file) => file instanceof File, "La imagen es requerida")
+    .refine((file) => file.size <= 5 * 1024 * 1024, "La imagen no debe exceder 5MB")
+    .refine(
+      (file) => ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type),
+      "La imagen debe ser PNG, JPG o JPEG"
+    )
+    .optional()
+})
+
+export type ProductFormProps = z.infer<typeof productSchema>
+export type ProductUpdateFormProps = z.infer<typeof productUpdateSchema> 
