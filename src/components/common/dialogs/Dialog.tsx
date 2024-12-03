@@ -1,5 +1,6 @@
 import { Dialog as DialogPrimitive, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "#/ui/dialog"
 import { ThemeContextProps } from "@/interfaces/context.interface"
+import { HeaderSpanProps } from "@/interfaces/props.interface"
 import { DialogField } from "@/interfaces/props.interface"
 import HeaderCustom from "#/common/elements/HeaderCustom"
 import { UseFormReturn } from "react-hook-form"
@@ -7,9 +8,8 @@ import React, { useState } from "react"
 import { Form } from "#/ui/form"
 import { cn } from "@/lib/utils"
 
-interface DialogProps extends ThemeContextProps {
+interface DialogProps extends ThemeContextProps, HeaderSpanProps {
   //to header custom
-  iconSpan?: 'info' | 'warn' | 'alert' | 'none'
   description?: string
   title: string
 

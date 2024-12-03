@@ -1,66 +1,70 @@
 import { Popover, PopoverContent, PopoverTrigger } from '#/ui/popover'
-import { FormField, FormItem, FormControl } from '#/ui/form'
+import { FormField, FormItem, FormControl, FormMessage } from '#/ui/form'
 import HeaderCustom from '@/components/common/elements/HeaderCustom'
 import { Calendar } from '#/ui/calendar'
 import { Button } from '#/ui/button'
 import { Input } from '#/ui/input'
 
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { ControlProps } from '@/interfaces/props.interface'
+import { HeaderSpanProps } from '@/interfaces/props.interface'
+import { useFormContext } from 'react-hook-form'
 import { CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
+import React from 'react'
 
-interface DateFieldProps extends ControlProps, ThemeContextProps {//working here...
-  name: string;
-  label: string;
-  placeholder?: string;
-  value?: string;
-  readOnly?: boolean;
+interface DateFieldProps extends HeaderSpanProps, ThemeContextProps {
+  placeholder?: string
+  readOnly?: boolean
+  value?: string
+  label: string
+  name: string
 }
 
-/**
- * Is a component that allows to select a date.
- * @param {DateFieldProps} props - The properties of the component.
- * @param {string} props.name - The attribute name of define the FormField component.
- * @param {string} props.label - Is the label of the component.
- * @param {Control<any>} props.control - To use the form control in the field.
- * @param {string} props.placeholder - Is the placeholder of the component.
- * @param {string} props.theme - Is the theme of the component.
- * @param {string} props.value - The value of the date field.
- * @param {boolean} props.readOnly - Whether the date field is read-only.
- */
-const DateField = ({ name, label, control, placeholder, theme, value, readOnly }: DateFieldProps) => {
+const DateField = React.forwardRef<HTMLInputElement, DateFieldProps>(({
+  iconSpan = 'none',
+  placeholder,
+  readOnly,
+  label,
+  theme,
+  value,
+  name,
+  span
+}, ref) => {
+  const { control } = useFormContext()
+
   return (
     <FormField
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <FormItem>
-          {/* -------------------- Header label -------------------- */}
           <HeaderCustom
             to='input'
+            span={span}
             theme={theme}
             title={label}
+            iconSpan={iconSpan}
             htmlFor={`${name}-date`}
           />
 
-          {readOnly ? (
-            <Input
-              id={`${name}-date`}
-              value={value}
-              readOnly
-              className={cn(
-                'w-full',
-                theme === 'dark'
-                  ? 'bg-zinc-700 border-zinc-600 text-zinc-100'
-                  : 'bg-gray-100 border-gray-300 text-gray-900'
-              )}
-            />
-          ) : (
-            <Popover>
-              <PopoverTrigger asChild>
-                <FormControl>
+          <FormControl>
+            {readOnly ? (
+              <Input
+                readOnly
+                ref={ref}
+                id={`${name}-date`}
+                value={value}
+                className={cn(
+                  'w-full',
+                  theme === 'dark'
+                    ? 'bg-zinc-700 border-zinc-600 text-zinc-100'
+                    : 'bg-gray-100 border-gray-300 text-gray-900'
+                )}
+              />
+            ) : (
+              <Popover>
+                <PopoverTrigger asChild>
                   <Button
                     id={`${name}-date`}
                     variant={"outline"}
@@ -78,23 +82,33 @@ const DateField = ({ name, label, control, placeholder, theme, value, readOnly }
                     }
                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                   </Button>
-                </FormControl>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  selected={field.value}
-                  onSelect={field.onChange}
-                  disabled={(date) => date < new Date()}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            )}
+          </FormControl>
+
+          {error && (
+            <FormMessage className={cn(
+              theme === 'dark' ? 'text-red-400' : 'text-red-600'
+            )}>
+              {error.message}
+            </FormMessage>
           )}
         </FormItem>
       )}
     />
   )
-}
+})
+
+DateField.displayName = 'DateField'
 
 export default DateField

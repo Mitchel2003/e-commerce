@@ -18,13 +18,13 @@ interface InputFieldProps extends HeaderSpanProps, ThemeContextProps {
 }
 
 const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(({
-  name,
-  label,
-  theme,
-  icon: Icon,
-  placeholder,
-  type = "text",
   iconSpan = 'none',
+  type = "text",
+  placeholder,
+  icon: Icon,
+  theme,
+  label,
+  name,
   span
 }, ref) => {
   const [showPassword, setShowPassword] = useState(false)

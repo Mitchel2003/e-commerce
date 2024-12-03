@@ -1,4 +1,4 @@
-import SubmitFooter from '#/common/fields/SubmitFooter'
+import SubmitFooter from '#/common/elements/SubmitFooter'
 import HeaderForm from '#/common/elements/HeaderForm'
 import { Card, CardContent } from '#/ui/card'
 

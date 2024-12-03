@@ -1,54 +1,48 @@
-import { FormField, FormItem, FormControl, FormLabel } from '#/ui/form'
-import HeaderCustom from '@/components/common/elements/HeaderCustom'
+import { FormField, FormItem, FormControl, FormLabel, FormMessage } from '#/ui/form'
+import HeaderCustom from '#/common/elements/HeaderCustom'
 import { Checkbox } from '#/ui/checkbox'
 import { Textarea } from '#/ui/textarea'
 
 import { ThemeContextProps } from '@/interfaces/context.interface'
-import { ControlProps } from '@/interfaces/props.interface'
+import { HeaderSpanProps } from '@/interfaces/props.interface'
+import { useFormContext } from 'react-hook-form'
 import { cn } from '@/lib/utils'
+import React from 'react'
 
-interface AreaToggleableProps extends ControlProps, ThemeContextProps {//working here..
-  name: string;
-  label: string;
-  className?: string;
-  inputLabel?: string;
-  placeholder?: string;
+interface AreaToggleableProps extends HeaderSpanProps, ThemeContextProps {
+  placeholder?: string
+  inputLabel?: string
+  className?: string
+  label: string
+  name: string
 }
 
-/**
- * This is a component reusable that allows to toggle a text area through a checkbox trigger.
- * @param {AreaToggleableProps} props - The properties of the component.
- * @param {string} props.name - The attribute name of define the FormField component.
- * @param {string} props.label - Is the label of the checkbox trigger.
- * @param {string} props.className - Is the class name to the component input.
- * @param {string} props.control - Is the controller from react-hook-form (useForm).
- * @param {string} props.inputLabel - Is the label to the component input (Textarea).
- * @param {string} props.placeholder - Is the placeholder to the component in context.
- */
-const AreaToggleable = ({
+const AreaToggleable = React.forwardRef<HTMLTextAreaElement, AreaToggleableProps>(({
+  placeholder = 'Describa los detalles',
+  inputLabel = 'Detalles',
+  iconSpan = 'none',
+  className,
+  label,
   theme,
   name,
-  label,
-  control,
-  className,
-  inputLabel = 'Detalles',
-  placeholder = 'Describa los detalles'
-}: AreaToggleableProps) => {
+  span
+}, ref) => {
+  const { control } = useFormContext()
 
   return (
     <FormField
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <FormItem className="space-y-3">
-          {/* -------------------- Checkbox trigger -------------------- */}
           <FormControl>
             <div className="flex space-x-2 items-center mt-2">
-              {/* recomended use htmlFor */}
               <HeaderCustom
                 to="input"
                 theme={theme}
                 title={label}
+                span={span}
+                iconSpan={iconSpan}
                 htmlFor={`${name}-checkbox`}
               />
 
@@ -65,9 +59,7 @@ const AreaToggleable = ({
               />
             </div>
           </FormControl>
-          {/* ---------------------------------------------------------------- */}
 
-          {/* -------------------- TextArea toggleable -------------------- */}
           {field.value?.checked && (
             <FormControl>
               <div className="space-y-2">
@@ -76,6 +68,7 @@ const AreaToggleable = ({
                 </FormLabel>
 
                 <Textarea
+                  ref={ref}
                   id={`${name}-textarea`}
                   placeholder={placeholder}
                   value={field.value.details || ''}
@@ -90,12 +83,20 @@ const AreaToggleable = ({
               </div>
             </FormControl>
           )}
-          {/* ---------------------------------------------------------------- */}
 
+          {error && (
+            <FormMessage className={cn(
+              theme === 'dark' ? 'text-red-400' : 'text-red-600'
+            )}>
+              {error.message}
+            </FormMessage>
+          )}
         </FormItem>
       )}
     />
   )
-}
+})
+
+AreaToggleable.displayName = 'AreaToggleable'
 
 export default AreaToggleable
