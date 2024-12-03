@@ -16,7 +16,7 @@ const DashboardSection = ({ theme }: ThemeContextProps) => {
   const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(user?.uid || '')
 
   const { fetchAllProducts } = useQueryProduct(user?.uid || '')
-  const { data: products, isLoading, error } = fetchAllProducts
+  const { data: products, isLoading, error } = fetchAllProducts()
 
   if (isLoadingBusiness) return <DashboardSkeleton theme={theme} />
   if (!business) return (
