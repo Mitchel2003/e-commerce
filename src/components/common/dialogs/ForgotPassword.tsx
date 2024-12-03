@@ -7,7 +7,7 @@ import Dialog from "#/common/dialogs/Dialog"
 import { Button } from "#/ui/button"
 import { cn } from "@/lib/utils"
 
-const ForgotPassword = ({ theme }: ThemeContextProps) => {//working here...
+const ForgotPassword = ({ theme }: ThemeContextProps) => {
   const { methods, onSubmit } = useForgotForm()
 
   return (

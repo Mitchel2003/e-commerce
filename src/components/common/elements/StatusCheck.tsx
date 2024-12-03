@@ -1,23 +1,27 @@
+import { HeaderSpanProps, CheckProps } from '@/interfaces/props.interface'
 import HeaderCustom from '@/components/common/elements/HeaderCustom'
-
-import { ControlProps, HeaderSpanProps, CheckProps } from '@/interfaces/props.interface'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useController } from 'react-hook-form'
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-interface StatusCheckProps extends ControlProps, ThemeContextProps, HeaderSpanProps {
-  name: string;
-  label: string;
+interface StatusCheckProps extends ThemeContextProps, HeaderSpanProps {
   options: CheckProps[];
+  label: string;
+  name: string;
 }
-const StatusCheck = ({
+
+/**
+ * Como podras visualizar, encontramos el uso de useController, necesitamos
+ * quitar este e implementar como solemos hacerlo con nuestros componentes reutilizables
+ * usando el forwardRef para el estado; 
+ */
+const StatusCheck = ({//working here...
+  iconSpan,
+  options,
+  label,
   theme,
   name,
-  label,
-  control,
-  options,
-  iconSpan,
   span
 }: StatusCheckProps) => {
   const { field } = useController({ name, control })

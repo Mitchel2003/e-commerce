@@ -7,7 +7,7 @@ import { ThemeContextProps } from '@/interfaces/context.interface'
 import { ControlProps } from '@/interfaces/props.interface'
 import { cn } from '@/lib/utils'
 
-interface AreaToggleableProps extends ControlProps, ThemeContextProps {
+interface AreaToggleableProps extends ControlProps, ThemeContextProps {//working here..
   name: string;
   label: string;
   className?: string;
