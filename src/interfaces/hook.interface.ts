@@ -8,7 +8,7 @@ export interface UpdateProductProps { productId: string, data: Partial<ProductFo
 
 /*useQuery and useMutation*/
 export type QueryReact_Product = {//to product
-  fetchAllProducts: UseQueryResult<Product[], Error>
+  fetchAllProducts: () => UseQueryResult<Product[], Error>
   fetchProductById: (id: string) => UseQueryResult<Product | undefined, Error>
   fetchProductsByName: (name: string) => UseQueryResult<Product[], Error>
 }

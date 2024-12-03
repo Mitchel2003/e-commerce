@@ -17,7 +17,7 @@ export const BusinessSection = ({ theme }: ThemeContextProps) => {
   const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(id)
 
   const { fetchAllProducts } = useQueryProduct(id)
-  const { data: products, isLoading: isLoadingProducts } = fetchAllProducts
+  const { data: products, isLoading: isLoadingProducts } = fetchAllProducts()
 
   if (isLoadingBusiness || isLoadingProducts) return <BusinessSkeleton theme={theme} />
   if (!business) return (

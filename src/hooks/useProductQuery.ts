@@ -21,11 +21,11 @@ const QUERY_KEYS = {
 /*--------------------------------------------------useQuery--------------------------------------------------*/
 /** Hook personalizado para gestionar queries de productos */
 export const useQueryProduct = (businessId: string): QueryReact_Product => {
-  const product = useProductContext()
   const queryClient = useQueryClient()
+  const product = useProductContext()
 
   // Query para todos los productos
-  const fetchAllProducts = useQuery({
+  const fetchAllProducts = () => useQuery({
     queryKey: QUERY_KEYS.products(businessId),
     queryFn: () => product.getAll(businessId),
     select: (data) => data || [],
