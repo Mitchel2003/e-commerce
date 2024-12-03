@@ -8,7 +8,7 @@ interface ItemProductProps extends Product, ThemeContextProps { }
 
 const ItemProduct = ({ theme, id: productId, ...product }: ItemProductProps) => {
   const { user } = useAuthContext()
-
+  //el problema parece estar en el useProductQuery hook
   return (
     <Card className={cn(
       'transition-all duration-300 hover:shadow-lg',
