@@ -34,13 +34,13 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
   /*--------------------------------------------------crud product--------------------------------------------------*/
   /**
    * Obtiene todos los productos de un negocio.
-   * @param {string} id - El ID del negocio (uid).
+   * @param {string} idBusiness - El ID del negocio (uid).
    * @returns {Promise<TypeProduct[]>} Un array con los datos de los productos encontrados.
    */
-  const getAll = async (id: string): Promise<TypeProduct[]> => {
+  const getAll = async (idBusiness: string): Promise<TypeProduct[]> => {
     setLoadingStatus('Cargando productos...')
     try {
-      const result = await getProducts(id)
+      const result = await getProducts(idBusiness)
       if (!result.success) throw result.error
       return result.data
     } catch (e: unknown) {
@@ -51,7 +51,7 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
 
   /**
    * Obtiene un producto específico por su ID.
-   * @param {string} id - El ID del producto a obtener.
+   * @param {string} id - El ID del producto a obtener, corresponde al uid default.
    * @returns {Promise<TypeProduct | undefined>} Los datos del producto o undefined en caso de error.
    */
   const getById = async (id: string): Promise<TypeProduct | undefined> => {
@@ -67,14 +67,14 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
 
   /**
    * Filtra productos por nombre.
-   * @param {string} id - El ID del negocio (uid) con el que se relaciona el producto.
+   * @param {string} idBusiness - El ID del negocio (uid) con el que se relaciona el producto.
    * @param {string} name - El nombre a filtrar, se buscaran similitudes con el nombre.
    * @returns {Promise<TypeProduct[]>} Un array con los datos de los productos encontrados.
    */
-  const filterByName = async (id: string, name: string): Promise<TypeProduct[]> => {
+  const filterByName = async (idBusiness: string, name: string): Promise<TypeProduct[]> => {
     setLoadingStatus('Filtrando productos...')
     try {
-      const products = await getAll(id)
+      const products = await getAll(idBusiness)
       return products.filter(product => product.name.toLowerCase().includes(name.toLowerCase()))
     } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })

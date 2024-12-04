@@ -1,12 +1,16 @@
-import { ThemeContextProps } from '@/interfaces/context.interface'
+import { Product, ThemeContextProps } from '@/interfaces/context.interface'
 import { ShoppingBag, TrendingUp } from 'lucide-react'
 import StatCard from '#/pages/dashboard/StatsCard'
 import { cn } from '@/lib/utils'
 
-const StatisticsSection = ({ theme }: ThemeContextProps) => {
+interface StatisticsSectionProps extends ThemeContextProps {
+  products?: Product[]
+}
+
+const StatisticsSection = ({ theme, products }: StatisticsSectionProps) => {
   return (
     <div className={cn('grid grid-cols-1 md:grid-cols-2 gap-4')}>
-      {stats.map((stat, index) => (
+      {stats(products).map((stat, index) => (
         <StatCard
           key={index}
           theme={theme}
@@ -21,7 +25,7 @@ const StatisticsSection = ({ theme }: ThemeContextProps) => {
 
 export default StatisticsSection
 
-const stats = [
-  { icon: <ShoppingBag />, title: 'Total Productos', value: '0' },
+const stats = (products?: Product[]) => [
+  { icon: <ShoppingBag />, title: 'Total Productos', value: products?.length.toString() || '0' },
   { icon: <TrendingUp />, title: 'Visitas a tu negocio', value: '0' }
 ]

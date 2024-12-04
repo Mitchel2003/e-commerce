@@ -1,5 +1,4 @@
 import { Business, ThemeContextProps } from '@/interfaces/context.interface'
-import { Card } from '#/ui/card'
 import { cn } from '@/lib/utils'
 
 interface InfoSectionProps extends ThemeContextProps { business: Business }
@@ -7,14 +6,15 @@ const InfoSection = ({ theme, business }: InfoSectionProps) => {
   const complement = business?.name.slice(1).toLowerCase()
   const first = business?.name.charAt(0).toUpperCase()
 
+
   return (
-    <Card className={cn(
+    <section className={cn(
       'text-center space-y-4 p-10',
       'transition-all duration-200',
-      'backdrop-filter backdrop-blur-lg hover:shadow-md',
+      'bg-gradient-to-bl rounded-xl',
       theme === 'dark'
-        ? 'bg-zinc-800/40 hover:shadow-purple-900/60'
-        : 'bg-white/50 hover:shadow-purple-500/60'
+        ? 'from-zinc-950/80 to-purple-950/80'
+        : 'from-purple-500/20 to-pink-500/20'
     )}>
       <h1 className={cn(
         'text-4xl font-bold',
@@ -28,7 +28,7 @@ const InfoSection = ({ theme, business }: InfoSectionProps) => {
       )}>
         Aquí podrás gestionar tus productos y personalizar tu perfil
       </p>
-    </Card>
+    </section>
   )
 }
 

@@ -1,4 +1,5 @@
 import { ThemeContextProps, Product } from '@/interfaces/context.interface';
+import NotProducts from '#/common/states/NotProducts';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import { motion } from 'framer-motion';
@@ -9,40 +10,18 @@ interface ProductCarouselProps extends ThemeContextProps {
 }
 
 export const ProductCarousel = ({ products, theme }: ProductCarouselProps) => {
-  const [sliderRef] = useKeenSlider({
-    slides: {
-      perView: 3,
-      spacing: 15,
-    },
-    breakpoints: {
-      '(max-width: 1024px)': {
-        slides: { perView: 2, spacing: 10 },
-      },
-      '(max-width: 640px)': {
-        slides: { perView: 1, spacing: 10 },
-      },
-    }
-  })
+  const [sliderRef] = useKeenSlider(config)
 
   if (!products.length) {
     return (
-      <section className={cn(
-        'py-16',
-        theme === 'dark' ? 'bg-zinc-900' : 'bg-white'
-      )}>
-        <p className={cn(
-          'text-center text-lg',
-          theme === 'dark' ? 'text-zinc-400' : 'text-gray-500'
-        )}>
-          No hay productos disponibles
-        </p>
+      <section className={cn('py-16', theme === 'dark' ? 'bg-zinc-900' : 'bg-white')}>
+        <NotProducts theme={theme} />
       </section>
     )
   }
 
   return (
-    <section className={cn(
-      'py-16',
+    <section className={cn('py-16',
       theme === 'dark' ? 'bg-zinc-900' : 'bg-white'
     )}>
       <div className="container mx-auto px-4">
@@ -104,4 +83,21 @@ export const ProductCarousel = ({ products, theme }: ProductCarouselProps) => {
       </div>
     </section>
   )
+}
+
+export default ProductCarousel
+
+const config = {
+  slides: {
+    perView: 3,
+    spacing: 15,
+  },
+  breakpoints: {
+    '(max-width: 1024px)': {
+      slides: { perView: 2, spacing: 10 },
+    },
+    '(max-width: 640px)': {
+      slides: { perView: 1, spacing: 10 },
+    },
+  }
 }

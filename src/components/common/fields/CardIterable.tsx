@@ -18,11 +18,11 @@ interface CardIterableFieldProps extends ThemeContextProps {
 }
 
 const CardIterable = ({
-  theme,
-  name,
-  fields,
+  titleButton = 'Agregar',
   limit = 1,
-  titleButton = 'Agregar'
+  fields,
+  theme,
+  name
 }: CardIterableFieldProps) => {
   const { control } = useFormContext()
   const { fields: items, append, remove } = useFieldArray({ control, name })

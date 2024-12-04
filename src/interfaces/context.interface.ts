@@ -60,10 +60,10 @@ export type Product = {
 
 export type ProductContext = {
   loading: boolean
-  getAll: (id: string) => Promise<Product[]>
+  getAll: (idBusiness: string) => Promise<Product[]>
   getById: (id: string) => Promise<Product | undefined>
-  filterByName: (id: string, name: string) => Promise<Product[]>
-  create: (id: string, product: ProductFormProps) => Promise<void>
+  filterByName: (idBusiness: string, name: string) => Promise<Product[]>
+  create: (idBusiness: string, product: ProductFormProps) => Promise<void>
   update: (idBusiness: string, idProduct: string, product: Partial<ProductFormProps>) => Promise<void>
   delete: (idBusiness: string, idProduct: string, productName: Product['name']) => Promise<void>
 } | undefined

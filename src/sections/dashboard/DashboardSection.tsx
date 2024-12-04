@@ -1,5 +1,5 @@
+import { ThemeContextProps, User } from '@/interfaces/context.interface'
 import DashboardSkeleton from '#/common/skeletons/DashboardSkeleton'
-import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import { useQueryProduct } from '@/hooks/useProductQuery'
 import { useAuthContext } from '@/context/AuthContext'
@@ -11,14 +11,14 @@ import ProductsSection from './ProductsSection'
 import InfoSection from './InfoSection'
 
 const DashboardSection = ({ theme }: ThemeContextProps) => {
-  const { user } = useAuthContext()
+  const { user = {} as User } = useAuthContext()
+  const { fetchAllProducts } = useQueryProduct()
   const { fetchBusinessById } = useQueryBusiness()
-  const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(user?.uid || '')
 
-  const { fetchAllProducts } = useQueryProduct(user?.uid || '')
-  const { data: products, isLoading, error } = fetchAllProducts()
+  const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(user.uid)
+  const { data: products, isLoading: isLoadingProducts, error } = fetchAllProducts(user.uid)
 
-  if (isLoadingBusiness) return <DashboardSkeleton theme={theme} />
+  if (isLoadingBusiness || isLoadingProducts) return <DashboardSkeleton theme={theme} />
   if (!business) return (
     <NotFound
       theme={theme}
@@ -31,12 +31,11 @@ const DashboardSection = ({ theme }: ThemeContextProps) => {
   return (
     <div className="container p-8 space-y-8 mx-auto">
       <InfoSection theme={theme} business={business} />
-      <StatisticsSection theme={theme} />
+      <StatisticsSection theme={theme} products={products} />
       <ProductsSection
         error={error}
         theme={theme}
-        isLoading={isLoading}
-        products={products || []}
+        products={products}
       />
     </div>
   )

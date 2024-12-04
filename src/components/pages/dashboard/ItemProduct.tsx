@@ -1,14 +1,11 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '#/ui/card'
 import { Product, ThemeContextProps } from '@/interfaces/context.interface'
 import ProductActions from './ProductActions'
-import { useAuthContext } from '@/context/AuthContext'
 import { cn } from '@/lib/utils'
 
 interface ItemProductProps extends Product, ThemeContextProps { }
 
 const ItemProduct = ({ theme, id: productId, ...product }: ItemProductProps) => {
-  const { user } = useAuthContext()
-  //el problema parece estar en el useProductQuery hook
   return (
     <Card className={cn(
       'transition-all duration-300 hover:shadow-lg',
@@ -40,7 +37,6 @@ const ItemProduct = ({ theme, id: productId, ...product }: ItemProductProps) => 
       <CardFooter className="flex justify-end">
         <ProductActions
           theme={theme}
-          businessId={user?.uid || ''}
           product={{ id: productId, ...product }}
         />
       </CardFooter>
