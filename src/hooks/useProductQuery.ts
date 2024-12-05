@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useProductContext } from '@/context/ProductContext'
 import { ProductFormProps } from '@/schemas/product.schema'
+import { useAuthContext } from '@/context/AuthContext'
+import { User } from '@/interfaces/context.interface'
 
 import {
   CustomMutation_Product,
@@ -8,8 +10,6 @@ import {
   DeleteProductProps,
   UpdateProductProps
 } from '@/interfaces/hook.interface'
-import { useAuthContext } from '@/context/AuthContext'
-import { User } from '@/interfaces/context.interface'
 
 // Keys constantes para mejor mantenimiento
 const QUERY_KEYS = {
@@ -104,7 +104,7 @@ export const useProductMutation = (): CustomMutation_Product => {
    * @param {DeleteProductProps.productName} productName - Corresponde al nombre del producto.
    */
   const deleteMutation = useMutation({
-    mutationFn: async ({ idProduct, productName }: DeleteProductProps) => await deleteProduct(user.uid, idProduct, productName),
+    mutationFn: async ({ idProduct }: DeleteProductProps) => await deleteProduct(user.uid, idProduct),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products(user.uid) })
       queryClient.removeQueries({ queryKey: QUERY_KEYS.product(variables.idProduct) })

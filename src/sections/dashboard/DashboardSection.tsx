@@ -1,9 +1,10 @@
-import { ThemeContextProps, User } from '@/interfaces/context.interface'
 import DashboardSkeleton from '#/common/skeletons/DashboardSkeleton'
+import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import { useQueryProduct } from '@/hooks/useProductQuery'
 import { useAuthContext } from '@/context/AuthContext'
 import NotFound from '#/common/states/NotFound'
+import { useNavigate } from 'react-router-dom'
 import { Building2 } from 'lucide-react'
 
 import StatisticsSection from './StatisticsSection'
@@ -11,10 +12,14 @@ import ProductsSection from './ProductsSection'
 import InfoSection from './InfoSection'
 
 const DashboardSection = ({ theme }: ThemeContextProps) => {
-  const { user = {} as User } = useAuthContext()
   const { fetchBusinessById } = useQueryBusiness()
-  const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(user.uid)
   const { fetchAllProducts } = useQueryProduct()
+  const { user } = useAuthContext()
+  const navigate = useNavigate()
+
+  if (!user?.uid) return navigate('/')
+
+  const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(user.uid)
   const { data: products, isLoading: isLoadingProducts, error } = fetchAllProducts(user.uid)
 
   if (isLoadingBusiness || isLoadingProducts) return <DashboardSkeleton theme={theme} />

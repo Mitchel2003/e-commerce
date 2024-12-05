@@ -6,17 +6,18 @@ import { cn } from '@/lib/utils'
 interface ItemProductProps extends Product, ThemeContextProps { }
 
 const ItemProduct = ({ theme, ...product }: ItemProductProps) => {
+  //fix color of card
   return (
     <Card className={cn(
       'transition-all duration-300 hover:shadow-lg',
       theme === 'dark'
         ? 'bg-zinc-900 border-zinc-800 text-white hover:bg-zinc-800/90'
-        : 'bg-gray-100 border-purple-300 text-zinc-900 hover:bg-gray-50'
+        : 'bg-white hover:bg-gray-50 hover:shadow-lg'
     )}>
       <CardHeader>
-        <CardTitle className="text-lg line-clamp-1">{product.name}</CardTitle>
-        <CardDescription className="font-semibold">
-          ${Number(product.price).toFixed(2)}
+        <CardTitle className="text-xl line-clamp-1">{product.name}</CardTitle>
+        <CardDescription className="font-semibold text-sm">
+          ${Number(product.price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
         </CardDescription>
       </CardHeader>
 
@@ -25,7 +26,7 @@ const ItemProduct = ({ theme, ...product }: ItemProductProps) => {
           alt={product.name}
           src={product.imageUrl}
           className={cn(
-            'w-full h-[calc(100vh-300px)] object-cover rounded-md',
+            'w-full h-96 object-cover rounded-md',
             'transition-transform duration-300 hover:scale-105'
           )}
         />
@@ -34,7 +35,7 @@ const ItemProduct = ({ theme, ...product }: ItemProductProps) => {
         </p>
       </CardContent>
 
-      <CardFooter className="flex justify-end">
+      <CardFooter className="flex justify-between">
         {/* Actions */}
         <ProductActions theme={theme} product={product} />
       </CardFooter>

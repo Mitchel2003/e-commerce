@@ -78,12 +78,11 @@ export const updateProduct = async (idBusiness: string, idProduct: string, { ima
  * Elimina un producto existente.
  * @param {string} idBusiness - El identificador del negocio, representa el uid (auth).
  * @param {string} idProduct - El identificador del producto (uid default).
- * @param {Product} product - El producto a eliminar.
  * @returns {Promise<Result<void>>} Elimina un producto.
  */
-export const deleteProduct = async (idBusiness: string, idProduct: string, productName: Product['name']): Promise<Result<void>> => {
+export const deleteProduct = async (idBusiness: string, idProduct: string): Promise<Result<void>> => {
   try {
-    const path = `${idBusiness}/products/${productName}`
+    const path = `${idBusiness}/products/${idProduct}`
     const removeImage = await storageService.deleteFile(path)
     if (!removeImage.success) throw removeImage.error
 

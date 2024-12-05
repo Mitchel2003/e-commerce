@@ -5,7 +5,7 @@ import { useProductMutation } from '@/hooks/useProductQuery'
 import { DialogField } from '@/interfaces/props.interface'
 import { useState } from 'react'
 
-import DeleteProductDialog from '@/components/common/elements/AlertDialog'
+import DeleteProductDialog from '#/common/elements/AlertDialog'
 import UpdateProductDialog from '#/common/elements/Dialog'
 import InputField from '#/common/fields/Input'
 import ImageField from '#/common/fields/Image'
@@ -23,17 +23,24 @@ const ProductActions = ({ product, theme }: ProductActionsProps) => {
   const { deleteProduct } = useProductMutation()
 
   const handleDelete = () => {
-    deleteProduct({ idProduct: product.uid as string, productName: product.name })
+    deleteProduct({ idProduct: product.uid as string })
     setShowDeleteDialog(false)
   }
 
   return (
-    <div className="flex gap-2">
-      {/* Dialog de Actualización */}
-      <Button size="sm" variant="ghost" onClick={() => setShowUpdateDialog(true)}>
-        <PencilIcon className="h-4 w-4" />
+    <>
+      {/* triggers dialog */}
+      <Button size="default" variant="outline" onClick={() => setShowUpdateDialog(true)}>
+        <span className="hidden md:block">Actualizar</span>
+        <PencilIcon className="h-6 w-6 md:h-4 md:w-4" />
       </Button>
 
+      <Button size="default" variant="destructive" onClick={() => setShowDeleteDialog(true)}>
+        <span className="hidden md:block">Eliminar</span>
+        <Trash2 className="h-6 w-6 md:h-4 md:w-4" />
+      </Button>
+
+      {/* dialogs update and delete */}
       <UpdateProductDialog
         theme={theme}
         iconSpan="info"
@@ -44,19 +51,13 @@ const ProductActions = ({ product, theme }: ProductActionsProps) => {
         form={{ methods, onSubmit }}
         onOpenChange={setShowUpdateDialog}
       />
-
-      {/* AlertDialog de Eliminación */}
-      <Button size="sm" variant="destructive" onClick={() => setShowDeleteDialog(true)}>
-        <Trash2 className="h-4 w-4" />
-      </Button>
-
       <DeleteProductDialog
         product={product}
         handleDelete={handleDelete}
         showDeleteDialog={showDeleteDialog}
         setShowDeleteDialog={setShowDeleteDialog}
       />
-    </div>
+    </>
   )
 }
 

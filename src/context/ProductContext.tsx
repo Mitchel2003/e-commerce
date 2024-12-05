@@ -121,13 +121,12 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
    * Elimina un producto por su ID.
    * @param {string} idBusiness - El ID del negocio (uid).
    * @param {string} idProduct - El ID del producto a eliminar.
-   * @param {TypeProduct['name']} productName - El nombre del producto a eliminar.
    * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion delete
    */
-  const delete_ = async (idBusiness: string, idProduct: string, productName: TypeProduct['name']): Promise<void> => {
+  const delete_ = async (idBusiness: string, idProduct: string): Promise<void> => {
     setLoadingStatus('Eliminando producto...')
     try {
-      const result = await deleteProduct(idBusiness, idProduct, productName)
+      const result = await deleteProduct(idBusiness, idProduct)
       if (!result.success) throw result.error
       notifySuccess({ title: 'Exito', message: 'Producto eliminado exitosamente' })
     } catch (e: unknown) {

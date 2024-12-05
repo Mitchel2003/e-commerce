@@ -66,6 +66,6 @@ export type ProductContext = {
   filterByName: (idBusiness: string, name: string) => Promise<Product[]>
   create: (idBusiness: string, product: ProductFormProps) => Promise<void>
   update: (idBusiness: string, idProduct: string, product: Partial<ProductFormProps>) => Promise<void>
-  delete: (idBusiness: string, idProduct: string, productName: Product['name']) => Promise<void>
+  delete: (idBusiness: string, idProduct: string) => Promise<void>
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

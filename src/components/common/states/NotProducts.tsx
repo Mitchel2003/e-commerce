@@ -3,15 +3,24 @@ import { Card, CardContent } from '#/ui/card'
 import { ShoppingBag } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const NotProducts = ({ theme }: ThemeContextProps) => (
+interface NotProductsProps extends ThemeContextProps {
+  illustration?: React.ReactNode
+  className?: string
+  message: string
+  header: string
+}
+const NotProducts = ({ theme, className, header, message, illustration }: NotProductsProps) => (
   <Card className={cn(
+    className,
     "p-8 text-center",
     theme === 'dark' ? 'bg-zinc-950' : 'bg-white'
   )}>
     <CardContent>
-      <ShoppingBag className="mx-auto h-12 w-12 text-muted-foreground" />
-      <h3 className="mt-4 text-xl font-semibold">No tienes productos aún</h3>
-      <p className="mt-2 text-muted-foreground">Comienza añadiendo tu primer producto para mostrar en tu tienda.</p>
+      <div className="flex items-center justify-center">
+        {illustration || <ShoppingBag className="h-12 w-12 text-muted-foreground" />}
+      </div>
+      <h3 className="mt-4 text-xl font-semibold">{header}</h3>
+      <p className="mt-2 text-muted-foreground">{message}</p>
     </CardContent>
   </Card>
 

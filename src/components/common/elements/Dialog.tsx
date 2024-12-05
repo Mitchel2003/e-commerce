@@ -67,11 +67,7 @@ const Dialog = ({
                   name: field.name,
                   theme
                 })}
-                {field.name && (
-                  <div id={`field-description-${index}`} className="sr-only">
-                    {field.name}
-                  </div>
-                )}
+                {field.name && <div id={`field-description-${index}`} className="sr-only">{field.name}</div>}
               </div>
             ))}
 

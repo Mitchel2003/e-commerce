@@ -2,8 +2,8 @@ import { ProductFormProps, ProductUpdateFormProps } from "@/schemas/product.sche
 import { UseQueryResult, UseMutateFunction } from "@tanstack/react-query"
 import { Product } from "./context.interface"
 
-export interface DeleteProductProps { idProduct: string; productName: Product['name'] }
 export interface UpdateProductProps { idProduct: string; data: Partial<ProductUpdateFormProps> }
+export interface DeleteProductProps { idProduct: string }
 
 /*useQuery and useMutation*/
 export type QueryReact_Product = {//to product

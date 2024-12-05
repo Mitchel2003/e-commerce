@@ -5,8 +5,10 @@ import { DialogField } from '@/interfaces/props.interface'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
-import CarouselProduct from '#/pages/dashboard/CarouselProduct'
+import ItemProduct from '#/pages/dashboard/ItemProduct'
 import NewProductDialog from '#/common/elements/Dialog'
+import NotProducts from '#/common/states/NotProducts'
+import Carousel from '#/common/elements/Carousel'
 import InputField from '#/common/fields/Input'
 import ImageField from '#/common/fields/Image'
 import { Button } from '#/ui/button'
@@ -21,14 +23,13 @@ const ProductsSection = ({ theme, products, error }: ProductsSectionProps) => {
   const { methods, onSubmit } = useCreateProductForm()
 
   return (
-    <section
-      className={cn(
-        'space-y-6 py-12 px-8 bg-gradient-to-bl rounded-xl',
-        theme === 'dark'
-          ? 'from-zinc-950/80 to-purple-950/80'
-          : 'from-purple-500/50 to-pink-500/50'
-      )}
-    >
+    <section className={cn(
+      'space-y-6 py-12 px-8 bg-gradient-to-bl rounded-xl',
+      theme === 'dark'
+        ? 'from-zinc-950/80 to-purple-950/80'
+        : 'from-purple-500/30 to-pink-500/5'
+    )}>
+      {/* header */}
       <HeaderSection
         theme={theme}
         methods={methods}
@@ -36,11 +37,27 @@ const ProductsSection = ({ theme, products, error }: ProductsSectionProps) => {
         open={showNewProductDialog}
         onOpenChange={setShowNewProductDialog}
       />
-      <CarouselProduct
-        theme={theme}
-        error={error}
-        products={products}
-      />
+
+      {/* products */}
+      {products && products.length > 0 ? (
+        <Carousel
+          autoplay
+          withButtons
+          items={products}
+          className_Carousel="w-full"
+          className_Item="md:basis-1/3"
+          render={(item) => <ItemProduct theme={theme} {...item} />}
+        />
+      ) : (
+        <NotProducts
+          theme={theme}
+          header='No tienes ningún producto aún'
+          message='Comienza añadiendo tu primer producto para mostrar en tu tienda.'
+        />
+      )}
+
+      {/* error */}
+      {error && <div className="text-center text-red-500">Error al cargar los productos: {error.message}</div>}
     </section>
   )
 }
@@ -59,8 +76,10 @@ interface HeaderSectionProps extends ThemeContextProps {
 const HeaderSection = ({ theme, methods, onSubmit, open, onOpenChange }: HeaderSectionProps) => (
   <div className="flex justify-between items-center">
     <h2 className={cn(
-      'text-3xl font-bold',
-      theme === 'dark' ? 'text-white' : 'text-gray-900'
+      'text-3xl font-bold bg-gradient-to-bl text-transparent bg-clip-text',
+      theme === 'dark'
+        ? 'from-purple-400 to-zinc-50'
+        : 'from-pink-600 to-purple-600'
     )}> Tus Productos </h2>
 
     {/* trigger dialog */}
@@ -80,7 +99,7 @@ const HeaderSection = ({ theme, methods, onSubmit, open, onOpenChange }: HeaderS
     </Button>
 
     {/* dialog */}
-    <NewProductDialog //working here...
+    <NewProductDialog
       theme={theme}
       iconSpan="info"
       title="Crear Producto"

@@ -1,6 +1,6 @@
 import { Product, ThemeContextProps } from '@/interfaces/context.interface'
 import { ShoppingBag, TrendingUp } from 'lucide-react'
-import StatCard from '#/pages/dashboard/StatsCard'
+import StatsCard from '#/pages/dashboard/StatsCard'
 import { cn } from '@/lib/utils'
 
 interface StatisticsSectionProps extends ThemeContextProps {
@@ -11,7 +11,7 @@ const StatisticsSection = ({ theme, products }: StatisticsSectionProps) => {
   return (
     <div className={cn('grid grid-cols-1 md:grid-cols-2 gap-4')}>
       {stats(products).map((stat, index) => (
-        <StatCard
+        <StatsCard
           key={index}
           theme={theme}
           icon={stat.icon}

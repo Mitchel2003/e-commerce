@@ -3,6 +3,7 @@ import NotProducts from '#/common/states/NotProducts';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import { motion } from 'framer-motion';
+import { Frown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ProductCarouselProps extends ThemeContextProps {
@@ -12,13 +13,15 @@ interface ProductCarouselProps extends ThemeContextProps {
 export const ProductCarousel = ({ products, theme }: ProductCarouselProps) => {
   const [sliderRef] = useKeenSlider(config)
 
-  if (!products.length) {
-    return (
-      <section className={cn('py-16', theme === 'dark' ? 'bg-zinc-900' : 'bg-white')}>
-        <NotProducts theme={theme} />
-      </section>
-    )
-  }
+  if (!products.length) return (
+    <NotProducts
+      theme={theme}
+      className="rounded-none"
+      header="No hay productos"
+      message="Parece que no hay productos para mostrar."
+      illustration={<Frown className="h-12 w-12 text-muted-foreground" />}
+    />
+  )
 
   return (
     <section className={cn('py-16',
@@ -40,7 +43,7 @@ export const ProductCarousel = ({ products, theme }: ProductCarouselProps) => {
         >
           {products.map((product) => (
             <motion.div
-              key={product.id}
+              key={product.uid}
               className="keen-slider__slide p-2"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
@@ -67,10 +70,10 @@ export const ProductCarousel = ({ products, theme }: ProductCarouselProps) => {
                     'text-lg font-bold',
                     theme === 'dark' ? 'text-purple-400' : 'text-purple-600'
                   )}>
-                    ${Number(product.price).toFixed(2)}
+                    ${Number(product.price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
                   </p>
                   <p className={cn(
-                    'mt-2 text-sm line-clamp-2',
+                    'mt-2 text-sm line-clamp-3',
                     theme === 'dark' ? 'text-zinc-400' : 'text-gray-600'
                   )}>
                     {product.description}
