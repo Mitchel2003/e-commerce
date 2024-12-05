@@ -23,7 +23,7 @@ const ProductActions = ({ product, theme }: ProductActionsProps) => {
   const { deleteProduct } = useProductMutation()
 
   const handleDelete = () => {
-    deleteProduct({ productId: product.id, productName: product.name })
+    deleteProduct({ idProduct: product.uid as string, productName: product.name })
     setShowDeleteDialog(false)
   }
 

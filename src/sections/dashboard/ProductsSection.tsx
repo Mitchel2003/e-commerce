@@ -29,7 +29,7 @@ const ProductsSection = ({ theme, products, error }: ProductsSectionProps) => {
           : 'from-purple-500/50 to-pink-500/50'
       )}
     >
-      <HeaderProducts
+      <HeaderSection
         theme={theme}
         methods={methods}
         onSubmit={onSubmit}
@@ -49,14 +49,14 @@ export default ProductsSection
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------tools--------------------------------------------------*/
-interface HeaderProductsProps extends ThemeContextProps {
+interface HeaderSectionProps extends ThemeContextProps {
   onOpenChange: (open: boolean) => void
   open: boolean
   onSubmit: any
   methods: any
 }
 
-const HeaderProducts = ({ theme, methods, onSubmit, open, onOpenChange }: HeaderProductsProps) => (
+const HeaderSection = ({ theme, methods, onSubmit, open, onOpenChange }: HeaderSectionProps) => (
   <div className="flex justify-between items-center">
     <h2 className={cn(
       'text-3xl font-bold',

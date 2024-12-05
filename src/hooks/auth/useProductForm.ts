@@ -28,12 +28,6 @@ export const useUpdateProductForm = (product: Product) => {
     })
   }, [product, methods])
 
-  //tal vez necesite organnizar mejor mis ideas; lo que pasa es que, al submit el formulario update, en caso de que esté vacio
-  //este continuará sin ningun inpedimento, editando el producto con los datos que están vacios, dejandolo undefined
-  //el detalle es que no parece estar funcionando el partial de datos; se supone que en teoria, solo se enviarían
-  //los datos que tengan cambios, pero aparentemente no es así, por lo que se enviarán todos los datos, incluso los que no han cambiado
-  //lo ideal seria que solo se enviaran los datos que tengan cambios, pero no se como hacerlo
-
   /** Maneja el envío del formulario, procesando solo los campos modificados */
   const onSubmit = methods.handleSubmit(async (data: any) => {
     const changedFields = Object.keys(data).reduce((acc, key) => {
@@ -41,7 +35,8 @@ export const useUpdateProductForm = (product: Product) => {
       return acc
     }, {} as Partial<typeof data>)
 
-    Object.keys(changedFields).length > 0 && updateProduct({ productId: product.id, data: changedFields })
+    Object.keys(changedFields).length > 0
+      && updateProduct({ idProduct: product.uid as string, data: changedFields })
     methods.reset()
   })
 
@@ -59,7 +54,10 @@ export const useCreateProductForm = () => {
     defaultValues
   })
 
-  const onSubmit = methods.handleSubmit(async (data: ProductFormProps) => await createProduct(data))
+  const onSubmit = methods.handleSubmit(async (data: any) => {
+    createProduct(data)
+    methods.reset()
+  })
 
   return { methods, onSubmit }
 }

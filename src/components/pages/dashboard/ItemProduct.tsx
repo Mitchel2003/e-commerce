@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 
 interface ItemProductProps extends Product, ThemeContextProps { }
 
-const ItemProduct = ({ theme, id: productId, ...product }: ItemProductProps) => {
+const ItemProduct = ({ theme, ...product }: ItemProductProps) => {
   return (
     <Card className={cn(
       'transition-all duration-300 hover:shadow-lg',
@@ -35,10 +35,8 @@ const ItemProduct = ({ theme, id: productId, ...product }: ItemProductProps) => 
       </CardContent>
 
       <CardFooter className="flex justify-end">
-        <ProductActions
-          theme={theme}
-          product={{ id: productId, ...product }}
-        />
+        {/* Actions */}
+        <ProductActions theme={theme} product={product} />
       </CardFooter>
     </Card>
   )

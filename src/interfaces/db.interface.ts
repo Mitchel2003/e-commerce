@@ -39,7 +39,7 @@ export interface DatabaseService {
   /*-----------------> product <-----------------*/
   getAllProducts(idBusiness: string): Promise<Result<Product[]>>
   getProductById(idProduct: string): Promise<Result<Product>>
-  createProduct(product: Product): Promise<Result<void>>
+  createProduct(uid: string, product: Product): Promise<Result<void>>
   updateProduct(id: string, product: Partial<Product>): Promise<Result<void>>
   deleteProduct(id: string): Promise<Result<void>>
 }

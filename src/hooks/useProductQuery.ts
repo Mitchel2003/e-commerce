@@ -13,9 +13,9 @@ import { User } from '@/interfaces/context.interface'
 
 // Keys constantes para mejor mantenimiento
 const QUERY_KEYS = {
-  product: (id: string) => ['product', id],
-  products: (businessId: string) => ['products', businessId],
-  search: (businessId: string, name: string) => ['products', 'search', businessId, name]
+  product: (idProduct: string) => ['product', idProduct],
+  products: (idBusiness: string) => ['products', idBusiness],
+  search: (idBusiness: string, name: string) => ['products', 'search', idBusiness, name]
 }
 /*---------------------------------------------------------------------------------------------------------*/
 
@@ -26,36 +26,36 @@ export const useQueryProduct = (): QueryReact_Product => {
 
   /**
    * Query para todos los productos
-   * @param {string} businessId - El ID del negocio.
+   * @param {string} idBusiness - El ID del negocio.
    */
-  const fetchAllProducts = (businessId: string) => useQuery({
-    queryKey: QUERY_KEYS.products(businessId),
-    queryFn: () => product.getAll(businessId),
+  const fetchAllProducts = (idBusiness: string) => useQuery({
+    queryKey: QUERY_KEYS.products(idBusiness),
+    queryFn: () => product.getAll(idBusiness),
     select: (data) => data || [],
-    enabled: Boolean(businessId),
+    enabled: Boolean(idBusiness),
     initialData: [],
   })
 
   /**
    * Query para producto individual con prefetch
-   * @param {string} id - El ID del producto, corresponde al uid default.
+   * @param {string} idProduct - El ID del producto, corresponde al uid default.
    */
-  const fetchProductById = (id: string) => useQuery({
-    queryKey: QUERY_KEYS.product(id),
-    queryFn: () => product.getById(id),
+  const fetchProductById = (idProduct: string) => useQuery({
+    queryKey: QUERY_KEYS.product(idProduct),
+    queryFn: () => product.getById(idProduct),
     select: (data) => data,
-    enabled: Boolean(id),
+    enabled: Boolean(idProduct),
   })
 
   /**
    * Query para búsqueda con debounce integrado
-   * @param {string} businessId - El ID del negocio.
+   * @param {string} idBusiness - El ID del negocio.
    * @param {string} name - El nombre del producto.
    */
-  const fetchProductsByName = (businessId: string, name: string) => useQuery({
-    queryKey: QUERY_KEYS.search(businessId, name),
-    queryFn: () => product.filterByName(businessId, name),
-    enabled: Boolean(businessId) && Boolean(name),
+  const fetchProductsByName = (idBusiness: string, name: string) => useQuery({
+    queryKey: QUERY_KEYS.search(idBusiness, name),
+    queryFn: () => product.filterByName(idBusiness, name),
+    enabled: Boolean(idBusiness) && Boolean(name),
     select: (data) => data || [],
     initialData: [],
   })
@@ -81,33 +81,33 @@ export const useProductMutation = (): CustomMutation_Product => {
    */
   const createMutation = useMutation({
     mutationFn: async (product: ProductFormProps) => await create(user.uid, product),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products(user.uid) })
-    }
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products(user.uid) }),
+    onError: (error) => console.log(error)
   })
 
   /**
    * Mutation para actualizar un producto
-   * @param {UpdateProductProps} product - El producto a actualizar.
+   * @param {UpdateProductProps.idProduct} idProduct - Corresponde al uid default del producto.
+   * @param {UpdateProductProps.data} data - Los datos del producto a actualizar.
    */
   const updateMutation = useMutation({
-    mutationFn: async ({ productId, data }: UpdateProductProps) => await update(user.uid, productId, data),
+    mutationFn: async ({ idProduct, data }: UpdateProductProps) => await update(user.uid, idProduct, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products(user.uid) })
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.product(variables.productId) })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.product(variables.idProduct) })
     }
   })
 
   /**
    * Mutation para eliminar un producto
-   * @param {mutationFn.productId} productId - Corresponde al uid default del producto.
-   * @param {mutationFn.productName} productName - Corresponde al nombre del producto.
+   * @param {DeleteProductProps.idProduct} idProduct - Corresponde al uid default del producto.
+   * @param {DeleteProductProps.productName} productName - Corresponde al nombre del producto.
    */
   const deleteMutation = useMutation({
-    mutationFn: async ({ productId, productName }: DeleteProductProps) => await deleteProduct(user.uid, productId, productName),
+    mutationFn: async ({ idProduct, productName }: DeleteProductProps) => await deleteProduct(user.uid, idProduct, productName),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products(user.uid) })
-      queryClient.removeQueries({ queryKey: QUERY_KEYS.product(variables.productId) })
+      queryClient.removeQueries({ queryKey: QUERY_KEYS.product(variables.idProduct) })
     }
   })
 

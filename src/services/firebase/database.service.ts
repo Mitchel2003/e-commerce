@@ -136,6 +136,21 @@ class DatabaseService implements IDatabase {
 
   /*-----------------> products <-----------------*/
   /**
+   * ¿who are estructured the database and relationship with image (storage)?
+   * 
+   * techno (database)
+   *     ===>> auth (document)
+   *         ===>> products (folder)
+   *             ===>>> uid (idRamdomized - product) (document)
+   *                 ===>>>> { idBusiness: string, imageUrl: string, ...product }
+   * 
+   * techno (storage)
+   *     ===>> business
+   *         ===>>> uid (idBusiness)
+   *             ===>>>> products
+   *                 ===>>> uid (idRamdomized) (file)
+   */
+  /**
    * Obtiene todos los productos de un negocio
    * @param {string} idBusiness - El identificador del negocio, corresponde al uid del negocio en cuestión (auth).
    * @returns {Promise<Result<Product[]>>} Una lista de productos.
@@ -144,10 +159,13 @@ class DatabaseService implements IDatabase {
     try {
       const queryRef = query(
         this.getCollection('products'),
-        where('id', '==', idBusiness)
+        where('idBusiness', '==', idBusiness)
       )
       const snapshot = await getDocs(queryRef)
-      return success(snapshot.docs.map(doc => ({ ...doc.data() })) as Product[])
+      return success(snapshot.docs.map(doc => ({
+        uid: doc.id,
+        ...doc.data()
+      })) as Product[])
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener productos'))) }
   }
 
@@ -166,12 +184,13 @@ class DatabaseService implements IDatabase {
 
   /**
    * id represent the id of the business (this is the name folder of each business)
+   * @param {string} uid - El identificador del producto, representa el uid default (randomized).
    * @param {Product} product - El producto a crear.
    * @returns {Promise<Result<void>>} Crea un producto.
    */
-  async createProduct(product: Product): Promise<Result<void>> {
+  async createProduct(uid: string, product: Product): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('products')), { ...product }).then(() => success(undefined))
+      return await setDoc(doc(this.getCollection('products'), uid), { ...product }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'crear producto'))) }
   }
 

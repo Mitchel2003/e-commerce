@@ -51,13 +51,13 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
 
   /**
    * Obtiene un producto específico por su ID.
-   * @param {string} id - El ID del producto a obtener, corresponde al uid default.
+   * @param {string} idProduct - El ID del producto a obtener, corresponde al uid default.
    * @returns {Promise<TypeProduct | undefined>} Los datos del producto o undefined en caso de error.
    */
-  const getById = async (id: string): Promise<TypeProduct | undefined> => {
+  const getById = async (idProduct: string): Promise<TypeProduct | undefined> => {
     setLoadingStatus('Cargando producto...')
     try {
-      const result = await getProductById(id)
+      const result = await getProductById(idProduct)
       if (!result.success) throw result.error
       return result.data
     } catch (e: unknown) {

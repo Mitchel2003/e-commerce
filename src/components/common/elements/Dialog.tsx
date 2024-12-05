@@ -5,7 +5,7 @@ import { CheckIcon } from "lucide-react"
 import { cloneElement } from "react"
 import { cn } from "@/lib/utils"
 
-import { Dialog as DialogPrimitive, DialogContent, DialogHeader, DialogTitle } from "#/ui/dialog"
+import { Dialog as DialogPrimitive, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "#/ui/dialog"
 import HeaderCustom from "#/common/elements/HeaderCustom"
 import { Button } from "#/ui/button"
 
@@ -38,10 +38,10 @@ const Dialog = ({
       open={open}
       onOpenChange={onOpenChange}
     >
-      <DialogContent className={cn(
-        'sm:max-w-[425px]',
-        theme === 'dark' ? 'bg-zinc-800' : 'bg-white'
-      )}>
+      <DialogContent
+        aria-describedby={description ? 'dialog-description' : undefined}
+        className={cn('sm:max-w-[425px]', theme === 'dark' ? 'bg-zinc-800' : 'bg-white')}
+      >
         <DialogHeader>
           <DialogTitle>
             <HeaderCustom
@@ -53,6 +53,9 @@ const Dialog = ({
               className="text-left"
             />
           </DialogTitle>
+          <DialogDescription id="dialog-description">
+            {description}
+          </DialogDescription>
         </DialogHeader>
 
         <FormProvider {...form.methods}>
@@ -60,9 +63,15 @@ const Dialog = ({
             {fields.map((field, index) => (
               <div key={`${field.name}-${index}`}>
                 {cloneElement(field.component, {
+                  'aria-describedby': field.name ?? `field-description-${index}`,
                   name: field.name,
                   theme
                 })}
+                {field.name && (
+                  <div id={`field-description-${index}`} className="sr-only">
+                    {field.name}
+                  </div>
+                )}
               </div>
             ))}
 

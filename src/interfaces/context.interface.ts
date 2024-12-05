@@ -51,7 +51,8 @@ export type BusinessContext = {
 /*--------------------------------------------------ProductContext--------------------------------------------------*/
 //Remember that the this id attribute represent the uid of the business associated (auth)
 export type Product = {
-  id: string
+  idBusiness: string
+  uid?: string
   name: string
   price: string
   imageUrl: string
@@ -61,7 +62,7 @@ export type Product = {
 export type ProductContext = {
   loading: boolean
   getAll: (idBusiness: string) => Promise<Product[]>
-  getById: (id: string) => Promise<Product | undefined>
+  getById: (idProduct: string) => Promise<Product | undefined>
   filterByName: (idBusiness: string, name: string) => Promise<Product[]>
   create: (idBusiness: string, product: ProductFormProps) => Promise<void>
   update: (idBusiness: string, idProduct: string, product: Partial<ProductFormProps>) => Promise<void>

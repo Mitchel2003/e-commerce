@@ -34,17 +34,18 @@ export const getProductById = async (id: string): Promise<Result<Product>> => {
 
 /**
  * Crea un producto nuevo.
- * @param {string} id - El identificador del negocio, corresponde al uid (auth).
+ * @param {string} idBusiness - El identificador del negocio, corresponde al uid (auth).
  * @param {ProductFormProps} product - El producto a crear.
  * @returns {Promise<Result<void>>} Crea un producto.
  */
-export const createProduct = async (id: string, product: ProductFormProps): Promise<Result<void>> => {
+export const createProduct = async (idBusiness: string, product: ProductFormProps): Promise<Result<void>> => {
   try {
-    const imageUrl = await storageService.uploadFile(`${id}/products/${product.name}`, product.imageUrl)
+    const uid = crypto.randomUUID().slice(0, 8)//generamos un id ramdomizado de 8 caracteres
+    const imageUrl = await storageService.uploadFile(`${idBusiness}/products/${uid}`, product.imageUrl)
     if (!imageUrl.success) throw imageUrl.error
 
-    const productData = { id, ...product, imageUrl: imageUrl.data }
-    const result = await databaseService.createProduct(productData)
+    const productData = { idBusiness, ...product, imageUrl: imageUrl.data }
+    const result = await databaseService.createProduct(uid, productData)
     if (!result.success) throw result.error
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'crear producto'))) }

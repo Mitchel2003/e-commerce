@@ -12,10 +12,9 @@ import InfoSection from './InfoSection'
 
 const DashboardSection = ({ theme }: ThemeContextProps) => {
   const { user = {} as User } = useAuthContext()
-  const { fetchAllProducts } = useQueryProduct()
   const { fetchBusinessById } = useQueryBusiness()
-
   const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(user.uid)
+  const { fetchAllProducts } = useQueryProduct()
   const { data: products, isLoading: isLoadingProducts, error } = fetchAllProducts(user.uid)
 
   if (isLoadingBusiness || isLoadingProducts) return <DashboardSkeleton theme={theme} />

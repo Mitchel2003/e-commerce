@@ -1,9 +1,8 @@
 import { Carousel as ShadcnCarousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '#/ui/carousel'
-import { Props } from '@/interfaces/props.interface'
 import Autoplay from 'embla-carousel-autoplay'
 import { cn } from '@/lib/utils'
 
-interface CarouselProps<T> extends Props {
+interface CarouselProps<T> {
   items: T[]
   autoplay?: boolean
   withButtons?: boolean
@@ -13,12 +12,12 @@ interface CarouselProps<T> extends Props {
 }
 
 const Carousel = ({
-  items,
-  render,
-  autoplay,
-  className_Item,
-  className_Carousel,
   withButtons = false,
+  className_Carousel,
+  className_Item,
+  autoplay,
+  render,
+  items,
 }: CarouselProps<any>) => {
 
   return (
