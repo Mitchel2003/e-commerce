@@ -70,7 +70,6 @@ export const BusinessSection = ({ theme }: ThemeContextProps) => {
           ) : (
             <NotProducts
               theme={theme}
-              className='rounded-none'
               header='No se han encontrado productos'
               message='Por el momento no hay productos disponibles para mostrar'
             />
