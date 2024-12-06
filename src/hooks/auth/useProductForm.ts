@@ -28,18 +28,6 @@ export const useUpdateProductForm = (product: Product) => {
     })
   }, [product])
 
-  // /** Maneja el envío del formulario, procesando solo los campos modificados */
-  // const onSubmit = methods.handleSubmit(async (data: any) => {
-  //   const changedFields = Object.keys(data).reduce((acc, key) => {
-  //     data[key] !== product[key as keyof Product] && (acc[key] = data[key])
-  //     return acc
-  //   }, {} as Partial<typeof data>)
-
-  //   Object.keys(changedFields).length > 0
-  //     && updateProduct({ idProduct: product.uid as string, data: changedFields })
-  //   methods.reset()
-  // })
-
   const onSubmit = methods.handleSubmit(async (data: any) => {
     updateProduct({ idProduct: product.uid as string, data })
     methods.reset()

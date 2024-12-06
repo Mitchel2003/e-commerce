@@ -1,14 +1,27 @@
 ## E-commerce
 ### Vite + TypeScript
 
+
+
+logic para actualizar un producto
+```ts
+/** Maneja el envío del formulario, procesando solo los campos modificados */
+  const onSubmit = methods.handleSubmit(async (data: any) => {
+    const changedFields = Object.keys(data).reduce((acc, key) => {
+      data[key] !== product[key as keyof Product] && (acc[key] = data[key])
+      return acc
+    }, {} as Partial<typeof data>)
+
+    Object.keys(changedFields).length > 0
+      && updateProduct({ idProduct: product.uid as string, data: changedFields })
+    methods.reset()
+  })
+```
+
+
 # Using prop
 
 "Me ha parecido fanatastico lo que has implementado hasta ahora; gracias a ti he avanzado a este ritmo, hasta ahora has sido muy profesional, me has dado las mejores implementaciones y el codigo mas impresionante, ahora se viene un verdadero reto, dejame explicarte de que se trata, antes dejame comentar que en mi proyecto react con typescript tengo un enfoque de arquitectura así (Layouts: contiene la parte mas externa de una page) (Pages: se alojan dentro de layout y es la pagina como tal que el usuario final consume) (Sections: se trata de Secciones que conforman la pagina, en mi caso en especifico, tengo una pagina para crear una hoja de vida de un equipo, entonces mis secciones son las diferentes partes de ese formato) (Components: estos son los componentes que al final se utilizan para construir la seccion, son reutilizables  y escalables lo cual incrementa el profesionalismo de mi app web), (context) , quiero todo muy profesional cuento contigo; te paso el concepto de lo que quiero implementar, algo reutilizable, escalable, profesional, y eficiente en cuanto codigo, esto para que mi CEO quede impresionado por mi profesionalismo; siempre opto por las maneras mas profesionales y esteticas de conseguirlo, eres capaz de todo lo que te propones, gracias a ti y a mi perseverancia he llegado hasta donde estoy ahora,recuerda que siempre busco maneras de hacer mejor las cosas, necesito la forma mas optima en cuanto a rendimiento y escalabilidad, eficiente en cuanto a codigo y profesional en cuanto a empleo de codigo limpio, mejores practicas y patrones de diseño, por favor, dame lo mas profesional que tengas; que cuando el CEO vea mi codigo, se impresione por el modelo de desestructuracion u abstraccion tan bonita, !VAMOS, eres la mejor!"
-
-
-
-Me ha parecido fanatastico lo que has implementado hasta ahora; gracias a ti he avanzado a este ritmo, hasta ahora has sido muy profesional, me has dado las mejores implementaciones y el codigo mas impresionante, ahora se viene un verdadero reto; lo que estamos buscando es implementar el updateProduct con un formulario construido con react-hook-form y zod, tenemos react-query con el uso de useQuery y useMutate, bueno es mejor mostrarte, esta es nuestra page de Dashboard que esta conformada de varias secciones @DashboardSection.tsx como podras notar estamos usando varios hooks, uno del contexto de negocios "business" @useBusinessQuery.ts que usa el contexto de @BusinessContext.tsx y otro en el contexto de productos "products" @useProductQuery.ts que usa interfaces  @hook.interface.ts @context.interface.ts @props.interface.ts schemas @product.schema.ts y el contexto @ProductContext.tsx, tambien tenemos un contexto de user para manejar la sesion del negocio @AuthContext.tsx, se que empiezas a identificar la estructura y demás; ahora bien estamos trabajando especificamente en @ProductsSection.tsx, ahora bien, iremos al    ; esto para que mi CEO quede impresionado por mi profesionalismo; siempre opto por las maneras mas profesionales y esteticas de conseguirlo, eres capaz de todo lo que te propones, gracias a ti y a mi perseverancia he llegado hasta donde estoy ahora,recuerda que siempre busco maneras de hacer mejor las cosas, necesito la forma mas optima en cuanto a rendimiento y escalabilidad, eficiente en cuanto a codigo y profesional en cuanto a empleo de codigo limpio, mejores practicas y patrones de diseño, por favor, dame lo mas profesional que tengas; que cuando el CEO vea mi codigo, se impresione por el modelo de desestructuracion u abstraccion tan bonita, !VAMOS, eres la mejor!
-
 
 
 # Context
