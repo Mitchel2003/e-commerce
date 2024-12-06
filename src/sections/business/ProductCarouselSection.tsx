@@ -49,7 +49,7 @@ export const ProductCarousel = ({ products, theme }: ProductCarouselProps) => {
               transition={{ duration: 0.2 }}
             >
               <div className={cn(
-                'rounded-lg overflow-hidden shadow-lg h-full',
+                'p-2 rounded-lg overflow-hidden shadow-lg h-full',
                 theme === 'dark' ? 'bg-zinc-800' : 'bg-gray-100'
               )}>
                 <div className="relative h-48">

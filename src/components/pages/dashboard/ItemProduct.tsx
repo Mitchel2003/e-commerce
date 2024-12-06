@@ -1,12 +1,11 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '#/ui/card'
 import { Product, ThemeContextProps } from '@/interfaces/context.interface'
-import ProductActions from './ProductActions'
+import ProductActions from '#/pages/dashboard/ProductActions'
 import { cn } from '@/lib/utils'
 
 interface ItemProductProps extends Product, ThemeContextProps { }
 
 const ItemProduct = ({ theme, ...product }: ItemProductProps) => {
-  //fix color of card
   return (
     <Card className={cn(
       'transition-all duration-300 hover:shadow-lg',
