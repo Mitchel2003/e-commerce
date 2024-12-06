@@ -61,6 +61,7 @@ export const BusinessSection = ({ theme }: ThemeContextProps) => {
           {products && products.length > 0 ? (
             <Carousel
               autoplay
+              withButtons
               items={products}
               className_Carousel="w-full"
               className_Item="md:basis-1/3"
