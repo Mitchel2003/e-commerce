@@ -33,10 +33,6 @@ export const productUpdateSchema = z.object({
     .string()
     .min(1, "La descripción es requerida")
     .max(200, "La descripción es demasiado larga")
-    .optional(),
-  imageUrl: z.instanceof(File, { message: "Debe seleccionar una imagen" })
-    .refine(file => file.size <= 5 * 1024 * 1024, "La imagen no debe exceder 5MB")
-    .refine(file => ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type), "La imagen debe ser PNG, JPG o JPEG")
     .optional()
 }).refine((data) => Object.keys(data).length > 0, { message: "Al menos un campo debe ser proporcionado", path: ["root"] })
 

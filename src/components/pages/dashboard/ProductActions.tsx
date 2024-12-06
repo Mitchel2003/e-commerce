@@ -8,7 +8,6 @@ import { useState } from 'react'
 import DeleteProductDialog from '#/common/elements/AlertDialog'
 import UpdateProductDialog from '#/common/elements/Dialog'
 import InputField from '#/common/fields/Input'
-import ImageField from '#/common/fields/Image'
 import { Button } from '#/ui/button'
 
 interface ProductActionsProps extends ThemeContextProps {
@@ -44,8 +43,9 @@ const ProductActions = ({ product, theme }: ProductActionsProps) => {
       <UpdateProductDialog
         theme={theme}
         iconSpan="info"
+        span="Modifica los campos"
         title="Actualizar producto"
-        description="Modifica solo los campos que deseas actualizar"
+        description="Actualiza los datos del producto"
         open={showUpdateDialog}
         fields={fields({ theme })}
         form={{ methods, onSubmit }}
@@ -76,8 +76,6 @@ const fields = ({ theme }: ThemeContextProps): DialogField[] => [
         label="Nombre del producto"
         icon={Package2}
         placeholder="Ej: Zapatos de Running"
-        span="Opcional"
-        iconSpan="info"
       />
     )
   },
@@ -90,8 +88,6 @@ const fields = ({ theme }: ThemeContextProps): DialogField[] => [
         label="Precio"
         icon={DollarSign}
         placeholder="0.00"
-        span="Opcional"
-        iconSpan="info"
       />
     )
   },
@@ -104,20 +100,6 @@ const fields = ({ theme }: ThemeContextProps): DialogField[] => [
         label="Descripción"
         icon={FileText}
         placeholder="Describe tu producto..."
-        span="Opcional"
-        iconSpan="info"
-      />
-    )
-  },
-  {
-    name: "imageUrl",
-    component: (
-      <ImageField
-        name="imageUrl"
-        label="Imagen"
-        theme={theme}
-        span="Opcional"
-        iconSpan="info"
       />
     )
   }

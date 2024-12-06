@@ -15,27 +15,13 @@ const DashboardSection = ({ theme }: ThemeContextProps): JSX.Element => {
   const { fetchAllProducts } = useQueryProduct()
   const { user } = useAuthContext()
 
-  if (!user?.uid) return (
-    <NotFound
-      theme={theme}
-      title="La sesión ha expirado"
-      message="Por favor, vuelve a iniciar sesión"
-      illustration={<ShieldCheck className="w-16 h-16" />}
-    />
-  )
+  if (!user?.uid) return <SessionExpired theme={theme} />
 
   const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(user.uid)
   const { data: products, isLoading: isLoadingProducts, error } = fetchAllProducts(user.uid)
 
   if (isLoadingBusiness || isLoadingProducts) return <DashboardSkeleton theme={theme} />
-  if (!business) return (
-    <NotFound
-      theme={theme}
-      title="Negocio no encontrado"
-      message="No pudimos encontrar la información de tu negocio."
-      illustration={<Building2 className="w-16 h-16" />}
-    />
-  )
+  if (!business) return <BusinessNotFound theme={theme} />
 
   return (
     <div className="container p-8 space-y-8 mx-auto">
@@ -51,3 +37,27 @@ const DashboardSection = ({ theme }: ThemeContextProps): JSX.Element => {
 }
 
 export default DashboardSection
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------tools--------------------------------------------------*/
+const SessionExpired = ({ theme }: ThemeContextProps) => {
+  return (
+    <NotFound
+      theme={theme}
+      title="La sesión ha expirado"
+      message="Por favor, vuelve a iniciar sesión"
+      illustration={<ShieldCheck className="w-16 h-16" />}
+    />
+  )
+}
+
+const BusinessNotFound = ({ theme }: ThemeContextProps) => {
+  return (
+    <NotFound
+      theme={theme}
+      title="Negocio no encontrado"
+      message="No pudimos encontrar la información de tu negocio."
+      illustration={<Building2 className="w-16 h-16" />}
+    />
+  )
+}

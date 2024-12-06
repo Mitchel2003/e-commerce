@@ -5,6 +5,7 @@ import Navbar from '#/layout/Navbar'
 import Footer from '#/layout/Footer'
 
 import { useThemeContext } from '@/context/ThemeContext'
+import ScrollToTop from '@/hooks/ui/useScrollTop'
 import { Outlet } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 
@@ -27,6 +28,7 @@ const RootLayout = () => {
 
       {/* Componentes UI globales */}
       <Toaster />
+      <ScrollToTop />
       <LoadingScreen />
     </>
   )

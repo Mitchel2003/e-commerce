@@ -8,11 +8,12 @@ interface ItemProductProps extends Product, ThemeContextProps { }
 const ItemProduct = ({ theme, ...product }: ItemProductProps) => {
   return (
     <Card className={cn(
-      'transition-all duration-300 hover:shadow-lg',
+      'flex flex-col h-full transition-all duration-300 hover:shadow-lg',
       theme === 'dark'
         ? 'bg-zinc-900 border-zinc-800 text-white hover:bg-zinc-800/90'
         : 'bg-white hover:bg-gray-50 hover:shadow-lg'
     )}>
+      {/* Header */}
       <CardHeader>
         <CardTitle className="text-xl line-clamp-1">{product.name}</CardTitle>
         <CardDescription className="font-semibold text-sm">
@@ -20,6 +21,7 @@ const ItemProduct = ({ theme, ...product }: ItemProductProps) => {
         </CardDescription>
       </CardHeader>
 
+      {/* Content */}
       <CardContent>
         <img
           alt={product.name}
@@ -34,8 +36,8 @@ const ItemProduct = ({ theme, ...product }: ItemProductProps) => {
         </p>
       </CardContent>
 
-      <CardFooter className="flex justify-between">
-        {/* Actions */}
+      {/* Footer */}
+      <CardFooter className="flex justify-between items-center mt-auto">
         <ProductActions theme={theme} product={product} />
       </CardFooter>
     </Card>

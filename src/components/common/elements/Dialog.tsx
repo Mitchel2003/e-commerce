@@ -31,6 +31,7 @@ const Dialog = ({
   title,
   theme,
   form,
+  span,
   open
 }: DialogProps) => {
   return (
@@ -42,13 +43,14 @@ const Dialog = ({
         aria-describedby={description ? 'dialog-description' : undefined}
         className={cn('sm:max-w-[425px]', theme === 'dark' ? 'bg-zinc-800' : 'bg-white')}
       >
+        {/* Header */}
         <DialogHeader>
           <DialogTitle>
             <HeaderCustom
               to="component"
+              span={span}
               theme={theme}
               title={title}
-              span={description}
               iconSpan={iconSpan}
               className="text-left"
             />
@@ -58,6 +60,7 @@ const Dialog = ({
           </DialogDescription>
         </DialogHeader>
 
+        {/* Form */}
         <FormProvider {...form.methods}>
           <form onSubmit={form.onSubmit} className="space-y-6">
             {fields.map((field, index) => (
