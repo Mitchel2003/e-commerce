@@ -9,6 +9,7 @@ import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import { useQueryProduct } from '@/hooks/useProductQuery'
 import { useParams } from 'react-router-dom'
 import { Building2 } from 'lucide-react'
+import { cn } from "@/lib/utils"
 
 import { BusinessDescription } from './DescriptionSection'
 import { SocialMediaSection } from './SocialMediaSection'
@@ -44,24 +45,37 @@ export const BusinessSection = ({ theme }: ThemeContextProps) => {
         images={business.photoUrl}
         theme={theme}
       />
-      {/* products */}
-      {products && products.length > 0 ? (
-        <Carousel
-          autoplay
-          withButtons
-          items={products}
-          className_Carousel="w-full"
-          className_Item="md:basis-1/3"
-          render={(item) => <ItemProduct theme={theme} {...item} />}
-        />
-      ) : (
-        <NotProducts
-          theme={theme}
-          className='rounded-none'
-          header='No se han encontrado productos'
-          message='Por el momento no hay productos disponibles para mostrar'
-        />
-      )}
+
+      <section className={cn('py-16',
+        theme === 'dark' ? 'bg-zinc-900' : 'bg-white'
+      )}>
+        <div className="container mx-auto px-4">
+          <h2 className={cn(
+            'text-3xl font-semibold mb-8 text-center',
+            theme === 'dark' ? 'text-zinc-100' : 'text-zinc-800'
+          )}>
+            Nuestros Productos
+          </h2>
+
+          {/* products */}
+          {products && products.length > 0 ? (
+            <Carousel
+              autoplay
+              items={products}
+              className_Carousel="w-full"
+              className_Item="md:basis-1/3"
+              render={(item) => <ItemProduct theme={theme} {...item} />}
+            />
+          ) : (
+            <NotProducts
+              theme={theme}
+              className='rounded-none'
+              header='No se han encontrado productos'
+              message='Por el momento no hay productos disponibles para mostrar'
+            />
+          )}
+        </div>
+      </section>
       {business.socialNetworks && (
         <SocialMediaSection
           socialMedia={business.socialNetworks}
