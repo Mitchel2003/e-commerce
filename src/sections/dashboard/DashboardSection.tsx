@@ -3,21 +3,26 @@ import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import { useQueryProduct } from '@/hooks/useProductQuery'
 import { useAuthContext } from '@/context/AuthContext'
+import { ShieldCheck, Building2 } from 'lucide-react'
 import NotFound from '#/common/states/NotFound'
-import { useNavigate } from 'react-router-dom'
-import { Building2 } from 'lucide-react'
 
 import StatisticsSection from './StatisticsSection'
 import ProductsSection from './ProductsSection'
 import InfoSection from './InfoSection'
 
-const DashboardSection = ({ theme }: ThemeContextProps) => {
+const DashboardSection = ({ theme }: ThemeContextProps): JSX.Element => {
   const { fetchBusinessById } = useQueryBusiness()
   const { fetchAllProducts } = useQueryProduct()
   const { user } = useAuthContext()
-  const navigate = useNavigate()
 
-  if (!user?.uid) return navigate('/')
+  if (!user?.uid) return (
+    <NotFound
+      theme={theme}
+      title="La sesión ha expirado"
+      message="Por favor, vuelve a iniciar sesión"
+      illustration={<ShieldCheck className="w-16 h-16" />}
+    />
+  )
 
   const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(user.uid)
   const { data: products, isLoading: isLoadingProducts, error } = fetchAllProducts(user.uid)

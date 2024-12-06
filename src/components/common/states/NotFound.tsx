@@ -13,13 +13,13 @@ interface NotFoundProps extends ThemeContextProps {
 }
 
 const NotFound = ({
-  theme,
-  title = 'No encontrado',
   message = 'Lo sentimos, no pudimos encontrar lo que estabas buscando.',
-  showHome = true,
+  title = 'No encontrado',
   showRefresh = true,
+  showHome = true,
+  illustration,
   onRefresh,
-  illustration
+  theme
 }: NotFoundProps) => {
   return (
     <div className={cn(
