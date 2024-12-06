@@ -12,6 +12,7 @@ import {
   getFirestore,
   collection,
   Firestore,
+  updateDoc,
   deleteDoc,
   getDocs,
   setDoc,
@@ -198,13 +199,11 @@ class DatabaseService implements IDatabase {
    * Actualiza un producto existente.
    * @param {string} id - Representa el uid del documento producto a actualizar.
    * @param {Partial<Product>} product - El producto con los nuevos datos.
-   * @argument id - remember that about UPDATE we dont know the uid document; so, if we need update, using us directly id of product (from card)
-   * @argument product - The final product is saved with an "id" variable that belongs to uid business
    * @returns {Promise<Result<void>>} Actualiza un producto.
    */
   async updateProduct(id: string, product: Partial<Product>): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('products'), id), { ...product }).then(() => success(undefined))
+      return await updateDoc(doc(this.getCollection('products'), id), { ...product }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar producto'))) }
   }
 
