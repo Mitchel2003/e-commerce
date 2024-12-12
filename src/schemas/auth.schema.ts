@@ -34,7 +34,7 @@ export const registerSchema = z.object({
     category: z
       .string()
       .min(1, "La categoría es requerida")
-      .max(20, "La categoría debe tener menos de 20 caracteres"),
+      .max(35, "La categoría debe tener menos de 35 caracteres"),
     isLocal: z
       .boolean()
       .optional()

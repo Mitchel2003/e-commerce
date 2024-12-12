@@ -1,6 +1,5 @@
 import { ThemeContextProps } from '@/interfaces/context.interface';
-import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
+import Carousel from '#/common/elements/Carousel';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
@@ -10,8 +9,6 @@ interface BusinessDescriptionProps extends ThemeContextProps {
 }
 
 export const BusinessDescription = ({ description, images, theme }: BusinessDescriptionProps) => {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay()]);
-
   return (
     <section className="py-16 relative overflow-hidden">
       <div className={cn(
@@ -56,22 +53,21 @@ export const BusinessDescription = ({ description, images, theme }: BusinessDesc
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            {images.map((image, index) => (
-              <div className="embla overflow-hidden rounded-lg shadow-lg" ref={emblaRef}>
-                <div className="embla__container">
-                  <div key={index} className="embla__slide">
-                    <img
-                      src={image}
-                      alt={`Imagen del negocio ${index + 1}`}
-                      className="w-full h-96 object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
+            <Carousel
+              autoplay
+              withButtons
+              items={images}
+              className_Carousel="w-full"
+              render={(item) => <ItemImage image={item} />}
+            />
           </motion.div>
         </div>
       </div>
     </section>
   )
+}
+
+interface ItemImageProps { image: string }
+const ItemImage = ({ image }: ItemImageProps) => {
+  return <img src={image} alt="Imagen del negocio" className="w-full h-96 object-cover rounded-lg" />
 }
