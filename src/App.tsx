@@ -10,6 +10,7 @@ import RootLayout from "@/layouts/Root";
 import Dashboard from "@/pages/Dashboard";
 import Register from "@/pages/Register";
 import Business from "@/pages/Business";
+import AboutUs from "@/pages/AboutUs";
 import Login from "@/pages/Login";
 import Home from "@/pages/Home";
 
@@ -27,6 +28,7 @@ function App() {
                   <Route path="/" index element={<Home />} />
 
                   {/* auth routes */}
+                  <Route path="/about-us" element={<AboutUs />} />
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/register" element={<Register />} />
 

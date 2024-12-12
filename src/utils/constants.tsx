@@ -9,71 +9,6 @@ import {
   Home,
 } from 'lucide-react'
 
-export const products = {
-  newProducts: [
-    {
-      id: '1',
-      rating: 4,
-      isNew: false,
-      discount: 15,
-      price: 19990,
-      category: 'Culinary',
-      name: 'Galletas artesanales',
-      image: '/assets/products/galletas.jpeg',
-    },
-    {
-      id: '2',
-      rating: 4,
-      isNew: true,
-      discount: 15,
-      price: 14990,
-      category: 'Culinary',
-      name: 'Miel de abeja',
-      image: '/assets/products/miel.jpg',
-    },
-    {
-      id: '3',
-      rating: 4,
-      isNew: true,
-      discount: 25,
-      price: 89990,
-      category: 'Clothing',
-      name: 'Buso de lana',
-      image: '/assets/products/buso.jpg',
-    },
-    {
-      id: '4',
-      rating: 5,
-      isNew: true,
-      discount: 10,
-      price: 4990,
-      category: 'Food',
-      name: 'Pan industrial',
-      image: '/assets/products/pan.jpg',
-    },
-    {
-      id: '5',
-      rating: 4,
-      isNew: false,
-      discount: 10,
-      price: 29990,
-      category: 'Food',
-      name: 'Vino artesanal',
-      image: '/assets/products/vino.jpg',
-    },
-    {
-      id: '6',
-      rating: 4,
-      isNew: true,
-      discount: 10,
-      price: 14990,
-      category: 'Food',
-      name: 'Galletas de vainilla',
-      image: '/assets/products/galletas_2.jpg',
-    }
-  ]
-}
-
 export const heroItems = [
   {
     image: 'assets/adds/parqueOca.jpg',
@@ -117,7 +52,7 @@ export const useNavItems = () => {
       icon: <UserPlus className="w-5 h-5" />
     },
     {
-      href: '/about',
+      href: '/about-us',
       label: 'Acerca de nosotros',
       icon: <Info className="w-5 h-5" />
     }
