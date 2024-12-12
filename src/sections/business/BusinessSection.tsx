@@ -78,6 +78,7 @@ export const BusinessSection = ({ theme }: ThemeContextProps) => {
       </section>
       {business.socialNetworks && (
         <SocialMediaSection
+          contact={business.phone}
           socialMedia={business.socialNetworks}
           theme={theme}
         />
