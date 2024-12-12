@@ -56,9 +56,9 @@ export const BusinessDescription = ({ description, images, theme }: BusinessDesc
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="embla overflow-hidden rounded-lg shadow-lg" ref={emblaRef}>
-              <div className="embla__container">
-                {images.map((image, index) => (
+            {images.map((image, index) => (
+              <div className="embla overflow-hidden rounded-lg shadow-lg" ref={emblaRef}>
+                <div className="embla__container">
                   <div key={index} className="embla__slide">
                     <img
                       src={image}
@@ -66,9 +66,9 @@ export const BusinessDescription = ({ description, images, theme }: BusinessDesc
                       className="w-full h-96 object-cover"
                     />
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
+            ))}
           </motion.div>
         </div>
       </div>

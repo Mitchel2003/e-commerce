@@ -21,7 +21,7 @@ export const SocialMediaSection = ({ socialMedia, theme, contact }: SocialMediaS
           'text-3xl font-semibold mb-8 text-center',
           theme === 'dark' ? 'text-zinc-100' : 'text-zinc-800'
         )}>
-          Síguenos en Redes Sociales
+          Contactanos y síguenos en Redes Sociales
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           {/** first of all add whatsapp icon */}
