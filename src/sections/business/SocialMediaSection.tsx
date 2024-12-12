@@ -27,7 +27,7 @@ export const SocialMediaSection = ({ socialMedia, theme, contact }: SocialMediaS
           {/** first of all add whatsapp icon */}
           <motion.a
             key='whatsapp'
-            href={`https://wa.me/57${contact}`}
+            href={`https://wa.me/57${contact}?text=Hola,%20quiero%20más%20información%20sobre%20tu%20emprendimiento`}
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
