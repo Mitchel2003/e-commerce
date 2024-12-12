@@ -2,10 +2,10 @@ import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
 
 const teamMembers = [
-  { name: 'John Doe', role: 'CEO', image: '/placeholder.svg' },
-  { name: 'Jane Smith', role: 'CTO', image: '/placeholder.svg' },
-  { name: 'Mike Johnson', role: 'COO', image: '/placeholder.svg' },
-  { name: 'Sarah Brown', role: 'CFO', image: '/placeholder.svg' },
+  { name: 'Ulber Rodriguez', role: 'CEO - Dinamizador', image: 'https://www.gravatar.com/avatar/?d=mp' },
+  { name: 'Angela', role: 'CTO - Ingeniera lider', image: 'https://www.gravatar.com/avatar/?d=mp' },
+  { name: 'Michael Avilés', role: 'Desarrollador - Ingeniero', image: 'https://www.gravatar.com/avatar/?d=mp' },
+  { name: '+ 25 ingenieros', role: 'Ingenieros - dinamizadores - desarrolladores - secretaria etc', image: 'https://www.gravatar.com/avatar/?d=mp' },
 ]
 
 export default function OurTeam() {
@@ -18,7 +18,7 @@ export default function OurTeam() {
     <section ref={ref} className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold mb-12 text-center">Nuestro Equipo</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {teamMembers.map((member, index) => (
             <motion.div
               key={member.name}

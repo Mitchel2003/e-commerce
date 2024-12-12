@@ -2,10 +2,10 @@ import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
 
 const values = [
-  { title: 'Innovation', description: 'Pushing boundaries and embracing new ideas.' },
-  { title: 'Integrity', description: 'Upholding the highest ethical standards in all we do.' },
-  { title: 'Collaboration', description: 'Working together to achieve extraordinary results.' },
-  { title: 'Excellence', description: 'Striving for the highest quality in every endeavor.' },
+  { title: 'Innovación', description: 'Impulsando límites y adoptando nuevas ideas.' },
+  { title: 'Integridad', description: 'Manteniendo los más altos estándares éticos en todo lo que hacemos.' },
+  { title: 'Colaboración', description: 'Trabajando juntos para lograr resultados extraordinarios.' },
+  { title: 'Excelencia', description: 'Esforzándonos por la más alta calidad en cada proyecto.' },
 ]
 
 export default function OurValues() {
@@ -17,7 +17,7 @@ export default function OurValues() {
   return (
     <section ref={ref} className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-12 text-center">Our Values</h2>
+        <h2 className="text-4xl font-bold mb-12 text-center">Nuestros Valores</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((value, index) => (
             <motion.div

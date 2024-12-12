@@ -16,10 +16,10 @@ export default function OurMission() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto text-center"
         >
-          <h2 className="text-4xl font-bold mb-6">Our Mission</h2>
+          <h2 className="text-4xl font-bold mb-6">Nuestra Misión</h2>
           <p className="text-xl text-gray-600 leading-relaxed">
-            We strive to empower businesses through innovative technology solutions,
-            fostering growth and driving digital transformation in an ever-evolving landscape.
+            Nos esforzamos por empoderar a las empresas a través de soluciones tecnológicas innovadoras,
+            fomentando el crecimiento y la transformación digital en un panorama en constante evolución.
           </p>
         </motion.div>
       </div>

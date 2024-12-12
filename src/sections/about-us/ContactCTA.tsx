@@ -15,7 +15,8 @@ export default function ContactCTA() {
             Trabajemos juntos para hacer realidad tu visión. Nuestro equipo de expertos está listo para ayudarte a alcanzar tus objetivos.
           </p>
           <Link 
-            to="/contact" 
+            target="_blank"
+            to={`https://wa.me/573162100508?text=Hola,%20quiero%20más%20información%20sobre%20el%20app%20tecnoparque,%20Estoy%20interesado`}
             className="inline-block bg-white text-blue-600 py-3 px-8 rounded-full text-lg font-semibold hover:bg-blue-100 transition duration-300"
           >
             Contáctanos
