@@ -87,8 +87,8 @@ export const useProductMutation = (): CustomMutation_Product => {
 
   /**
    * Mutation para actualizar un producto
-   * @param {UpdateProductProps.idProduct} idProduct - Corresponde al uid default del producto.
-   * @param {UpdateProductProps.data} data - Los datos del producto a actualizar.
+   * @param {UpdateProductProps["idProduct"]} idProduct - Corresponde al uid default del producto.
+   * @param {UpdateProductProps["data"]} data - Los datos del producto a actualizar.
    */
   const updateMutation = useMutation({
     mutationFn: async ({ idProduct, data }: UpdateProductProps) => await update(user.uid, idProduct, data),
