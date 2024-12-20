@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { BusinessProvider } from "@/context/BusinessContext"
+import { BusinessProvider } from "@/context/BusinessContext";
 import { ProductProvider } from "@/context/ProductContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
