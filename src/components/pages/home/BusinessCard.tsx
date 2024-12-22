@@ -1,16 +1,24 @@
 import { Card, CardContent, CardFooter, CardHeader } from '#/ui/card'
+import BusinessSkeleton from '#/common/skeletons/BusinessSkeleton'
 import { ThemeContextProps } from '@/interfaces/context.interface'
+import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import { Business } from '@/interfaces/context.interface'
 import { useNavigate } from 'react-router-dom'
 import { StarIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Metadata } from '@/interfaces/db.interface'
 
 interface BusinessCardProps extends ThemeContextProps {
   business: Business
 }
 
 const BusinessCard = ({ business, theme }: BusinessCardProps) => {
+  const { fetchAllBusinessImages } = useQueryBusiness()
+  const { data: images, isLoading: isLoadingImages } = fetchAllBusinessImages(business.id)
   const navigate = useNavigate()
+
+  const photo = getRandomImage(getImagesBusiness(images))
+  if (isLoadingImages) return <BusinessSkeleton theme={theme} />
   return (
     <Card
       onClick={() => navigate(`/business/${business.id}`)}
@@ -26,8 +34,8 @@ const BusinessCard = ({ business, theme }: BusinessCardProps) => {
       {/* Image */}
       <CardHeader className="relative p-0">
         <img
+          src={photo}
           alt={business.name}
-          src={business.photoUrl[0]}
           className="w-full h-[400px] object-cover"
         />
       </CardHeader>
@@ -76,3 +84,8 @@ const BusinessCard = ({ business, theme }: BusinessCardProps) => {
 }
 
 export default BusinessCard
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------tools--------------------------------------------------*/
+const getImagesBusiness = (images: Metadata[] | undefined) => (images?.map(image => image.url) || ['https://placehold.co/600x400'])
+const getRandomImage = (images: string[]) => (images[Math.floor(Math.random() * images.length)])

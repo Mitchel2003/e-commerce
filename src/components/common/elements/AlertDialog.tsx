@@ -1,5 +1,3 @@
-import { Product } from '@/interfaces/context.interface'
-import { Dispatch, SetStateAction } from 'react'
 import {
   AlertDialogDescription,
   AlertDialogContent,
@@ -8,36 +6,91 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialog,
+  AlertDialog as Dialog,
 } from '#/ui/alert-dialog'
 
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import { HeaderSpanProps } from '@/interfaces/props.interface'
+import { Dispatch, SetStateAction } from 'react'
+import { cn } from '@/lib/utils'
 
-interface DeleteProductDialogProps {
-  setShowDeleteDialog: Dispatch<SetStateAction<boolean>>
-  handleDelete: () => Promise<void> | void
-  showDeleteDialog: boolean
-  product: Product
+interface AlertDialogProps extends ThemeContextProps, HeaderSpanProps {
+  // Control props
+  onOpenChange: Dispatch<SetStateAction<boolean>>
+  onConfirm: () => Promise<void> | void
+  open: boolean
+  
+  // Content props
+  confirmLabel?: string
+  cancelLabel?: string
+  description: string
+  title: string
+  
+  // Style props
+  className?: string
+  variant?: 'default' | 'destructive'
 }
 
-const Alert = ({ product, showDeleteDialog, setShowDeleteDialog, handleDelete }: DeleteProductDialogProps) => {
+const AlertDialog = ({
+  // Control props
+  onOpenChange,
+  onConfirm,
+  open,
+  
+  // Content props
+  confirmLabel = 'Confirmar',
+  cancelLabel = 'Cancelar', 
+  description,
+  title,
+  
+  // Style props
+  className,
+  variant = 'default',
+  theme,
+}: AlertDialogProps) => {
   return (
-    <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-      <AlertDialogContent>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent className={cn(
+        'sm:max-w-[425px]',
+        theme === 'dark' ? 'bg-zinc-900 text-zinc-50' : 'bg-white',
+        className
+      )}>
         <AlertDialogHeader>
-          <AlertDialogTitle>¿Eliminar producto?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Esta acción no se puede deshacer. El producto {product.name} será eliminado permanentemente.
+          <AlertDialogTitle className={cn(
+            theme === 'dark' ? 'text-zinc-50' : 'text-gray-900'
+          )}>
+            {title}
+          </AlertDialogTitle>
+          
+          <AlertDialogDescription className={cn(
+            theme === 'dark' ? 'text-zinc-400' : 'text-gray-500'
+          )}>
+            {description}
           </AlertDialogDescription>
         </AlertDialogHeader>
+
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>
-            Eliminar
+          <AlertDialogCancel className={cn(
+            theme === 'dark' 
+              ? 'bg-zinc-700 hover:bg-zinc-600 text-zinc-50' 
+              : 'bg-white hover:bg-gray-100'
+          )}>
+            {cancelLabel}
+          </AlertDialogCancel>
+          
+          <AlertDialogAction
+            onClick={onConfirm}
+            className={cn(
+              variant === 'destructive' && 'bg-red-600 hover:bg-red-700',
+              theme === 'dark' && variant !== 'destructive' && 'bg-zinc-50 text-zinc-900'
+            )}
+          >
+            {confirmLabel}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
-    </AlertDialog>
+    </Dialog>
   )
 }
 
-export default Alert
+export default AlertDialog 

@@ -1,10 +1,11 @@
+import { RegisterFormProps as BusinessFormProps, RegisterUpdateFormProps as BusinessUpdateFormProps } from '@/schemas/auth.schema'
 import { BusinessContext, Business as TypeBusiness } from '@/interfaces/context.interface'
-import { isFirebaseResponse } from '@/interfaces/db.interface'
+import { isFirebaseResponse, Metadata } from '@/interfaces/db.interface'
 import { useNotification } from '@/hooks/ui/useNotification'
 import { useLoadingScreen } from '@/hooks/ui/useLoading'
 import { Props } from '@/interfaces/props.interface'
 
-import { getBusinesses, getBusinessById, getBusinessByQuery } from '@/controllers/business.controller'
+import { getBusinesses, getBusinessById, getBusinessByQuery, updateBusiness, deleteBusiness, getAllBusinessImages, createBusinessImage, deleteBusinessImage } from '@/controllers/business.controller'
 import { createContext, useContext, useState } from 'react'
 
 const Business = createContext<BusinessContext>(undefined)
@@ -45,6 +46,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
       return []
     } finally { setLoadingStatus() }
   }
+
   /**
    * Obtiene un negocio específico por su ID
    * @param {string} id - El ID del negocio.
@@ -60,6 +62,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
       isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
     } finally { setLoadingStatus() }
   }
+
   /**
    * Busca negocios por término de búsqueda
    * @param {string} query - El término de búsqueda.
@@ -72,24 +75,87 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
       if (!result.success) throw result.error
       return result.data
     } catch (e: unknown) {
-      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message });
       return []
     } finally { setLoadingStatus() }
   }
+
   /**
-   * Filtra negocios por categoría
-   * @param {string} category - La categoría a filtrar.
-   * @returns {Promise<TypeBusiness[]>} Un array de negocios filtrados.
+   * Actualiza un negocio existente por su ID.
+   * @param {string} idBusiness - El ID del negocio (uid).
+   * @param {Partial<BusinessUpdateFormProps>} business - Los nuevos datos del negocio.
+   * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion update
    */
-  const filterByCategory = async (category: string): Promise<TypeBusiness[]> => {
-    setLoadingStatus('Filtrando negocios...')
+  const update = async (idBusiness: string, business: Partial<BusinessUpdateFormProps>): Promise<void> => {
+    setLoadingStatus('Actualizando negocio...')
     try {
-      const businesses = await getAll()
-      return businesses.filter(business => business?.category.toLowerCase().includes(category.toLowerCase()))
+      const result = await updateBusiness(idBusiness, business)
+      if (!result.success) throw result.error
+    } catch (e: unknown) { isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message }) }
+    finally { setLoadingStatus() }
+  }
+
+  /**
+   * Elimina un negocio por su ID.
+   * @param {string} idBusiness - El ID del negocio (uid).
+   * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion delete
+   */
+  const delete_ = async (idBusiness: string): Promise<void> => { //dont works yet
+    setLoadingStatus('Eliminando negocio...')
+    try {
+      const result = await deleteBusiness(idBusiness)
+      if (!result.success) throw result.error
+    } catch (e: unknown) { isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message }) }
+    finally { setLoadingStatus() }
+  }
+  /*---------------------------------------------------------------------------------------------------------*/
+
+  /*--------------------------------------------------images--------------------------------------------------*/
+  /**
+   * Obtiene las imágenes de un negocio
+   * @param {string} idBusiness - El ID del negocio.
+   * @returns {Promise<TypeBusinessImage[]>} Un array de imágenes.
+   */
+  const getAllImages = async (idBusiness: string): Promise<Metadata[]> => {
+    setLoadingStatus('Cargando imágenes...')
+    try {
+      const result = await getAllBusinessImages(idBusiness)
+      if (!result.success) throw result.error
+      return result.data
     } catch (e: unknown) {
-      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message });
       return []
     } finally { setLoadingStatus() }
+  }
+
+  /**
+   * Crea una imagen de un negocio
+   * @param {string} idBusiness - El ID del negocio (uid).
+   * @param {File[]} files - Las imagenes a crear.
+   * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion create
+   */
+  const createImage = async (idBusiness: string, files: BusinessFormProps['references']['photoUrl']): Promise<void> => {
+    setLoadingStatus('Creando imagen...')
+    try {
+      const result = await createBusinessImage(idBusiness, files)
+      if (!result.success) throw result.error
+    } catch (e: unknown) { isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message }) }
+    finally { setLoadingStatus() }
+  }
+
+  /**
+   * Elimina una imagen de un negocio por su ID.
+   * @param {string} idBusiness - El ID del negocio (uid).
+   * @param {string} nameImage - El nombre de la imagen a eliminar.
+   * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion delete
+   */
+  const deleteImage = async (idBusiness: string, nameImage: string): Promise<void> => {
+    setLoadingStatus('Eliminando imagen...')
+    try {
+      const result = await deleteBusinessImage(idBusiness, nameImage)
+      if (!result.success) throw result.error
+    } catch (e: unknown) { isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message }) }
+    finally { setLoadingStatus() }
   }
   /*---------------------------------------------------------------------------------------------------------*/
 
@@ -111,7 +177,11 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
       getAll,
       getById,
       getByQuery,
-      filterByCategory
+      update,
+      delete: delete_,
+      getAllImages,
+      createImage,
+      deleteImage
     }}>
       {children}
     </Business.Provider>

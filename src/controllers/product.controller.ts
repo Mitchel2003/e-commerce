@@ -1,7 +1,7 @@
+import { ProductFormProps, ProductUpdateFormProps } from "@/schemas/product.schema"
 import { databaseService } from "@/services/firebase/database.service"
 import { storageService } from "@/services/firebase/storage.service"
 import { Result, success, failure } from "@/interfaces/db.interface"
-import { ProductFormProps } from "@/schemas/product.schema"
 import { Product } from "@/interfaces/context.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI from "@/errors"
@@ -53,22 +53,13 @@ export const createProduct = async (idBusiness: string, product: ProductFormProp
 
 /**
  * Actualiza un producto existente.
- * @param {string} idBusiness - Representa el uid del negocio asociado
  * @param {string} idProduct - El identificador del producto (uid default)
- * @param {Partial<ProductFormProps>} product - Los datos a actualizar
+ * @param {Partial<ProductUpdateFormProps>} product - Los datos a actualizar
  * @returns {Promise<Result<void>>} Actualiza un producto
  */
-export const updateProduct = async (idBusiness: string, idProduct: string, { imageUrl, ...productData }: Partial<ProductFormProps>): Promise<Result<void>> => {
+export const updateProduct = async (idProduct: string, product: Partial<ProductUpdateFormProps>): Promise<Result<void>> => {
   try {
-    let productToUpdate: Partial<Product> = { ...productData }
-    if (imageUrl instanceof File) { //if we receive a new image, we need update storage
-      const path = `${idBusiness}/products/${productData.name}`
-      const imageResult = await storageService.updateFile(path, imageUrl)
-      if (!imageResult.success) throw imageResult.error
-      productToUpdate.imageUrl = imageResult.data
-    }
-
-    const result = await databaseService.updateProduct(idProduct, productToUpdate)
+    const result = await databaseService.updateProduct(idProduct, product)
     if (!result.success) throw result.error
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar producto'))) }

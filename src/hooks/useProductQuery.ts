@@ -81,8 +81,7 @@ export const useProductMutation = (): CustomMutation_Product => {
    */
   const createMutation = useMutation({
     mutationFn: async (product: ProductFormProps) => await create(user.uid, product),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products(user.uid) }),
-    onError: (error) => console.log(error)
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products(user.uid) })
   })
 
   /**
@@ -91,7 +90,7 @@ export const useProductMutation = (): CustomMutation_Product => {
    * @param {UpdateProductProps["data"]} data - Los datos del producto a actualizar.
    */
   const updateMutation = useMutation({
-    mutationFn: async ({ idProduct, data }: UpdateProductProps) => await update(user.uid, idProduct, data),
+    mutationFn: async ({ idProduct, data }: UpdateProductProps) => await update(idProduct, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products(user.uid) })
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.product(variables.idProduct) })
@@ -101,7 +100,6 @@ export const useProductMutation = (): CustomMutation_Product => {
   /**
    * Mutation para eliminar un producto
    * @param {DeleteProductProps.idProduct} idProduct - Corresponde al uid default del producto.
-   * @param {DeleteProductProps.productName} productName - Corresponde al nombre del producto.
    */
   const deleteMutation = useMutation({
     mutationFn: async ({ idProduct }: DeleteProductProps) => await deleteProduct(user.uid, idProduct),

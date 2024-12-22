@@ -10,6 +10,7 @@ interface HeaderCustomProps extends ThemeContextProps, HeaderSpanProps, Pick<Lab
   to: 'input' | 'component';
   title?: string;
   className?: string;
+  className_span?: string;
 }
 /**
  * This component is a customizable "Header" that use a title at left side and an optional description with respective icon.
@@ -28,46 +29,51 @@ const HeaderCustom = ({
   theme,
   title,
   className,
+  className_span,
   to = 'component',
   iconSpan = 'none',
   span
 }: HeaderCustomProps) => {
   return (
-    <div className="flex items-center justify-between">
-
+    <div className="flex flex-col md:flex-row md:items-center justify-between">
       {/* -------------------- Header (mode input or component) -------------------- */}
-      {title && (
-        to === 'input' ? (
-          //label to asocciate at input =>
-          <FormLabel
-            htmlFor={htmlFor}
-            className={cn(className, theme === 'dark' ? 'text-zinc-200' : 'text-gray-700')}
-          >
-            {title}
-          </FormLabel>
-        ) : (
-          //Text free customizable to display =>
-          <span className={cn(className, theme === 'dark' ? 'text-zinc-200' : 'text-gray-700')}>
-            {title}
-          </span>
-        )
-      )}
+      <div>
+        {title && (
+          to === 'input' ? (
+            //label to asocciate at input =>
+            <FormLabel
+              htmlFor={htmlFor}
+              className={cn(className, theme === 'dark' ? 'text-zinc-200' : 'text-gray-700')}
+            >
+              {title}
+            </FormLabel>
+          ) : (
+            //Text free customizable to display =>
+            <span className={cn(className, theme === 'dark' ? 'text-zinc-200' : 'text-gray-700')}>
+              {title}
+            </span>
+          )
+        )}
+      </div>
+
       {/* ---------------------------------------------------------------- */}
 
       {/* -------------------- Description of section or component - remember that this is optional -------------------- */}
-      {span && (
-        <span className={cn(
-          'text-sm text-right flex items-center gap-2',
-          theme === 'dark' ? 'text-zinc-300' : 'text-gray-500'
-        )}>
-          {/* -------------------- Description of section or component -------------------- */}
-          {span}
-          {/* -------------------- Icon associated to the description -------------------- */}
-          {iconSpan !== 'none' ? (<RenderIconSpan iconSpan={iconSpan} />) : (<></>)}
-        </span>
-      )}
+      <div>
+        {span && (
+          <span
+            className={cn(
+              className_span,
+              'flex text-sm md:items-center gap-2',
+              theme === 'dark' ? 'text-zinc-300' : 'text-gray-500'
+            )}
+          >
+            {span}
+            {iconSpan !== 'none' ? (<RenderIconSpan iconSpan={iconSpan} />) : (<></>)}
+          </span>
+        )}
+      </div>
       {/* ---------------------------------------------------------------- */}
-
     </div >
   )
 }
@@ -78,10 +84,10 @@ const RenderIconSpan = ({ iconSpan }: RenderIconSpanProps) => {
   return (
     <>
       {iconSpan === 'info'
-        ? <InfoIcon className="w-8 h-8 md:w-6 md:h-6 text-sky-300" />
+        ? <InfoIcon className="w-5 h-5 md:w-7 md:h-7 text-sky-300" />
         : (iconSpan === 'warn'
-          ? <TriangleAlertIcon className="w-8 h-8 md:w-6 md:h-6 text-yellow-300" />
-          : <SirenIcon className="w-8 h-8 md:w-6 md:h-6 text-red-300" />
+          ? <TriangleAlertIcon className="w-5 h-5 md:w-7 md:h-7 text-yellow-300" />
+          : <SirenIcon className="w-5 h-5 md:w-7 md:h-7 text-red-300" />
         )
       }
     </>

@@ -1,6 +1,7 @@
 import { Business, Product } from "@/interfaces/context.interface";
 import { User, UserProfile } from "firebase/auth";
 
+/*--------------------------------------------------handle errors--------------------------------------------------*/
 type IError = { message: string, code?: string, details?: unknown, statusCode?: number }
 export interface Success<T> { success: true, data: T }
 export interface Failure { success: false; error: IError }
@@ -13,6 +14,14 @@ export interface FirebaseResponse { message: string, code: string }
 export function isFirebaseResponse(e: unknown): e is FirebaseResponse {
   return (typeof e === "object" && e !== null && "message" in e)
 }
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------tools--------------------------------------------------*/
+export interface Metadata {
+  name: string
+  url: string
+}
+/*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------service interface--------------------------------------------------*/
 export interface AuthService {
@@ -47,6 +56,7 @@ export interface DatabaseService {
 export interface StorageService {
   getFile(path: string): Promise<Result<string>>
   getFiles(path: string): Promise<Result<string[]>>
+  getFilesWithMetadata(path: string): Promise<Result<Metadata[]>>
   uploadFile(path: string, file: File): Promise<Result<string>>
   uploadFiles(path: string, files: File[]): Promise<Result<string[]>>
   updateFile(path: string, file: File): Promise<Result<string>>

@@ -1,13 +1,6 @@
+import { TerminalSquare, UserRound, UserPlus, LogOut, LogIn, Info, Home } from 'lucide-react'
 import { NavItemProps } from "@/interfaces/props.interface"
 import { useAuthContext } from '@/context/AuthContext'
-import {
-  TerminalSquare,
-  UserPlus,
-  LogOut,
-  LogIn,
-  Info,
-  Home,
-} from 'lucide-react'
 
 export const heroItems = [
   {
@@ -33,7 +26,7 @@ export const heroItems = [
 ]
 
 export const useNavItems = () => {
-  const { signout } = useAuthContext()
+  const { signout, user } = useAuthContext()
 
   const navGuestItems: NavItemProps[] = [
     {
@@ -63,6 +56,11 @@ export const useNavItems = () => {
       href: '/dashboard',
       label: 'Panel del usuario',
       icon: <TerminalSquare className="w-6 h-6" />
+    },
+    {
+      href: `/dashboard/profile/${user?.uid}`,
+      label: 'Editar perfil',
+      icon: <UserRound className="w-6 h-6" />
     },
     {
       action: signout,

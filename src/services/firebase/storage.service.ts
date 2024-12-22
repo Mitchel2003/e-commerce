@@ -1,4 +1,4 @@
-import { Result, success, failure, Success, StorageService as IStorage } from "@/interfaces/db.interface"
+import { Result, success, failure, Success, StorageService as IStorage, Metadata } from "@/interfaces/db.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI, { NotFound } from "@/errors"
 import { firebaseApp } from "@/services/db"
@@ -70,6 +70,21 @@ class StorageService implements IStorage {
   }
 
   /**
+   * Obtiene los metadatos de todos los archivos de un directorio del almacenamiento de Firebase.
+   * @param {string} path - La ruta del directorio al que se accede.
+   * @returns {Promise<Result<Metadata[]>>} Un array con los metadatos de los archivos.
+   */
+  async getFilesWithMetadata(path: string): Promise<Result<Metadata[]>> {
+    try {
+      const storageRef = this.getReference(path)
+      const files = await listAll(storageRef)
+      return success(await Promise.all(
+        files.items.map(async item => ({ name: item.name, url: await getDownloadURL(item) }))
+      ))
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener archivos'))) }
+  }
+
+  /**
    * Subir un archivo al almacenamiento de Firebase.
    * @param {string} path - La ruta del archivo final.
    * @param {File} file - El archivo a subir.
@@ -96,7 +111,8 @@ class StorageService implements IStorage {
    */
   async uploadFiles(path: string, files: File[]): Promise<Result<string[]>> {
     try {
-      const results = await Promise.all(files.map((file, index) => this.uploadFile(`${path}_${index + 1}`, file)))
+      const random = Math.floor(Math.random() * 10000)//genera un numero random de 4 digitos
+      const results = await Promise.all(files.map((file) => this.uploadFile(`${path}_${random}`, file)))
       const failed = results.find(result => !result.success)
       if (failed) return failure(failed.error)
 

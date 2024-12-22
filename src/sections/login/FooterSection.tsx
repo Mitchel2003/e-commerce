@@ -17,7 +17,7 @@ const FooterSection = ({ theme }: LoginComponentsProps) => {
   return (
     <CardFooter className="flex flex-col pb-4">
       <div className={cn('text-center',
-        theme === 'dark' ? 'text-purple-400' : 'text-purple-600'
+        theme === 'dark' ? 'text-gray-300' : 'text-purple-600'
       )}>
         <Button type="button" size="sm" variant="ghost" onClick={() => setShowForgotDialog(true)}>
           ¿Olvidaste tu contraseña?

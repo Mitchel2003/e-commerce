@@ -47,7 +47,7 @@ const ImageField = React.forwardRef<HTMLInputElement, ImageFieldProps>(({
             title={label}
             span={span}
             iconSpan={iconSpan}
-            className='ml-auto'
+            className_span="mr-5"
           />
 
           <FormControl>

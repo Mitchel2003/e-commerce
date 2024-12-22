@@ -5,10 +5,10 @@ import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
 
 import { login, register, logout, forgotPassword } from "@/controllers/auth.controller";
-import { authService as authFB } from "@/services/firebase/auth.service";
-
 import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
+import { authService as authFB } from "@/services/firebase/auth.service";
 import { createContext, useContext, useState, useEffect } from "react";
+import { createBusiness } from "@/controllers/business.controller";
 
 const Auth = createContext<AuthContext>(undefined)
 
@@ -66,14 +66,16 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   const signup = async (data: RegisterFormProps): Promise<void> => {
     setLoadingStatus("Registrando...")
     try {
-      const result = await register(data)
-      if (!result.success) throw result.error
+      const user = await register(data)
+      if (!user.success) throw user.error
+      const business = await createBusiness(user.data, data)
+      if (!business.success) throw business.error
       notifySuccess({ title: "Registro exitoso", message: "Por favor verifica tu correo para continuar" })
     } catch (e: unknown) {
       isFirebaseResponse(e) && notifyError({ title: "Error en la solicitud", message: e.message })
     } finally { setLoadingStatus() }
   }
-  
+
   /**
    * Cierra la sesión del negocio actual
    * @returns {Promise<void>} Un void que cierra la sesion del negocio

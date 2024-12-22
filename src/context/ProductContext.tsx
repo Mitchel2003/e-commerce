@@ -5,8 +5,8 @@ import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
 
 import { getProducts, getProductById, createProduct, updateProduct, deleteProduct } from "@/controllers/product.controller";
+import { ProductFormProps, ProductUpdateFormProps } from "@/schemas/product.schema";
 import { useState, useContext, createContext } from "react";
-import { ProductFormProps } from "@/schemas/product.schema";
 
 const Product = createContext<ProductContext>(undefined)
 
@@ -101,15 +101,14 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
 
   /**
    * Actualiza un producto existente por su ID.
-   * @param {string} idBusiness - El ID del negocio (uid).
    * @param {string} idProduct - El ID del producto a actualizar.
    * @param {Partial<ProductFormProps>} product - Los nuevos datos del producto.
    * @returns {Promise<void>} Un void que resulta de la ejecucion de la funcion update
    */
-  const update = async (idBusiness: string, idProduct: string, product: Partial<ProductFormProps>): Promise<void> => {
+  const update = async (idProduct: string, product: Partial<ProductUpdateFormProps>): Promise<void> => {
     setLoadingStatus('Actualizando producto...')
     try {
-      const result = await updateProduct(idBusiness, idProduct, product)
+      const result = await updateProduct(idProduct, product)
       if (!result.success) throw result.error
       notifySuccess({ title: 'Exito', message: 'Producto actualizado exitosamente' })
     } catch (e: unknown) {

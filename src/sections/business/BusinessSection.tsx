@@ -7,45 +7,46 @@ import NotFound from '#/common/states/NotFound'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import { useQueryProduct } from '@/hooks/useProductQuery'
-import { useParams } from 'react-router-dom'
 import { Building2 } from 'lucide-react'
 import { cn } from "@/lib/utils"
 
 import { BusinessDescription } from './DescriptionSection'
 import { SocialMediaSection } from './SocialMediaSection'
+import { Metadata } from '@/interfaces/db.interface'
 import { BusinessHeader } from './HeaderSection'
 
-export const BusinessSection = ({ theme }: ThemeContextProps) => {
-  const { id = '' } = useParams()
-  const { fetchBusinessById } = useQueryBusiness()
-  const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(id)
+interface BusinessSectionProps extends ThemeContextProps {
+  idBusiness: string
+}
+export const BusinessSection = ({ theme, idBusiness }: BusinessSectionProps) => {
+  const { fetchBusinessById, fetchAllBusinessImages } = useQueryBusiness()
+  const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(idBusiness)
+  const { data: images, isLoading: isLoadingImages } = fetchAllBusinessImages(idBusiness)
 
   const { fetchAllProducts } = useQueryProduct()
-  const { data: products, isLoading: isLoadingProducts } = fetchAllProducts(id)
+  const { data: products, isLoading: isLoadingProducts } = fetchAllProducts(idBusiness)
 
-  if (isLoadingBusiness || isLoadingProducts) return <BusinessSkeleton theme={theme} />
-  if (!business) return (
-    <NotFound
-      theme={theme}
-      title="Negocio no encontrado"
-      message="No pudimos encontrar la información de este negocio."
-      illustration={<Building2 className="w-16 h-16" />}
-    />
-  )
-
+  if (isLoadingBusiness || isLoadingProducts || isLoadingImages) return <BusinessSkeleton theme={theme} />
+  if (!business) return <NotFoundBusiness theme={theme} />
+  
+  const imagesBusiness = getImagesBusiness(images)
   return (
     <div className="container p-0 mx-auto">
+      {/* header */}
       <BusinessHeader
+        theme={theme}
         name={business.name}
-        imageUrl={business.photoUrl[0]}
-        theme={theme}
-      />
-      <BusinessDescription
-        description={business.description}
-        images={business.photoUrl}
-        theme={theme}
+        imageUrl={getRandomImage(imagesBusiness)}
       />
 
+      {/* description */}
+      <BusinessDescription
+        theme={theme}
+        images={imagesBusiness}
+        description={business.description}
+      />
+
+      {/* products */}
       <section className={cn('py-16',
         theme === 'dark' ? 'bg-zinc-900' : 'bg-white'
       )}>
@@ -76,6 +77,8 @@ export const BusinessSection = ({ theme }: ThemeContextProps) => {
           )}
         </div>
       </section>
+
+      {/* social networks */}
       {business.socialNetworks && (
         <SocialMediaSection
           contact={business.phone}
@@ -86,3 +89,18 @@ export const BusinessSection = ({ theme }: ThemeContextProps) => {
     </div>
   )
 }
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------tools--------------------------------------------------*/
+const getImagesBusiness = (images: Metadata[] | undefined) => (images?.map(image => image.url) || ['https://placehold.co/600x400'])
+const getRandomImage = (images: string[]) => (images[Math.floor(Math.random() * images.length)])
+
+const NotFoundBusiness = ({ theme }: ThemeContextProps) => (
+  <NotFound
+    theme={theme}
+    title="Negocio no encontrado"
+    message="No pudimos encontrar la información de este negocio."
+    illustration={<Building2 className="w-16 h-16" />}
+  />
+)
+/*---------------------------------------------------------------------------------------------------------*/

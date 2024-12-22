@@ -33,12 +33,12 @@ import {
  * techno (database)
  *   ===> auth (document)
  *       ===>> business (folder)
- *           ===>>> uid (document auth)
+ *           ===>>> uid (default) (document)
  *               ===>>>> {name: string, email: string, phone: string, photoURL: string[]...}
  * 
  *       ===>> products (folder)
- *           ===>>> uid (default) (document)
- *               ===>>>> {id: uid (auth), name: string, description: string, price: number, photoURL: string}
+ *           ===>>> uid (idRamdomized) (document)
+ *               ===>>>> {idBusiness: uid (business), name: string, description: string, price: number, photoURL: string}
  * 
  * @argument uid(auth) represent the id of the business authenticate,
  * so we use this uid to identify the products of the business (crud).
@@ -119,7 +119,7 @@ class DatabaseService implements IDatabase {
    */
   async updateBusiness({ id, ...business }: Partial<Business>): Promise<Result<void>> {
     try {
-      return await setDoc(doc(this.getCollection('business'), id), { ...business }).then(() => success(undefined))
+      return await updateDoc(doc(this.getCollection('business'), id), { ...business }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar negocio'))) }
   }
 

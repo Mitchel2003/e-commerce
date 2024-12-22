@@ -1,5 +1,6 @@
-import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
-import { ProductFormProps } from "@/schemas/product.schema";
+import { LoginFormProps, RegisterFormProps, RegisterUpdateFormProps as BusinessUpdateFormProps } from "@/schemas/auth.schema";
+import { ProductFormProps, ProductUpdateFormProps } from "@/schemas/product.schema";
+import { Metadata } from "./db.interface";
 /*--------------------------------------------------ThemeContext--------------------------------------------------*/
 export type Theme = 'light' | 'dark'
 
@@ -44,7 +45,12 @@ export type BusinessContext = {
   getAll: () => Promise<Business[]>
   getById: (id: string) => Promise<Business | undefined>
   getByQuery: (query: string) => Promise<Business[]>
-  filterByCategory: (category: string) => Promise<Business[]>
+  update: (idBusiness: string, business: Partial<BusinessUpdateFormProps>) => Promise<void>
+  delete: (idBusiness: string) => Promise<void>
+  //files
+  getAllImages: (idBusiness: string) => Promise<Metadata[]>
+  deleteImage: (idBusiness: string, nameImage: string) => Promise<void>
+  createImage: (idBusiness: string, files: RegisterFormProps['references']['photoUrl']) => Promise<void>
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/
 
@@ -65,7 +71,7 @@ export type ProductContext = {
   getById: (idProduct: string) => Promise<Product | undefined>
   filterByName: (idBusiness: string, name: string) => Promise<Product[]>
   create: (idBusiness: string, product: ProductFormProps) => Promise<void>
-  update: (idBusiness: string, idProduct: string, product: Partial<ProductFormProps>) => Promise<void>
+  update: (idProduct: string, product: Partial<ProductUpdateFormProps>) => Promise<void>
   delete: (idBusiness: string, idProduct: string) => Promise<void>
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

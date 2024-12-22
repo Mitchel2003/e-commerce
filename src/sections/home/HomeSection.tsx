@@ -13,7 +13,7 @@ const HomeSection = ({ theme }: ThemeContextProps) => {
     <div>
       <InfoSection theme={theme} />
       <DiscoverSection theme={theme} />
-      <BusinessSection businesses={businesses} theme={theme} />
+      <BusinessSection businesses={businesses || []} theme={theme} />
     </div>
   )
 }

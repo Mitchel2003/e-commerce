@@ -51,11 +51,17 @@ const ProductActions = ({ product, theme }: ProductActionsProps) => {
         form={{ methods, onSubmit }}
         onOpenChange={setShowUpdateDialog}
       />
+      
       <DeleteProductDialog
-        product={product}
-        handleDelete={handleDelete}
-        showDeleteDialog={showDeleteDialog}
-        setShowDeleteDialog={setShowDeleteDialog}
+        theme={theme}
+        variant="destructive"
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        onConfirm={handleDelete}
+        title="¿Eliminar producto?"
+        description={`Esta acción no se puede deshacer. El producto ${product.name} será eliminado permanentemente.`}
+        confirmLabel="Eliminar"
+        cancelLabel="Cancelar"
       />
     </>
   )

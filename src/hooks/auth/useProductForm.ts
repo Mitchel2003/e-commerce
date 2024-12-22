@@ -5,37 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useEffect } from "react"
 
-/**
- * Hook personalizado para manejar el formulario de actualización de productos
- * @param product - Producto actual a actualizar
- * @param onSubmitCallback - Callback que se ejecuta al enviar el formulario
- */
-export const useUpdateProductForm = (product: Product) => {
-  const { updateProduct } = useProductMutation()
-
-  const methods = useForm<ProductUpdateFormProps>({
-    resolver: zodResolver(productUpdateSchema),
-    defaultValues: undefined,
-    mode: "onChange"
-  })
-
-  // Cargar datos iniciales del producto
-  useEffect(() => {
-    product && methods.reset({
-      name: product.name,
-      price: product.price,
-      description: product.description
-    })
-  }, [product])
-
-  const onSubmit = methods.handleSubmit(async (data: any) => {
-    updateProduct({ idProduct: product.uid as string, data })
-    methods.reset()
-  })
-
-  return { methods, onSubmit }
+const defaultValues = {
+  imageUrl: undefined,
+  description: '',
+  price: '',
+  name: ''
 }
-
 
 /** Hook personalizado para manejar el formulario de creación de productos */
 export const useCreateProductForm = () => {
@@ -55,9 +30,33 @@ export const useCreateProductForm = () => {
   return { methods, onSubmit }
 }
 
-const defaultValues = {
-  imageUrl: undefined,
-  description: '',
-  price: '',
-  name: ''
+/**
+ * Hook personalizado para manejar el formulario de actualización de productos
+ * @param product - Producto actual a actualizar
+ * @param onSubmitCallback - Callback que se ejecuta al enviar el formulario
+ */
+export const useUpdateProductForm = (product: Product) => {
+  const { updateProduct } = useProductMutation()
+
+  const methods = useForm<ProductUpdateFormProps>({
+    resolver: zodResolver(productUpdateSchema),
+    defaultValues: undefined,
+    mode: "onSubmit"
+  })
+
+  // Cargar datos iniciales del producto
+  useEffect(() => {
+    product && methods.reset({
+      name: product.name,
+      price: product.price,
+      description: product.description
+    })
+  }, [product])
+
+  const onSubmit = methods.handleSubmit(async (data: any) => {
+    updateProduct({ idProduct: product.uid as string, data })
+    methods.reset()
+  })
+
+  return { methods, onSubmit }
 }

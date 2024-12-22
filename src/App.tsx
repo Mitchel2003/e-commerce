@@ -11,6 +11,7 @@ import Dashboard from "@/pages/Dashboard";
 import Register from "@/pages/Register";
 import Business from "@/pages/Business";
 import AboutUs from "@/pages/AboutUs";
+import Profile from "@/pages/Profile";
 import Login from "@/pages/Login";
 import Home from "@/pages/Home";
 
@@ -38,6 +39,7 @@ function App() {
                   {/* protected routes */}
                   <Route element={<ProtectedRoute />}>
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/dashboard/profile/:id" element={<Profile />} />
                   </Route>
 
                 </Route>
