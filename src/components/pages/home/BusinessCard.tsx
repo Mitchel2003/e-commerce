@@ -3,10 +3,10 @@ import BusinessSkeleton from '#/common/skeletons/BusinessSkeleton'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import { Business } from '@/interfaces/context.interface'
+import { Metadata } from '@/interfaces/db.interface'
 import { useNavigate } from 'react-router-dom'
 import { StarIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Metadata } from '@/interfaces/db.interface'
 
 interface BusinessCardProps extends ThemeContextProps {
   business: Business

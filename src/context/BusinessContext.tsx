@@ -28,8 +28,8 @@ export const useBusinessContext = () => {
  */
 export const BusinessProvider = ({ children }: Props): JSX.Element => {
   const { show: showLoading, hide: hideLoading } = useLoadingScreen()
-  const { notifyError } = useNotification()
-  const [loading, setLoading] = useState(false)
+  const { notifySuccess, notifyError } = useNotification()
+  const [loading, setLoading] = useState(true)
 
   /**
    * Obtiene todos los negocios registrados
@@ -91,6 +91,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
     try {
       const result = await updateBusiness(idBusiness, business)
       if (!result.success) throw result.error
+      notifySuccess({ title: "Actualización exitosa", message: "Negocio actualizado correctamente" })
     } catch (e: unknown) { isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message }) }
     finally { setLoadingStatus() }
   }
@@ -105,6 +106,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
     try {
       const result = await deleteBusiness(idBusiness)
       if (!result.success) throw result.error
+      notifySuccess({ title: "Eliminación exitosa", message: "Negocio eliminado correctamente" })
     } catch (e: unknown) { isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message }) }
     finally { setLoadingStatus() }
   }
@@ -139,6 +141,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
     try {
       const result = await createBusinessImage(idBusiness, files)
       if (!result.success) throw result.error
+      notifySuccess({ title: "Creación exitosa", message: "Imagen creada correctamente" })
     } catch (e: unknown) { isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message }) }
     finally { setLoadingStatus() }
   }
@@ -154,6 +157,7 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
     try {
       const result = await deleteBusinessImage(idBusiness, nameImage)
       if (!result.success) throw result.error
+      notifySuccess({ title: "Eliminación exitosa", message: "Imagen eliminada correctamente" })
     } catch (e: unknown) { isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message }) }
     finally { setLoadingStatus() }
   }
