@@ -47,7 +47,7 @@ export const registerSchema = z.object({
     description: z
       .string()
       .min(30, "Descripción demasiado corta")
-      .max(1000, "Descripción demasiado larga"),
+      .max(2000, "Descripción demasiado larga"),
   }),
 
   //References (like images and social networks)

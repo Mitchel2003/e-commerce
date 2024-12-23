@@ -13,7 +13,7 @@ export const productSchema = z.object({
   description: z
     .string()
     .min(1, "La descripción es requerida")
-    .max(200, "La descripción es demasiado larga"),
+    .max(2000, "La descripción es demasiado larga"),
   imageUrl: z.instanceof(File, { message: "Debe seleccionar una imagen" })
     .refine(file => file.size <= 5 * 1024 * 1024, "La imagen no debe exceder 5MB")
     .refine(file => ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type), "La imagen debe ser PNG, JPG o JPEG")
