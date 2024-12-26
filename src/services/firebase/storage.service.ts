@@ -105,8 +105,8 @@ class StorageService implements IStorage {
    * @param {string} path - directorio (place/products) + nombre del archivo
    * @param {File[]} files - Array de archivos a subir
    * @argument results - Pretende subir cada uno de los files a Firebase Storage
-   * se espera un array con las URLs de los archivos subidos, pero como el uploadFiles
-   * es un Result(success o failure), se debe manejar el error de cada uploadFile
+   * se espera un array con las URLs de los archivos subidos, pero como el uploadFile
+   * es un Result(success o failure), se debe manejar el error de cada upload
    * @returns {Promise<Result<string[]>>} Array con las URLs de los archivos subidos
    */
   async uploadFiles(path: string, files: File[]): Promise<Result<string[]>> {

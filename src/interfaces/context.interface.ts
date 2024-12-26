@@ -13,7 +13,13 @@ export type ThemeContextProps = { theme: Theme }
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------AuthContext--------------------------------------------------*/
-export type User = { uid: string }
+export type User = {
+  uid: string
+  email: string
+  photoURL: string
+  displayName: string
+  emailVerified: boolean
+}
 
 export type AuthContext = {
   isAuth: boolean;

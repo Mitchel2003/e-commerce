@@ -3,6 +3,7 @@ import { AuthContext, User } from "@/interfaces/context.interface";
 import { useNotification } from "@/hooks/ui/useNotification";
 import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
+import { User as UserFB } from "firebase/auth";
 
 import { login, register, logout, forgotPassword } from "@/controllers/auth.controller";
 import { RegisterFormProps, LoginFormProps } from "@/schemas/auth.schema";
@@ -37,7 +38,11 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
 
   /** Observa el estado de autenticación del negocio en sesión */
   useEffect(() => {
-    return () => authFB.observeAuth((auth) => { setUser(auth); setLoading(false) })
+    return authFB.observeAuth((auth) => {
+      setIsAuth(Boolean(auth))
+      setUser(mapAuth(auth))
+      setLoading(false)
+    })
   }, [])
 
   /*--------------------------------------------------authentication--------------------------------------------------*/
@@ -128,6 +133,22 @@ export const AuthProvider = ({ children }: Props): JSX.Element => {
   const setLoadingStatus = (status?: string) => {
     status ? showLoading(status) : hideLoading()
     setLoading(Boolean(status))
+  }
+
+  /**
+   * Mapea un usuario de Firebase al tipo de usuario definido en la aplicación.
+   * @param {User} fbUser - El usuario de Firebase.
+   * @returns {User | undefined} - El usuario mapeado o undefined si no hay usuario.
+   */
+  const mapAuth = (fbUser: UserFB | null): User | undefined => {
+    if (!fbUser) return undefined
+    return {
+      uid: fbUser.uid,
+      email: fbUser.email || '',
+      photoURL: fbUser.photoURL || '',
+      displayName: fbUser.displayName || '',
+      emailVerified: fbUser.emailVerified,
+    }
   }
   /*---------------------------------------------------------------------------------------------------------*/
 
