@@ -7,13 +7,14 @@ import NotFound from '#/common/states/NotFound'
 import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import { useQueryProduct } from '@/hooks/useProductQuery'
+import { Metadata } from '@/interfaces/db.interface'
 import { Building2 } from 'lucide-react'
 import { cn } from "@/lib/utils"
 
 import { BusinessDescription } from './DescriptionSection'
 import { SocialMediaSection } from './SocialMediaSection'
-import { Metadata } from '@/interfaces/db.interface'
 import { BusinessHeader } from './HeaderSection'
+import { BusinessStats } from './StatsSection'
 
 interface BusinessSectionProps extends ThemeContextProps {
   idBusiness: string
@@ -28,7 +29,7 @@ export const BusinessSection = ({ theme, idBusiness }: BusinessSectionProps) => 
 
   if (isLoadingBusiness || isLoadingProducts || isLoadingImages) return <BusinessSkeleton theme={theme} />
   if (!business) return <NotFoundBusiness theme={theme} />
-  
+
   const imagesBusiness = getImagesBusiness(images)
   return (
     <div className="container p-0 mx-auto">
@@ -44,6 +45,11 @@ export const BusinessSection = ({ theme, idBusiness }: BusinessSectionProps) => 
         theme={theme}
         images={imagesBusiness}
         description={business.description}
+      />
+
+      {/* Stats */}
+      <BusinessStats
+        theme={theme}
       />
 
       {/* products */}

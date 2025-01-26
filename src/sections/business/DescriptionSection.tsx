@@ -10,12 +10,12 @@ interface BusinessDescriptionProps extends ThemeContextProps {
 
 export const BusinessDescription = ({ description, images, theme }: BusinessDescriptionProps) => {
   return (
-    <section className="py-16 relative overflow-hidden">
+    <section className="py-24 px-4 relative overflow-hidden">
       <div className={cn(
-        "absolute inset-0 bg-gradient-to-r opacity-50",
+        "absolute inset-0 bg-gradient-to-br opacity-80",
         theme === 'dark'
-          ? 'from-purple-800 to-pink-800'
-          : 'from-purple-500 to-pink-500'
+          ? 'from-purple-900/90 to-pink-900/90'
+          : 'from-purple-200 to-pink-200'
       )}>
       </div>
       <div className="container mx-auto px-4 relative z-10">
@@ -28,7 +28,7 @@ export const BusinessDescription = ({ description, images, theme }: BusinessDesc
           >
             <h2
               className={cn(
-                "text-3xl font-bold mb-6 text-center bg-gradient-to-r bg-clip-text text-transparent",
+                "text-4xl font-bold mb-8 text-center bg-gradient-to-r bg-clip-text text-transparent",
                 theme === 'dark'
                   ? 'from-purple-300 to-pink-300'
                   : 'from-purple-500 to-pink-500'
@@ -38,10 +38,10 @@ export const BusinessDescription = ({ description, images, theme }: BusinessDesc
             </h2>
             <div
               className={cn(
-                "bg-opacity-50 rounded-lg p-6 shadow-lg",
+                "bg-opacity-50 rounded-lg p-6 shadow-lg bg-gradient-to-br",
                 theme === 'dark'
-                  ? 'bg-zinc-800 text-white'
-                  : 'bg-purple-50/45 text-gray-800'
+                  ? 'from-zinc-800/50 to-zinc-800/50'
+                  : 'from-purple-100 to-pink-100'
               )}
             >
               <p className="text-lg leading-relaxed">{description}</p>

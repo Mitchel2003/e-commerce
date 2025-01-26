@@ -33,7 +33,6 @@ export const useCreateProductForm = () => {
 /**
  * Hook personalizado para manejar el formulario de actualización de productos
  * @param product - Producto actual a actualizar
- * @param onSubmitCallback - Callback que se ejecuta al enviar el formulario
  */
 export const useUpdateProductForm = (product: Product) => {
   const { updateProduct } = useProductMutation()
