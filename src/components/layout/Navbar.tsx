@@ -41,7 +41,7 @@ const HeaderNavbar = ({ isAuth }: HeaderNavbarProps) => {
         <img src={technoIcon} alt="GS Icon" />
       </span>
       <h1 className="text-2xl">
-        {isAuth ? 'Dashboard' : 'Technopark'}
+        {isAuth ? 'Dashboard' : 'Ocaña Emprende'}
       </h1>
     </Link>
   )
