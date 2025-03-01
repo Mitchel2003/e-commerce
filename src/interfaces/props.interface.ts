@@ -5,15 +5,6 @@ import { LucideIcon } from "lucide-react"
 //interface defautl props
 export interface Props { children?: React.ReactNode }
 
-//sidebar
-export interface NavItemProps {
-  icon: React.ReactNode
-  label: string
-  href?: string
-  subItems?: NavItemProps[]
-  action?: () => Promise<void>
-}
-
 //theme components
 export interface LoginComponentsProps extends ThemeContextProps { }
 
@@ -24,6 +15,14 @@ export interface ActionProps {
   icon: LucideIcon
   className?: string
   onClick: () => void | Promise<void>
+}
+
+// features to discover section
+export interface FeatureDiscoverProps {
+  icon: React.ForwardRefExoticComponent<any>
+  description: string,
+  title: string,
+  tag: string
 }
 
 /*---------------------- Reusables ----------------------*/
@@ -47,6 +46,15 @@ export interface CarouselContext {
   setIndex: (index: number) => void
   next: () => void
   prev: () => void
+}
+
+// Sidebar
+export interface NavItemProps {
+  action?: () => Promise<void>
+  subItems?: NavItemProps[]
+  icon: React.ReactNode
+  label: string
+  href?: string
 }
 
 // Dialog

@@ -1,14 +1,14 @@
-import { DatabaseService as IDatabase } from "@/interfaces/db.interface"
+import { DatabaseService as IDatabase, QueryProps } from "@/interfaces/db.interface"
+import { Result, success, failure } from "@/interfaces/db.interface"
+import { Business, Product } from "@/interfaces/context.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI, { NotFound } from "@/errors"
 import { firebaseApp } from "@/services/db"
 import { User } from "firebase/auth"
 
-import { Result, success, failure } from "@/interfaces/db.interface";
-import { Business, Product } from "@/interfaces/context.interface"
-
 import {
   CollectionReference,
+  QueryConstraint,
   getFirestore,
   collection,
   Firestore,
@@ -19,7 +19,8 @@ import {
   getDoc,
   query,
   where,
-  doc
+  limit,
+  doc,
 } from "firebase/firestore"
 
 /**
@@ -79,18 +80,20 @@ class DatabaseService implements IDatabase {
   }
 
   /**
-   * Permite buscar negocios por nombre.
-   * @param {string} searchTerm - El término de búsqueda.
-   * @returns {Promise<Result<Business[]>>} Una lista de negocios.
-  */
-  async getBusinessByQuery(searchTerm: string): Promise<Result<Business[]>> {
+   * Permite buscar negocios con filtros avanzados y dinámicos.
+   * @param {QueryProps} options - Opciones de búsqueda
+   * @returns {Promise<Result<Business[]>>} Una lista de negocios filtrada.
+   */
+  async getBusinessByQuery(options: QueryProps): Promise<Result<Business[]>> {
     try {
-      const queryRef = query(
-        this.getCollection('business'),
-        where('name', '>=', searchTerm),
-        where('name', '<=', searchTerm + '\uf8ff')
-      )
-      const snapshot = await getDocs(queryRef)
+      const constraints: QueryConstraint[] = []
+      if (options.limit) { constraints.push(limit(options.limit)) }
+      if (options.filters?.length) {
+        options.filters.forEach(filter => {
+          constraints.push(where(filter.field, filter.operator, typeof filter.value === 'string' ? filter.value.toLowerCase() : filter.value))
+        })
+      }
+      const snapshot = await getDocs(query(this.getCollection('business'), ...constraints))
       return success(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Business[])
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'buscar negocios'))) }
   }

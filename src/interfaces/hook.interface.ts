@@ -2,7 +2,7 @@ import { RegisterUpdateFormProps as BusinessUpdateFormProps, RegisterFormProps a
 import { ProductFormProps, ProductUpdateFormProps } from "@/schemas/product.schema"
 import { UseQueryResult, UseMutateFunction } from "@tanstack/react-query"
 import { Business, Product } from "@/interfaces/context.interface"
-import { Metadata } from "@/interfaces/db.interface"
+import { Metadata, QueryProps } from "@/interfaces/db.interface"
 
 /*--------------------------------------------------To product--------------------------------------------------*/
 export interface UpdateProductProps { idProduct: string; data: Partial<ProductUpdateFormProps> }
@@ -32,7 +32,7 @@ export interface CreateBusinessImageProps { idBusiness: string; images: Business
 export type QueryReact_Business = {
   fetchAllBusinesses: () => UseQueryResult<Business[], Error>
   fetchBusinessById: (idBusiness: string) => UseQueryResult<Business | undefined, Error>
-  fetchBusinessByQuery: (query: string) => UseQueryResult<Business[], Error>
+  fetchBusinessByQuery: (options: QueryProps) => UseQueryResult<Business[], Error>
   fetchAllBusinessImages: (idBusiness: string) => UseQueryResult<Metadata[], Error>
 }
 export type CustomMutation_Business = {

@@ -4,11 +4,6 @@ import { useAuthContext } from '@/context/AuthContext'
 
 export const heroItems = [
   {
-    image: 'assets/adds/parqueOca.jpg',
-    title: 'Bienvenido a nuestro app',
-    description: 'Descubre una experiencia de tiendas única',
-  },
-  {
     image: 'assets/adds/comercio.jpg',
     title: 'Grandes marcas, grandes ofertas',
     description: 'Disfruta de tus tiendas favoritas y precios competitivos',
@@ -21,8 +16,8 @@ export const heroItems = [
   {
     image: 'assets/adds/emprendedor.jpg',
     title: 'Apoya nuestros emprendedores',
-    description: 'Encuentra productos únicos y originales, creados en nuestra región',
-  },
+    description: 'Descubre una experiencia de comercio única, con productos originales, creados en nuestra región',
+  }
 ]
 
 export const useNavItems = () => {

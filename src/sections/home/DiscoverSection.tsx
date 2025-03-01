@@ -1,12 +1,27 @@
-import { ShoppingBag, Coffee, CheckCircle, SparklesIcon } from 'lucide-react'
+import { FeatureDiscoverProps } from '@/interfaces/props.interface'
 import { ThemeContextProps } from '@/interfaces/context.interface'
+import { Coffee, Palette, Sparkles, Cpu } from 'lucide-react'
+import DiscoverDialog from '#/pages/home/DiscoverDialog'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
-const DiscoverSection = ({ theme }: ThemeContextProps) => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+interface DiscoverSectionProps extends ThemeContextProps {
+  onCategory: (category: string | null) => void
+  selectedCategory: string | null
+}
 
+const DiscoverSection = ({ theme, onCategory, selectedCategory }: DiscoverSectionProps) => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [feature, setFeature] = useState<number | null>(null)
+
+  const handleShowMore = () => {
+    if (feature === null) return
+    onCategory(features[feature].tag)
+    setFeature(null)
+  }
+
+  const selectedFeature = feature !== null ? features[feature] : null
   return (
     <section className={cn(
       'py-16 bg-gradient-to-r',
@@ -29,11 +44,13 @@ const DiscoverSection = ({ theme }: ThemeContextProps) => {
             <motion.div
               key={index}
               whileHover={{ scale: 1.05 }}
-              onHoverStart={() => setHoveredIndex(index)}
+              onClick={() => setFeature(index)}
               onHoverEnd={() => setHoveredIndex(null)}
+              onHoverStart={() => setHoveredIndex(index)}
               className={cn(
                 'p-6 rounded-lg shadow-lg cursor-pointer',
                 'flex flex-col items-center justify-center md:items-start',
+                selectedCategory === feature.tag && 'ring-4 ring-purple-900',
                 theme === 'dark'
                   ? 'bg-zinc-800'
                   : 'bg-white'
@@ -60,22 +77,56 @@ const DiscoverSection = ({ theme }: ThemeContextProps) => {
           ))}
         </div>
       </div>
+
+      {feature !== null && selectedFeature && (
+        <DiscoverDialog
+          theme={theme}
+          open={feature !== null}
+          onShowMore={handleShowMore}
+          title={selectedFeature.title}
+          description={dialogDescriptions[feature]}
+          onOpenChange={(open) => !open && setFeature(null)}
+          icon={<selectedFeature.icon className="w-8 h-8 text-purple-500" />}
+        />
+      )}
     </section>
   )
 }
 
 export default DiscoverSection
+/*---------------------------------------------------------------------------------------------------------*/
 
+/*--------------------------------------------------tools--------------------------------------------------*/
+const features: FeatureDiscoverProps[] = [
+  {
+    icon: Coffee,
+    tag: 'gastronomia',
+    title: 'Gastronomía',
+    description: 'Pasión por deleitarte, brindando experiencias únicas. ☕🍰'
+  },
+  {
+    tag: 'moda',
+    icon: Sparkles,
+    title: 'Modas',
+    description: 'Descubre lo que te hace único, complementos perfectos para ti. ✨🔥'
+  },
+  {
+    icon: Palette,
+    tag: 'artesanias',
+    title: 'Artesanías',
+    description: 'Creaciones únicas, dale vida a tu espacio con arte, cultura y tradición. 🎨🌈'
+  },
+  {
+    icon: Cpu,
+    tag: 'tecnologia',
+    title: 'Tecnología',
+    description: 'Innovación a tu alcance, encuentra lo último en soluciones digitales. 🚀💡'
+  },
+]
 
-interface Feature {
-  title: string,
-  description: string,
-  icon: React.ForwardRefExoticComponent<any>
-}
-
-const features: Feature[] = [
-  { icon: ShoppingBag, title: 'Compras', description: 'Explora nuestras tiendas' },
-  { icon: Coffee, title: 'Restaurantes', description: 'Disfruta de la mejor gastronomía' },
-  { icon: SparklesIcon, title: 'Moda', description: 'Encuentra productos para tí' },
-  { icon: CheckCircle, title: 'Calidad', description: 'Garantizamos la mejor calidad' },
+const dialogDescriptions: string[] = [
+  'Explora una selección exclusiva de productos gastronómicos, desde exquisiteces artesanales hasta delicias gourmet, hay algo para todos los gustos.',
+  'Mantente al día con las últimas tendencias en moda y accesorios. Encuentra diseñadores locales y boutiques exclusivas.',
+  'Apoya el arte, la cultura y el talento local, Creaciones únicas que reflejan tradición y pasión por lo nuestro',
+  'Seleccionamos cuidadosamente los mejores negocios de tecnología, garantizando calidad, innovación y soluciones de vanguardia para ti.',
 ]

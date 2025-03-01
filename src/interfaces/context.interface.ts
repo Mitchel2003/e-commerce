@@ -1,6 +1,6 @@
 import { LoginFormProps, RegisterFormProps, RegisterUpdateFormProps as BusinessUpdateFormProps } from "@/schemas/auth.schema";
 import { ProductFormProps, ProductUpdateFormProps } from "@/schemas/product.schema";
-import { Metadata } from "./db.interface";
+import { Metadata, QueryProps } from "@/interfaces/db.interface";
 /*--------------------------------------------------ThemeContext--------------------------------------------------*/
 export type Theme = 'light' | 'dark'
 
@@ -50,7 +50,7 @@ export type BusinessContext = {
   loading: boolean
   getAll: () => Promise<Business[]>
   getById: (id: string) => Promise<Business | undefined>
-  getByQuery: (query: string) => Promise<Business[]>
+  getByQuery: (options: QueryProps) => Promise<Business[]>
   update: (idBusiness: string, business: Partial<BusinessUpdateFormProps>) => Promise<void>
   delete: (idBusiness: string) => Promise<void>
   //files

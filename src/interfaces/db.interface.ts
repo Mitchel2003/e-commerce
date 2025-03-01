@@ -21,6 +21,31 @@ export interface Metadata {
   name: string
   url: string
 }
+
+export interface QueryFilter {
+  operator: FirestoreOperator
+  field: string
+  value: any
+}
+
+export interface QueryProps {
+  filters?: QueryFilter[]
+  enabled?: boolean
+  limit?: number
+}
+
+export type FirestoreOperator =
+  | 'array-contains-any'
+  | 'array-contains'
+  | 'not-in'
+  | '=='
+  | '!='
+  | '<'
+  | '<='
+  | '>'
+  | '>='
+  | 'in'
+
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------service interface--------------------------------------------------*/
@@ -41,7 +66,7 @@ export interface DatabaseService {
   /*-----------------> business <-----------------*/
   getAllBusinesses(): Promise<Result<Business[]>>
   getBusinessById(id: string): Promise<Result<Business>>
-  getBusinessByQuery(searchTerm: string): Promise<Result<Business[]>>
+  getBusinessByQuery(options: QueryProps): Promise<Result<Business[]>>
   createBusiness(auth: User, credencials: object): Promise<Result<void>>
   updateBusiness(business: Partial<Business>): Promise<Result<void>>
   deleteBusiness(id: string): Promise<Result<void>>

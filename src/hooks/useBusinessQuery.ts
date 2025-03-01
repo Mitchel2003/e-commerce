@@ -1,13 +1,13 @@
 import { CustomMutation_Business, QueryReact_Business, UpdateBusinessProps, DeleteBusinessProps, DeleteBusinessImageProps, CreateBusinessImageProps } from '@/interfaces/hook.interface'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useBusinessContext } from '@/context/BusinessContext'
+import { QueryProps } from '@/interfaces/db.interface'
 
 // Keys constantes para mejor mantenimiento
 const QUERY_KEYS = {
   businesses: () => ['businesses'],
   business: (idBusiness: string) => ['business', idBusiness],
-  searchByQuery: (query: string) => ['businesses', 'search', query],
-  searchByCategory: (category: string) => ['businesses', 'search', category],
+  searchByQuery: (options: QueryProps) => ['businesses', 'search', { ...options }],
   businessImages: (idBusiness: string) => ['business', 'images', idBusiness]
 }
 /*---------------------------------------------------------------------------------------------------------*/
@@ -39,14 +39,14 @@ export const useQueryBusiness = (): QueryReact_Business => {
   })
 
   /**
-   * Query para buscar negocios por término
-   * @param {string} query - El término de búsqueda.
+   * Query para buscar negocios con filtros
+   * @param {QueryProps} options - Opciones de búsqueda
    */
-  const fetchBusinessByQuery = (query: string) => useQuery({
-    queryKey: QUERY_KEYS.searchByQuery(query),
-    queryFn: () => business.getByQuery(query),
+  const fetchBusinessByQuery = (options: QueryProps) => useQuery({
+    queryKey: QUERY_KEYS.searchByQuery(options),
+    queryFn: () => business.getByQuery(options),
     select: (data) => data || [],
-    enabled: Boolean(query)
+    enabled: options.enabled ?? true
   })
 
   /**
@@ -72,12 +72,7 @@ export const useQueryBusiness = (): QueryReact_Business => {
 /*--------------------------------------------------useMutation--------------------------------------------------*/
 /** Hook personalizado para gestionar mutaciones de negocios */
 export const useBusinessMutation = (): CustomMutation_Business => {
-  const {
-    deleteImage: deleteBusinessImage,
-    createImage: createBusinessImage,
-    delete: deleteBusiness,
-    update: updateBusiness
-  } = useBusinessContext()
+  const { deleteImage: deleteBusinessImage, createImage: createBusinessImage, delete: deleteBusiness, update: updateBusiness } = useBusinessContext()
   const queryClient = useQueryClient()
 
   /**
@@ -117,7 +112,7 @@ export const useBusinessMutation = (): CustomMutation_Business => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.businessImages(variables.idBusiness) })
     }
   })
-  
+
   /**
    * Mutation para eliminar una imagen de un negocio
    * @param {DeleteImageProps} props - Propiedades para eliminar la imagen

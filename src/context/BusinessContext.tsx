@@ -1,6 +1,6 @@
 import { RegisterFormProps as BusinessFormProps, RegisterUpdateFormProps as BusinessUpdateFormProps } from '@/schemas/auth.schema'
 import { BusinessContext, Business as TypeBusiness } from '@/interfaces/context.interface'
-import { isFirebaseResponse, Metadata } from '@/interfaces/db.interface'
+import { isFirebaseResponse, Metadata, QueryProps } from '@/interfaces/db.interface'
 import { useNotification } from '@/hooks/ui/useNotification'
 import { useLoadingScreen } from '@/hooks/ui/useLoading'
 import { Props } from '@/interfaces/props.interface'
@@ -65,17 +65,17 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
 
   /**
    * Busca negocios por término de búsqueda
-   * @param {string} query - El término de búsqueda.
+   * @param {QueryProps} query - El término de búsqueda.
    * @returns {Promise<TypeBusiness[]>} Un array de negocios encontrados.
    */
-  const getByQuery = async (query: string): Promise<TypeBusiness[]> => {
+  const getByQuery = async (query: QueryProps): Promise<TypeBusiness[]> => {
     setLoadingStatus('Buscando negocios...')
     try {
       const result = await getBusinessByQuery(query)
       if (!result.success) throw result.error
       return result.data
     } catch (e: unknown) {
-      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message });
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
       return []
     } finally { setLoadingStatus() }
   }

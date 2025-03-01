@@ -3,7 +3,7 @@ import { databaseService as databaseFB } from "@/services/firebase/database.serv
 import { storageService as storageFB } from "@/services/firebase/storage.service"
 import { databaseService } from "@/services/firebase/database.service"
 
-import { Result, success, failure, Metadata } from "@/interfaces/db.interface"
+import { Result, success, failure, Metadata, QueryProps } from "@/interfaces/db.interface"
 import { Business } from "@/interfaces/context.interface"
 import { normalizeError } from "@/errors/handler"
 import { User } from "firebase/auth"
@@ -36,10 +36,10 @@ export const getBusinessById = async (id: string): Promise<Result<Business>> => 
 
 /**
  * Busca negocios por nombre.
- * @param {string} query - El término de búsqueda.
+ * @param {QueryProps} query - El término de búsqueda.
  * @returns {Promise<Result<Business[]>>} Una lista de negocios.
  */
-export const getBusinessByQuery = async (query: string): Promise<Result<Business[]>> => {
+export const getBusinessByQuery = async (query: QueryProps): Promise<Result<Business[]>> => {
   try {
     const result = await databaseService.getBusinessByQuery(query)
     if (!result.success) throw result.error
