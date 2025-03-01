@@ -2,6 +2,7 @@ import { Product, ThemeContextProps } from '@/interfaces/context.interface'
 import { DollarSign, FileText, Package2, PlusIcon } from 'lucide-react'
 import { useCreateProductForm } from '@/hooks/auth/useProductForm'
 import { DialogField } from '@/interfaces/props.interface'
+import { useIsMobile } from '@/hooks/ui/use-mobile'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -73,45 +74,49 @@ interface HeaderSectionProps extends ThemeContextProps {
   methods: any
 }
 
-const HeaderSection = ({ theme, methods, onSubmit, open, onOpenChange }: HeaderSectionProps) => (
-  <div className="flex justify-between items-center">
-    <h2 className={cn(
-      'text-3xl font-bold bg-gradient-to-bl text-transparent bg-clip-text',
-      theme === 'dark'
-        ? 'from-purple-400 to-zinc-50'
-        : 'from-pink-600 to-purple-600'
-    )}> Tus Productos </h2>
+const HeaderSection = ({ theme, methods, onSubmit, open, onOpenChange }: HeaderSectionProps) => {
+  const isMobile = useIsMobile()
+  return (
+    <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row w-full justify-between gap-4">
+        <h2 className={cn('text-3xl font-bold bg-gradient-to-bl text-transparent bg-clip-text',
+          theme === 'dark' ? 'from-purple-400 to-zinc-50' : 'from-pink-600 to-purple-600'
+        )}>
+          Tus Productos
+        </h2>
 
-    {/* trigger dialog */}
-    <Button
-      type="button"
-      size="default"
-      variant="default"
-      onClick={() => onOpenChange(true)}
-      className={cn('flex items-center gap-2',
-        theme === 'dark'
-          ? 'text-white bg-purple-700 hover:bg-purple-900'
-          : 'text-gray-900 bg-white hover:bg-purple-100'
-      )}
-    >
-      Agregar producto
-      <PlusIcon className="h-4 w-4" />
-    </Button>
+        {/* trigger dialog */}
+        <Button
+          type="button"
+          size="default"
+          variant="default"
+          onClick={() => onOpenChange(true)}
+          className={cn('flex items-center gap-2',
+            theme === 'dark'
+              ? 'text-white bg-purple-700 hover:bg-purple-900'
+              : 'text-gray-900 bg-white hover:bg-purple-100'
+          )}
+        >
+          {isMobile ? 'Agregar' : 'Crear producto'}
+          <PlusIcon className="h-4 w-4" />
+        </Button>
+      </div>
 
-    {/* dialog */}
-    <NewProductDialog
-      theme={theme}
-      iconSpan="info"
-      title="Crear Producto"
-      labelSubmit="Crear producto"
-      description="Añade un nuevo producto a tu catálogo"
-      open={open}
-      fields={fields({ theme })}
-      form={{ methods, onSubmit }}
-      onOpenChange={onOpenChange}
-    />
-  </div>
-)
+      {/* dialog */}
+      <NewProductDialog
+        theme={theme}
+        iconSpan="info"
+        title="Crear Producto"
+        labelSubmit="Crear producto"
+        description="Añade un nuevo producto a tu catálogo"
+        open={open}
+        fields={fields({ theme })}
+        form={{ methods, onSubmit }}
+        onOpenChange={onOpenChange}
+      />
+    </div>
+  )
+}
 
 // Campos del formulario
 const fields = ({ theme }: ThemeContextProps): DialogField[] => [

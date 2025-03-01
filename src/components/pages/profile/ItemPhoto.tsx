@@ -23,37 +23,41 @@ const ItemPhoto = ({ theme, idBusiness, name, url }: ItemPhotoProps) => {
   }
 
   return (
-    <Card className={cn(
-      'relative overflow-hidden group',
-      'transition-all duration-300 hover:shadow-lg',
-      theme === 'dark' ? 'bg-zinc-900 border-zinc-800' : 'bg-white'
-    )}>
-      <img src={url} alt={name} className="w-full h-60 object-cover object-center" />
-      <div className={cn(
-        'absolute top-2 right-2 opacity-0 group-hover:opacity-100',
-        'transition-opacity duration-300'
+    <>
+      <Card className={cn(
+        'relative overflow-hidden group',
+        'transition-all duration-300 hover:shadow-lg',
+        theme === 'dark' ? 'bg-zinc-900 border-zinc-800' : 'bg-white'
       )}>
-        <Button
-          size="icon"
-          variant="destructive"
-          onClick={() => setShowDeleteDialog(true)}
-          className="rounded-full"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </div>
+        <img src={url} alt={name} className="w-full h-60 object-cover object-center" />
+        <div className={cn(
+          'absolute top-2 right-2 opacity-0 group-hover:opacity-100',
+          'transition-opacity duration-300'
+        )}>
+          <Button
+            size="icon"
+            type="button"
+            variant="destructive"
+            onClick={() => setShowDeleteDialog(true)}
+            className="rounded-full"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </Card>
+
       <AlertDialog
         theme={theme}
         variant="destructive"
         open={showDeleteDialog}
-        onOpenChange={setShowDeleteDialog}
         onConfirm={handleDelete}
         title="¿Eliminar imagen?"
+        onOpenChange={setShowDeleteDialog}
         description="Esta acción no se puede deshacer. La imagen será eliminada permanentemente."
         confirmLabel="Eliminar"
         cancelLabel="Cancelar"
       />
-    </Card>
+    </>
   )
 }
 

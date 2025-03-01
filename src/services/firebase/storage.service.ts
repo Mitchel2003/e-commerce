@@ -111,8 +111,12 @@ class StorageService implements IStorage {
    */
   async uploadFiles(path: string, files: File[]): Promise<Result<string[]>> {
     try {
-      const random = Math.floor(Math.random() * 10000)//genera un numero random de 4 digitos
-      const results = await Promise.all(files.map((file) => this.uploadFile(`${path}_${random}`, file)))
+      const results = await Promise.all(
+        files.map((file) => {
+          const random = Math.floor(Math.random() * 10000) //number ramdomized
+          return this.uploadFile(`${path}_${random}`, file)
+        })
+      )
       const failed = results.find(result => !result.success)
       if (failed) return failure(failed.error)
 

@@ -15,9 +15,11 @@ interface InputFieldProps extends HeaderSpanProps, ThemeContextProps {
   name: string
   icon?: LucideIcon
   placeholder?: string
+  autoComplete?: boolean
 }
 
 const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(({
+  autoComplete = true,
   iconSpan = 'none',
   type = "text",
   placeholder,
@@ -53,9 +55,9 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(({
                 {...field}
                 ref={ref}
                 id={`${name}-input`}
-                type={showPassword ? 'text' : type}
-                autoComplete='off'
                 placeholder={placeholder}
+                type={showPassword ? 'text' : type}
+                autoComplete={autoComplete ? 'on' : 'off'}
                 className={cn(
                   (type === 'email' || type === 'password' || Icon !== undefined) && 'pl-10',
                   theme === 'dark'

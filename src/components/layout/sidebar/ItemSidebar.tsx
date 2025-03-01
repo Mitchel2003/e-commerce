@@ -30,11 +30,11 @@ const ItemSidebar = ({ item, isCollapsed, depth = 0, isOpen, setIsOpen }: ItemSi
         <Tooltip>
           {/* Show item collapsable */}
           <TooltipTrigger asChild>
-            <Link to={item.href ?? '#'} onClick={() => setIsOpen(!isOpen)}>
-              <div className="w-full">
+            <div className="w-full">
+              <Link to={item.href ?? '#'} onClick={() => setIsOpen(!isOpen)}>
                 <Content item={item} isCollapsed={isCollapsed} depth={depth} isActive={isActive} />
-              </div>
-            </Link>
+              </Link>
+            </div>
           </TooltipTrigger>
 
           {isCollapsed && (

@@ -103,7 +103,6 @@ const AsideArea = ({ children, theme }: AsideAreaProps) => {
 interface DropdownContentProps extends Props { isCollapsed: boolean }
 const DropdownContent = ({ children, isCollapsed }: DropdownContentProps) => {
   return (
-
     <DropdownMenuContent align="end" className={cn(
       'absolute p-0 w-64',
       'h-[calc(100vh-4rem)]',

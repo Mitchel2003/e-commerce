@@ -15,7 +15,7 @@ const DataSection = ({ theme }: ThemeContextProps) => {
         span="Proporcione los datos básicos del emprendimiento"
         iconSpan="info"
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-4">
         <InputField
           name="name"
           placeholder="Digite el negocio"

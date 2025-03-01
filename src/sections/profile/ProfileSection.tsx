@@ -27,7 +27,7 @@ const ProfileSection = ({ theme, idBusiness }: ProfileSectionProps) => {
   if (isLoadingBusiness) return <DashboardSkeleton theme={theme} />
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col">
       {/* data */}
       <FormProvider {...methodsUpdate}>
         <form onSubmit={onSubmitUpdate}>

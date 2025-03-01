@@ -116,7 +116,7 @@ export const getAllBusinessImages = async (idBusiness: string): Promise<Result<M
 /**
  * Crea una imagen de un negocio.
  * @param {string} idBusiness - El ID del negocio (uid).
- * @param {BusinessFormProps['references']} metadata - Los datos del negocio.
+ * @param {BusinessFormProps['references']['photoUrl']} metadata - Los datos de las imágenes.
  * @returns {Promise<Result<void>>} Un void que resulta de la ejecucion de la funcion create
  */
 export const createBusinessImage = async (idBusiness: string, metadata: BusinessFormProps['references']['photoUrl']): Promise<Result<void>> => {
