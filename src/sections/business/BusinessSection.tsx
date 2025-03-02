@@ -34,28 +34,16 @@ export const BusinessSection = ({ theme, idBusiness }: BusinessSectionProps) => 
   return (
     <div className="container p-0 mx-auto">
       {/* header */}
-      <BusinessHeader
-        theme={theme}
-        name={business.name}
-        imageUrl={getRandomImage(imagesBusiness)}
-      />
+      <BusinessHeader theme={theme} name={business.name} imageUrl={getRandomImage(imagesBusiness)} />
 
       {/* description */}
-      <BusinessDescription
-        theme={theme}
-        images={imagesBusiness}
-        description={business.description}
-      />
+      <BusinessDescription theme={theme} images={imagesBusiness} description={business.description} />
 
       {/* Stats */}
-      <BusinessStats
-        theme={theme}
-      />
+      <BusinessStats theme={theme} />
 
       {/* products */}
-      <section className={cn('py-16',
-        theme === 'dark' ? 'bg-zinc-900' : 'bg-white'
-      )}>
+      <section className={cn('py-16', theme === 'dark' ? 'bg-zinc-900' : 'bg-white')}>
         <div className="container mx-auto px-4">
           <h2 className={cn(
             'text-3xl font-semibold mb-8 text-center',
@@ -72,7 +60,7 @@ export const BusinessSection = ({ theme, idBusiness }: BusinessSectionProps) => 
               items={products}
               className_Carousel="w-full"
               className_Item="md:basis-1/3"
-              render={(item) => <ItemProduct theme={theme} {...item} />}
+              render={(item) => <ItemProduct theme={theme} business={business} {...item} />}
             />
           ) : (
             <NotProducts
@@ -86,11 +74,7 @@ export const BusinessSection = ({ theme, idBusiness }: BusinessSectionProps) => 
 
       {/* social networks */}
       {business.socialNetworks && (
-        <SocialMediaSection
-          contact={business.phone}
-          socialMedia={business.socialNetworks}
-          theme={theme}
-        />
+        <SocialMediaSection theme={theme} contact={business.phone} socialMedia={business.socialNetworks} />
       )}
     </div>
   )
@@ -109,4 +93,3 @@ const NotFoundBusiness = ({ theme }: ThemeContextProps) => (
     illustration={<Building2 className="w-16 h-16" />}
   />
 )
-/*---------------------------------------------------------------------------------------------------------*/

@@ -4,7 +4,7 @@ import { useNotification } from "@/hooks/ui/useNotification";
 import { useLoadingScreen } from "@/hooks/ui/useLoading";
 import { Props } from "@/interfaces/props.interface";
 
-import { getProducts, getProductById, createProduct, updateProduct, deleteProduct } from "@/controllers/product.controller";
+import { getProducts, getProductById, createProduct, updateProduct, updateProductLikes, deleteProduct } from "@/controllers/product.controller";
 import { ProductFormProps, ProductUpdateFormProps } from "@/schemas/product.schema";
 import { useState, useContext, createContext } from "react";
 
@@ -117,6 +117,22 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
   }
 
   /**
+   * Actualiza el número de likes de un producto.
+   * @param {string} idProduct - El ID del producto a actualizar.
+   * @returns {Promise<boolean>} Un booleano que resulta de la ejecucion  de la funcion update
+   */
+  const updateLikes = async (idProduct: string): Promise<boolean> => {
+    try {
+      const result = await updateProductLikes(idProduct)
+      if (!result.success) throw result.error
+      return result.success
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
+      return false
+    }
+  }
+
+  /**
    * Elimina un producto por su ID.
    * @param {string} idBusiness - El ID del negocio (uid).
    * @param {string} idProduct - El ID del producto a eliminar.
@@ -154,6 +170,7 @@ export const ProductProvider = ({ children }: Props): JSX.Element => {
       filterByName,
       create,
       update,
+      updateLikes,
       delete: delete_
     }}>
       {children}

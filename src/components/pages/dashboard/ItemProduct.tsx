@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '#/ui/card'
 import { Product, ThemeContextProps } from '@/interfaces/context.interface'
 import ProductActions from '#/pages/dashboard/ProductActions'
+import { formatPrice } from '@/utils/format'
 import { cn } from '@/lib/utils'
 
 interface ItemProductProps extends Product, ThemeContextProps { }
@@ -17,7 +18,7 @@ const ItemProduct = ({ theme, ...product }: ItemProductProps) => {
       <CardHeader>
         <CardTitle className="text-xl line-clamp-1">{product.name}</CardTitle>
         <CardDescription className="font-semibold text-sm">
-          ${Number(product.price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+          {formatPrice(product.price)}
         </CardDescription>
       </CardHeader>
 

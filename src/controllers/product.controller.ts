@@ -66,6 +66,19 @@ export const updateProduct = async (idProduct: string, product: Partial<ProductU
 }
 
 /**
+ * Actualiza el número de likes de un producto.
+ * @param {string} idProduct - El identificador del producto (uid default)
+ * @returns {Promise<Result<boolean>>} Actualiza el número de likes
+ */
+export const updateProductLikes = async (idProduct: string): Promise<Result<boolean>> => {
+  try {
+    const result = await databaseService.updateProductLikes(idProduct)
+    if (!result.success) throw result.error
+    return success(result.data)
+  } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar producto'))) }
+}
+
+/**
  * Elimina un producto existente.
  * @param {string} idBusiness - El identificador del negocio, representa el uid (auth).
  * @param {string} idProduct - El identificador del producto (uid default).

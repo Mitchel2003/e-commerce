@@ -67,6 +67,7 @@ export type Product = {
   uid?: string
   name: string
   price: string
+  likes?: number
   imageUrl: string
   description: string
 }
@@ -78,6 +79,7 @@ export type ProductContext = {
   filterByName: (idBusiness: string, name: string) => Promise<Product[]>
   create: (idBusiness: string, product: ProductFormProps) => Promise<void>
   update: (idProduct: string, product: Partial<ProductUpdateFormProps>) => Promise<void>
+  updateLikes: (idProduct: string) => Promise<boolean>
   delete: (idBusiness: string, idProduct: string) => Promise<void>
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/

@@ -14,6 +14,7 @@ import {
   Firestore,
   updateDoc,
   deleteDoc,
+  increment,
   getDocs,
   setDoc,
   getDoc,
@@ -208,6 +209,18 @@ class DatabaseService implements IDatabase {
     try {
       return await updateDoc(doc(this.getCollection('products'), id), { ...product }).then(() => success(undefined))
     } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar producto'))) }
+  }
+
+  /**
+   * Actualiza el contador de likes de un producto.
+   * @param {string} id - El identificador del producto, representa el uid default.
+   * @returns {Promise<Result<boolean>>} Actualiza el contador de likes.
+   */
+  async updateProductLikes(id: string): Promise<Result<boolean>> {
+    try {
+      await updateDoc(doc(this.getCollection('products'), id), { likes: increment(1) })
+      return success(true)
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'actualizar likes'))) }
   }
 
   /**

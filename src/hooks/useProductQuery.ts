@@ -71,7 +71,7 @@ export const useQueryProduct = (): QueryReact_Product => {
 /*--------------------------------------------------useMutation--------------------------------------------------*/
 /** Hook personalizado para gestionar mutaciones de productos */
 export const useProductMutation = (): CustomMutation_Product => {
-  const { create, update, delete: deleteProduct } = useProductContext()
+  const { create, update, delete: deleteProduct, updateLikes } = useProductContext()
   const { user = {} as User } = useAuthContext()
   const queryClient = useQueryClient()
 
@@ -98,6 +98,14 @@ export const useProductMutation = (): CustomMutation_Product => {
   })
 
   /**
+   * Mutation para actualizar el like de un producto
+   * @param {UpdateProductProps["idProduct"]} idProduct - Corresponde al uid default del producto.
+   */
+  const updateLikesMutation = useMutation({
+    mutationFn: async (idProduct: UpdateProductProps['idProduct']) => await updateLikes(idProduct)
+  })
+
+  /**
    * Mutation para eliminar un producto
    * @param {DeleteProductProps.idProduct} idProduct - Corresponde al uid default del producto.
    */
@@ -113,6 +121,7 @@ export const useProductMutation = (): CustomMutation_Product => {
     createProduct: createMutation.mutate,
     updateProduct: updateMutation.mutate,
     deleteProduct: deleteMutation.mutate,
+    updateLikesProduct: updateLikesMutation.mutateAsync,
     isLoading: createMutation.isPending || updateMutation.isPending || deleteMutation.isPending
   }
 }

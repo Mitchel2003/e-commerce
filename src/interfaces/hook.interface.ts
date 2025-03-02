@@ -1,6 +1,6 @@
 import { RegisterUpdateFormProps as BusinessUpdateFormProps, RegisterFormProps as BusinessFormProps } from "@/schemas/auth.schema"
 import { ProductFormProps, ProductUpdateFormProps } from "@/schemas/product.schema"
-import { UseQueryResult, UseMutateFunction } from "@tanstack/react-query"
+import { UseQueryResult, UseMutateFunction, UseMutateAsyncFunction } from "@tanstack/react-query"
 import { Business, Product } from "@/interfaces/context.interface"
 import { Metadata, QueryProps } from "@/interfaces/db.interface"
 
@@ -18,6 +18,7 @@ export type CustomMutation_Product = {
   createProduct: UseMutateFunction<void, Error, ProductFormProps, unknown>
   updateProduct: UseMutateFunction<void, Error, UpdateProductProps, unknown>
   deleteProduct: UseMutateFunction<void, Error, DeleteProductProps, unknown>
+  updateLikesProduct: UseMutateAsyncFunction<boolean, Error, UpdateProductProps['idProduct'], unknown>
   isLoading: boolean
 }
 /*---------------------------------------------------------------------------------------------------------*/
