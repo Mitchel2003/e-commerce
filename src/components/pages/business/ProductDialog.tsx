@@ -4,8 +4,9 @@ import { useProductMutation } from '@/hooks/useProductQuery'
 import { useLikesStore } from '@/store/useLikesStore'
 import { useIsMobile } from '@/hooks/ui/use-mobile'
 import { formatPrice } from '@/utils/format'
+import { Button } from '#/ui/button'
 import { motion } from 'framer-motion'
-import { Heart } from 'lucide-react'
+import { X, Heart } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -46,6 +47,26 @@ const ProductDialog = ({ product, business, isOpen, onClose, theme }: ProductDia
         'sm:max-w-[600px] overflow-hidden p-0',
         theme === 'dark' ? 'bg-zinc-900' : 'bg-white'
       )}>
+        {/* Close Button */}
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={onClose}
+          className={cn(
+            'backdrop-blur-lg shadow-lg',
+            'h-10 w-10 rounded-full p-0',
+            'absolute right-3 top-3 z-50',
+            'border-2 transition-all duration-300',
+            'hover:scale-110 hover:rotate-90',
+            theme === 'dark'
+              ? 'bg-zinc-800/80 hover:bg-purple-500/20 text-zinc-400 hover:text-white border-zinc-700 hover:border-purple-500/50'
+              : 'bg-white/80 hover:bg-purple-500/10 text-zinc-600 hover:text-purple-600 border-zinc-200 hover:border-purple-500/50'
+          )}
+        >
+          <X className="h-5 w-5" />
+          <span className="sr-only">Cerrar diálogo</span>
+        </Button>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -116,18 +137,16 @@ const ProductDialog = ({ product, business, isOpen, onClose, theme }: ProductDia
                 <button
                   onClick={handleLike}
                   disabled={hasUserLiked || isLiking}
-                  className={cn(
+                  className={cn('border-2 flex items-center justify-center gap-2',
                     'w-full px-6 py-4 rounded-lg font-semibold transition-all duration-300',
-                    'border-2 flex items-center justify-center gap-2',
                     theme === 'dark'
                       ? 'border-zinc-700 hover:border-purple-500 text-zinc-300'
                       : 'border-zinc-200 hover:border-purple-500 text-zinc-600',
                     'hover:text-purple-500 group-hover:scale-[0.98]',
                     (hasUserLiked || isLiking) && 'opacity-50 cursor-not-allowed'
                   )}>
-                  <Heart className={cn(
+                  <Heart className={cn('group-hover:scale-110',
                     'w-5 h-5 transition-transform duration-300',
-                    'group-hover:scale-110',
                     hasUserLiked ? 'fill-pink-500 text-pink-500' : 'group-hover:text-pink-500'
                   )} />
                   {!isMobile && (hasUserLiked ? '¡Me encanta!' : 'Me gusta')}

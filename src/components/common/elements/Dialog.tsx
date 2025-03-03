@@ -39,10 +39,7 @@ const Dialog = ({
       open={open}
       onOpenChange={onOpenChange}
     >
-      <DialogContent
-        aria-describedby={description ? 'dialog-description' : undefined}
-        className={cn('sm:max-w-[425px]', theme === 'dark' ? 'bg-zinc-800' : 'bg-white')}
-      >
+      <DialogContent className={cn('sm:max-w-[425px]', theme === 'dark' ? 'bg-zinc-800' : 'bg-white')}>
         {/* Header */}
         <DialogHeader>
           <DialogTitle>
@@ -55,8 +52,8 @@ const Dialog = ({
               className="text-left"
             />
           </DialogTitle>
-          <DialogDescription id="dialog-description">
-            {description}
+          <DialogDescription>
+            {description || 'Por favor, complete los campos requeridos'}
           </DialogDescription>
         </DialogHeader>
 
@@ -66,7 +63,6 @@ const Dialog = ({
             {fields.map((field, index) => (
               <div key={`${field.name}-${index}`}>
                 {cloneElement(field.component, {
-                  'aria-describedby': field.name ?? `field-description-${index}`,
                   name: field.name,
                   theme
                 })}

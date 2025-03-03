@@ -6,10 +6,8 @@ export const productSchema = z.object({
     .min(1, "El nombre es requerido")
     .max(50, "El nombre es demasiado largo"),
   price: z
-    .string({
-      required_error: "El precio es requerido",
-    })
-    .min(3, "El precio no puede ser tan bajo"),
+    .string({ required_error: "El precio es requerido" })
+    .regex(/^\d+$/, "El precio debe ser un número válido"),
   description: z
     .string()
     .min(1, "La descripción es requerida")
@@ -26,13 +24,12 @@ export const productUpdateSchema = z.object({
     .max(50, "El nombre es demasiado largo")
     .optional(),
   price: z
-    .string()
-    .min(3, "El precio no puede ser tan bajo")
-    .optional(),
+    .string({ required_error: "El precio es requerido" })
+    .regex(/^\d+$/, "El precio debe ser un número válido"),
   description: z
     .string()
     .min(1, "La descripción es requerida")
-    .max(200, "La descripción es demasiado larga")
+    .max(2000, "La descripción es demasiado larga")
     .optional()
 }).refine((data) => Object.keys(data).length > 0, { message: "Al menos un campo debe ser proporcionado", path: ["root"] })
 

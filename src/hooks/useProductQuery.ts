@@ -102,7 +102,11 @@ export const useProductMutation = (): CustomMutation_Product => {
    * @param {UpdateProductProps["idProduct"]} idProduct - Corresponde al uid default del producto.
    */
   const updateLikesMutation = useMutation({
-    mutationFn: async (idProduct: UpdateProductProps['idProduct']) => await updateLikes(idProduct)
+    mutationFn: async (idProduct: UpdateProductProps['idProduct']) => await updateLikes(idProduct),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.products(user.uid) })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.product(variables) })
+    }
   })
 
   /**

@@ -27,11 +27,7 @@ const DashboardSection = ({ theme }: ThemeContextProps): JSX.Element => {
     <div className="container p-8 space-y-8 mx-auto">
       <InfoSection theme={theme} business={business} />
       <StatisticsSection theme={theme} products={products} />
-      <ProductsSection
-        error={error}
-        theme={theme}
-        products={products}
-      />
+      <ProductsSection theme={theme} error={error} products={products} />
     </div>
   )
 }

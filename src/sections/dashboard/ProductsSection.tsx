@@ -7,8 +7,8 @@ import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
 import ItemProduct from '#/pages/dashboard/ItemProduct'
-import NewProductDialog from '#/common/elements/Dialog'
 import NotProducts from '#/common/states/NotProducts'
+import DialogSubmit from '#/common/elements/Dialog'
 import Carousel from '#/common/elements/Carousel'
 import InputField from '#/common/fields/Input'
 import ImageField from '#/common/fields/Image'
@@ -19,7 +19,7 @@ interface ProductsSectionProps extends ThemeContextProps {
   error: Error | null
 }
 
-const ProductsSection = ({ theme, products, error }: ProductsSectionProps) => {
+const ProductsSection = ({ theme, error, products }: ProductsSectionProps) => {
   const [showNewProductDialog, setShowNewProductDialog] = useState(false)
   const { methods, onSubmit } = useCreateProductForm()
 
@@ -30,7 +30,7 @@ const ProductsSection = ({ theme, products, error }: ProductsSectionProps) => {
         ? 'from-zinc-950/80 to-purple-950/80'
         : 'from-purple-500/30 to-pink-500/5'
     )}>
-      {/* header */}
+      {/* header to create new product */}
       <HeaderSection
         theme={theme}
         methods={methods}
@@ -102,17 +102,17 @@ const HeaderSection = ({ theme, methods, onSubmit, open, onOpenChange }: HeaderS
         </Button>
       </div>
 
-      {/* dialog */}
-      <NewProductDialog
+      {/* dialog new product */}
+      <DialogSubmit
         theme={theme}
         iconSpan="info"
         title="Crear Producto"
         labelSubmit="Crear producto"
         description="Añade un nuevo producto a tu catálogo"
-        open={open}
-        fields={fields({ theme })}
         form={{ methods, onSubmit }}
         onOpenChange={onOpenChange}
+        fields={fields({ theme })}
+        open={open}
       />
     </div>
   )

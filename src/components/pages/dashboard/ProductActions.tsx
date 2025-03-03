@@ -5,8 +5,8 @@ import { useProductMutation } from '@/hooks/useProductQuery'
 import { DialogField } from '@/interfaces/props.interface'
 import { useState } from 'react'
 
-import DeleteProductDialog from '#/common/elements/AlertDialog'
-import UpdateProductDialog from '#/common/elements/Dialog'
+import AlertDialog from '#/common/elements/AlertDialog'
+import DialogSubmit from '#/common/elements/Dialog'
 import InputField from '#/common/fields/Input'
 import { Button } from '#/ui/button'
 
@@ -39,8 +39,8 @@ const ProductActions = ({ product, theme }: ProductActionsProps) => {
         <Trash2 className="h-6 w-6 md:h-4 md:w-4" />
       </Button>
 
-      {/* dialogs update and delete */}
-      <UpdateProductDialog
+      {/* dialog update product */}
+      <DialogSubmit
         theme={theme}
         iconSpan="info"
         span="Modifica los campos"
@@ -51,8 +51,9 @@ const ProductActions = ({ product, theme }: ProductActionsProps) => {
         form={{ methods, onSubmit }}
         onOpenChange={setShowUpdateDialog}
       />
-      
-      <DeleteProductDialog
+
+      {/* dialog delete product  */}
+      <AlertDialog
         theme={theme}
         variant="destructive"
         open={showDeleteDialog}

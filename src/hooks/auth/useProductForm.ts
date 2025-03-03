@@ -8,7 +8,7 @@ import { useEffect } from "react"
 const defaultValues = {
   imageUrl: undefined,
   description: '',
-  price: '',
+  price: '0',
   name: ''
 }
 
@@ -18,7 +18,7 @@ export const useCreateProductForm = () => {
 
   const methods = useForm<ProductFormProps>({
     resolver: zodResolver(productSchema),
-    mode: "onSubmit",
+    mode: "onChange",
     defaultValues
   })
 
@@ -40,7 +40,7 @@ export const useUpdateProductForm = (product: Product) => {
   const methods = useForm<ProductUpdateFormProps>({
     resolver: zodResolver(productUpdateSchema),
     defaultValues: undefined,
-    mode: "onSubmit"
+    mode: "onChange"
   })
 
   // Cargar datos iniciales del producto
