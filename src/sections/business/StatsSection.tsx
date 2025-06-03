@@ -1,8 +1,8 @@
-import { ThemeContextProps } from '@/interfaces/context.interface';
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { ThumbsUp, Users, Star } from 'lucide-react';
+import { ThemeContextProps } from '@/interfaces/context.interface'
+import { ThumbsUp, Users, Star } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
 interface BusinessStatsProps extends ThemeContextProps { }
 

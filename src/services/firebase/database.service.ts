@@ -1,6 +1,6 @@
+import { Business, Product, BusinessStats, BusinessVisit } from "@/interfaces/context.interface"
 import { DatabaseService as IDatabase, QueryProps } from "@/interfaces/db.interface"
 import { Result, success, failure } from "@/interfaces/db.interface"
-import { Business, Product } from "@/interfaces/context.interface"
 import { normalizeError } from "@/errors/handler"
 import ErrorAPI, { NotFound } from "@/errors"
 import { firebaseApp } from "@/services/db"
@@ -8,9 +8,11 @@ import { User } from "firebase/auth"
 
 import {
   CollectionReference,
+  serverTimestamp,
   QueryConstraint,
   getFirestore,
   collection,
+  Timestamp,
   Firestore,
   updateDoc,
   deleteDoc,
@@ -235,14 +237,98 @@ class DatabaseService implements IDatabase {
   }
   /*----------------------------------------------------*/
 
-  /*---------------> getReferences <---------------*/
+  /*---------------> analytics <---------------*/
+  /** Servicio de análisis para el seguimiento de visitas a negocios */
+
   /**
-   * Obtiene una referencia a una subcolección desde la colección principal (auth).
-   * La abreviatura de la colección es 'gs' (gestion_salud).
-   * @param {string} name - El nombre de la subcolección a obtener.
-   * @returns {CollectionReference} Una referencia a la subcolección.
-  */
+   * Obtiene las estadísticas de visitas para un negocio específico
+   * @param businessId ID del negocio
+   */
+  public async getBusinessStats(businessId: string): Promise<Result<BusinessStats>> {
+    try {
+      const statsRef = doc(this.getStatsCollection(businessId, 'stats'), 'stats_document')
+      const statsDoc = await getDoc(statsRef) //Get stats document
+      if (statsDoc.exists()) return success(statsDoc.data() as BusinessStats)
+      const emptyStats: BusinessStats = { businessId, totalVisits: 0, visitsByDate: {}, uniqueVisitors: 0, lastUpdated: Date.now() }
+      return success(emptyStats)
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener estadísticas'))) }
+  }
+
+  /**
+   * Registra una visita a un negocio de manera optimizada.
+   * Implementa verificación en caché y escritura directa para máxima compatibilidad
+   * @param businessId ID del negocio visitado, representa el uid del negocio en cuestión (auth).
+   * @param visitorId ID único del visitante, proporcionado por el servicio VisitorIdentifier.
+   * @returns {Promise<Result<void>>} Resultado de la operación
+   */
+  public async recordBusinessVisit(businessId: string, visitorId: string): Promise<Result<void>> {
+    try {
+      const today = new Date();
+      const timestamp = Date.now();
+      const dateString = today.toISOString().split('T')[0];
+      const visitsRef = this.getStatsCollection(businessId, 'visits');
+      const statsRef = doc(this.getStatsCollection(businessId, 'stats'), 'stats_document');
+
+      const yesterday = new Date(today); //last 24 hours
+      yesterday.setDate(yesterday.getDate() - 1);
+      const recentVisitsQuery = query(visitsRef,
+        where('visitorId', '==', visitorId),
+        where('timestamp', '>=', Timestamp.fromDate(yesterday).toMillis())
+      )
+
+      const recentVisitsSnapshot = await getDocs(recentVisitsQuery);
+      //If there is a recent visit, do nothing more (avoids duplicates)
+      if (!recentVisitsSnapshot.empty) return success(undefined);
+      //Create visit document with unique deterministic ID to avoid duplicates
+      const visitId = `${businessId}_${visitorId}_${dateString}`
+      const visitRef = doc(visitsRef, visitId) //create visit document
+      const visitData: BusinessVisit = { timestamp, visitorId } //prepare
+      await setDoc(visitRef, { ...visitData, createdAt: serverTimestamp() })
+
+      //Get references to stats document (update stats)
+      const statsDoc = await getDoc(statsRef)
+      if (!statsDoc.exists()) { //initial doc
+        const initialStats: BusinessStats = {
+          businessId, totalVisits: 1, uniqueVisitors: 1,
+          lastUpdated: timestamp, visitsByDate: { [dateString]: 1 }
+        }
+        await setDoc(statsRef, { ...initialStats, createdAt: serverTimestamp() })
+      } else {
+        const stats = statsDoc.data() as BusinessStats
+        //Verify if this visitor is new (not previous visit, only last 2 visits)
+        const visitorHistoryQuery = query(visitsRef, where('visitorId', '==', visitorId), limit(2))
+        const visitorHistory = await getDocs(visitorHistoryQuery)
+        const isNewVisitor = visitorHistory.size <= 1
+        const statsData = { //Increment counters
+          lastUpdated: serverTimestamp(),
+          totalVisits: (stats.totalVisits || 0) + 1,
+          uniqueVisitors: isNewVisitor ? (stats.uniqueVisitors || 0) + 1 : (stats.uniqueVisitors || 0),
+          visitsByDate: { ...stats.visitsByDate, [dateString]: (stats.visitsByDate?.[dateString] || 0) + 1 }
+        } //after this, update stats document
+        await updateDoc(statsRef, statsData)
+      }
+      return success(undefined)
+    } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registrar visita'))) }
+  }
+  /*----------------------------------------------------*/
+
+  /*---------------> helpers <---------------*/
+  /**
+   * Obtiene una referencia a una colección principal
+   * @param name Nombre de la colección principal
+   * @returns Referencia a la colección
+   */
   getCollection(name: string): CollectionReference { return collection(this.db, 'techno', 'auth', name) }
+
+  /**
+   * Obtiene una referencia a una subcolección de estadísticas de un negocio
+   * @param businessId ID del negocio, representa el uid firestore default.
+   * @param subCollectionName Nombre de la subcolección (stats o visits)
+   * @returns Referencia a la subcolección
+   */
+  getStatsCollection(businessId: string, subCollectionName: 'stats' | 'visits'): CollectionReference {
+    return collection(this.db, 'techno', 'auth', 'business', businessId, subCollectionName)
+  }
 }
 
 export const databaseService = DatabaseService.getInstance()

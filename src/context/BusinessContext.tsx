@@ -1,11 +1,11 @@
 import { RegisterFormProps as BusinessFormProps, RegisterUpdateFormProps as BusinessUpdateFormProps } from '@/schemas/auth.schema'
-import { BusinessContext, Business as TypeBusiness } from '@/interfaces/context.interface'
+import { BusinessContext, Business as TypeBusiness, BusinessStats } from '@/interfaces/context.interface'
 import { isFirebaseResponse, Metadata, QueryProps } from '@/interfaces/db.interface'
 import { useNotification } from '@/hooks/ui/useNotification'
 import { useLoadingScreen } from '@/hooks/ui/useLoading'
 import { Props } from '@/interfaces/props.interface'
 
-import { getBusinesses, getBusinessById, getBusinessByQuery, updateBusiness, deleteBusiness, getAllBusinessImages, createBusinessImage, deleteBusinessImage } from '@/controllers/business.controller'
+import { getBusinesses, getBusinessById, getBusinessByQuery, updateBusiness, deleteBusiness, getAllBusinessImages, createBusinessImage, deleteBusinessImage, getBusinessStats, recordBusinessVisit } from '@/controllers/business.controller'
 import { createContext, useContext, useState } from 'react'
 
 const Business = createContext<BusinessContext>(undefined)
@@ -163,6 +163,35 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
   }
   /*---------------------------------------------------------------------------------------------------------*/
 
+  /*--------------------------------------------------analytics--------------------------------------------------*/
+  /**
+   * Obtiene las estadísticas actualizadas del negocio
+   * @param businessId - El ID del negocio (uid).
+   * @returns {Promise<BusinessStats | undefined>} Un objeto con las estadísticas del negocio.
+   */
+  const getStatsById = async (businessId: string): Promise<BusinessStats> => {
+    setLoadingStatus('Cargando estadísticas...')
+    try {
+      const result = await getBusinessStats(businessId)
+      if (!result.success) throw result.error
+      return result.data
+    } catch (e: unknown) {
+      isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message })
+      return { uniqueVisitors: 0, totalVisits: 0 } as BusinessStats
+    } finally { setLoadingStatus() }
+  }
+
+  /**
+   * Registra una visita al negocio.
+   * @param {string} idBusiness - El identificador del negocio.
+   * @returns {Promise<void>} Un void que resulta en el almacenamiento de la visita
+   */
+  const recordVisit = async (idBusiness: string): Promise<void> => {
+    try { const result = await recordBusinessVisit(idBusiness); if (!result.success) throw result.error }
+    catch (e: unknown) { isFirebaseResponse(e) && notifyError({ title: 'Error', message: e.message }) }
+  }
+  /*---------------------------------------------------------------------------------------------------------*/
+
   /*--------------------------------------------------tools--------------------------------------------------*/
   /**
    * Actualiza el estado de carga basado en un parametro opcional
@@ -185,7 +214,9 @@ export const BusinessProvider = ({ children }: Props): JSX.Element => {
       delete: delete_,
       getAllImages,
       createImage,
-      deleteImage
+      deleteImage,
+      recordVisit,
+      getStatsById
     }}>
       {children}
     </Business.Provider>

@@ -24,11 +24,9 @@ const ProductsSection = ({ theme, error, products }: ProductsSectionProps) => {
   const { methods, onSubmit } = useCreateProductForm()
 
   return (
-    <section className={cn(
-      'space-y-6 py-12 px-8 bg-gradient-to-bl rounded-xl',
-      theme === 'dark'
-        ? 'from-zinc-950/80 to-purple-950/80'
-        : 'from-purple-500/30 to-pink-500/5'
+    <section className={cn("space-y-6 p-6 md:p-8 rounded-xl shadow-lg", theme === "dark"
+      ? "bg-slate-800/50 border border-slate-700/50"
+      : "bg-white border border-slate-200/80",
     )}>
       {/* header to create new product */}
       <HeaderSection
@@ -79,9 +77,7 @@ const HeaderSection = ({ theme, methods, onSubmit, open, onOpenChange }: HeaderS
   return (
     <div className="flex justify-between items-center">
       <div className="flex flex-col md:flex-row w-full justify-between gap-4">
-        <h2 className={cn('text-3xl font-bold bg-gradient-to-bl text-transparent bg-clip-text',
-          theme === 'dark' ? 'from-purple-400 to-zinc-50' : 'from-pink-600 to-purple-600'
-        )}>
+        <h2 className={cn('text-3xl font-bold tracking-tight', theme === "dark" ? "text-slate-100" : "text-slate-800")}>
           Tus Productos
         </h2>
 
@@ -91,10 +87,9 @@ const HeaderSection = ({ theme, methods, onSubmit, open, onOpenChange }: HeaderS
           size="default"
           variant="default"
           onClick={() => onOpenChange(true)}
-          className={cn('flex items-center gap-2',
-            theme === 'dark'
-              ? 'text-white bg-purple-700 hover:bg-purple-900'
-              : 'text-gray-900 bg-white hover:bg-purple-100'
+          className={cn("flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow", theme === "dark"
+            ? "bg-purple-600 text-white hover:bg-purple-700"
+            : "bg-purple-600 text-white hover:bg-purple-700",
           )}
         >
           {isMobile ? 'Agregar' : 'Crear producto'}

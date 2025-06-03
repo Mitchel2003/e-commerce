@@ -33,6 +33,20 @@ export type AuthContext = {
 /*---------------------------------------------------------------------------------------------------------*/
 
 /*--------------------------------------------------BusinessContext--------------------------------------------------*/
+export interface BusinessVisit {
+  visitorId: string //Hashed combination of IP + fingerprint
+  timestamp: number
+}
+
+// This document keep the stats of the business visits
+export interface BusinessStats {
+  visitsByDate: Record<string, number> //Format: "YYYY-MM-DD": count
+  uniqueVisitors: number
+  lastUpdated: number
+  totalVisits: number
+  businessId: string
+}
+
 //This id attribute not belong to the business document
 export interface Business {
   id: string
@@ -57,6 +71,9 @@ export type BusinessContext = {
   getAllImages: (idBusiness: string) => Promise<Metadata[]>
   deleteImage: (idBusiness: string, nameImage: string) => Promise<void>
   createImage: (idBusiness: string, files: RegisterFormProps['references']['photoUrl']) => Promise<void>
+  //analytics business (record visit and get stats)
+  recordVisit: (businessId: string) => Promise<void>
+  getStatsById: (businessId: string) => Promise<BusinessStats>
 } | undefined
 /*---------------------------------------------------------------------------------------------------------*/
 

@@ -1,10 +1,12 @@
 import { RegisterFormProps as BusinessFormProps, RegisterUpdateFormProps as BusinessUpdateFormProps } from "@/schemas/auth.schema"
+import { VisitorIdentifier, BusinessVisitTracker } from '@/services/analitics/visitor.service';
 import { databaseService as databaseFB } from "@/services/firebase/database.service"
 import { storageService as storageFB } from "@/services/firebase/storage.service"
+import { visitQueueService } from '@/services/analitics/visit.queue.service'
 import { databaseService } from "@/services/firebase/database.service"
 
 import { Result, success, failure, Metadata, QueryProps } from "@/interfaces/db.interface"
-import { Business } from "@/interfaces/context.interface"
+import { Business, BusinessStats } from "@/interfaces/context.interface"
 import { normalizeError } from "@/errors/handler"
 import { User } from "firebase/auth"
 import ErrorAPI from "@/errors"
@@ -141,4 +143,37 @@ export const deleteBusinessImage = async (idBusiness: string, nameImage: string)
     if (!removeImage.success) throw removeImage.error
     return success(undefined)
   } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'eliminar imagen'))) }
+}
+/*---------------------------------------------------------------------------------------------------------*/
+
+/*--------------------------------------------------Analytics--------------------------------------------------*/
+/**
+ * Obtiene las estadísticas de un negocio.
+ * @param {string} idBusiness - El identificador del negocio.
+ * @returns {Promise<Result<BusinessStats>>} Las estadísticas del negocio.
+ */
+export const getBusinessStats = async (idBusiness: string): Promise<Result<BusinessStats>> => {
+  try {
+    const result = await databaseService.getBusinessStats(idBusiness)
+    if (!result.success) throw result.error
+    return success(result.data)
+  } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'obtener estadísticas'))) }
+}
+
+/**
+ * Registra una visita al negocio de forma optimizada y no bloqueante.
+ * Utiliza un sistema de cola para evitar bloquear la interfaz de usuario.
+ * @param {string} idBusiness - El identificador del negocio.
+ * @returns {Promise<Result<void>>} Resultado de la operación
+ */
+export const recordBusinessVisit = async (idBusiness: string): Promise<Result<void>> => {
+  try { //Fast verification with memory cache and localStorage
+    const shouldCount = await BusinessVisitTracker.shouldCountVisit(idBusiness)
+    if (!shouldCount) return success(undefined)
+
+    //Obtain visitor ID once (using improved internal cache)
+    const visitorId = await VisitorIdentifier.getInstance().getVisitorId()
+    visitQueueService.enqueueVisit(idBusiness, visitorId)
+    return success(undefined)
+  } catch (e) { return failure(new ErrorAPI(normalizeError(e, 'registrar visita'))) }
 }

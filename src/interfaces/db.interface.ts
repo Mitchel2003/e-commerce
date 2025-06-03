@@ -1,4 +1,4 @@
-import { Business, Product } from "@/interfaces/context.interface";
+import { Business, Product, BusinessStats } from "@/interfaces/context.interface";
 import { User, UserProfile } from "firebase/auth";
 
 /*--------------------------------------------------handle errors--------------------------------------------------*/
@@ -76,6 +76,9 @@ export interface DatabaseService {
   createProduct(uid: string, product: Product): Promise<Result<void>>
   updateProduct(id: string, product: Partial<Product>): Promise<Result<void>>
   deleteProduct(id: string): Promise<Result<void>>
+  /*-----------------> analytics <-----------------*/
+  getBusinessStats(businessId: string): Promise<Result<BusinessStats>>
+  recordBusinessVisit(businessId: string, visitorId: string): Promise<Result<void>>
 }
 
 export interface StorageService {

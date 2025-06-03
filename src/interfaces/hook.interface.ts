@@ -1,7 +1,7 @@
 import { RegisterUpdateFormProps as BusinessUpdateFormProps, RegisterFormProps as BusinessFormProps } from "@/schemas/auth.schema"
 import { ProductFormProps, ProductUpdateFormProps } from "@/schemas/product.schema"
-import { UseQueryResult, UseMutateFunction, UseMutateAsyncFunction } from "@tanstack/react-query"
-import { Business, Product } from "@/interfaces/context.interface"
+import { Business, BusinessStats, Product } from "@/interfaces/context.interface"
+import { UseQueryResult, UseMutateAsyncFunction } from "@tanstack/react-query"
 import { Metadata, QueryProps } from "@/interfaces/db.interface"
 
 /*--------------------------------------------------To product--------------------------------------------------*/
@@ -15,9 +15,9 @@ export type QueryReact_Product = {
   fetchProductsByName: (idBusiness: string, name: string) => UseQueryResult<Product[], Error>
 }
 export type CustomMutation_Product = {
-  createProduct: UseMutateFunction<void, Error, ProductFormProps, unknown>
-  updateProduct: UseMutateFunction<void, Error, UpdateProductProps, unknown>
-  deleteProduct: UseMutateFunction<void, Error, DeleteProductProps, unknown>
+  createProduct: UseMutateAsyncFunction<void, Error, ProductFormProps, unknown>
+  updateProduct: UseMutateAsyncFunction<void, Error, UpdateProductProps, unknown>
+  deleteProduct: UseMutateAsyncFunction<void, Error, DeleteProductProps, unknown>
   updateLikesProduct: UseMutateAsyncFunction<boolean, Error, UpdateProductProps['idProduct'], unknown>
   isLoading: boolean
 }
@@ -33,14 +33,16 @@ export interface CreateBusinessImageProps { idBusiness: string; images: Business
 export type QueryReact_Business = {
   fetchAllBusinesses: () => UseQueryResult<Business[], Error>
   fetchBusinessById: (idBusiness: string) => UseQueryResult<Business | undefined, Error>
+  fetchBusinessStatsById: (idBusiness: string) => UseQueryResult<BusinessStats | undefined, Error>
   fetchBusinessByQuery: (options: QueryProps) => UseQueryResult<Business[], Error>
   fetchAllBusinessImages: (idBusiness: string) => UseQueryResult<Metadata[], Error>
 }
 export type CustomMutation_Business = {
-  updateBusiness: UseMutateFunction<void, Error, UpdateBusinessProps, unknown>
-  deleteBusiness: UseMutateFunction<void, Error, DeleteBusinessProps, unknown>
-  deleteBusinessImage: UseMutateFunction<void, Error, DeleteBusinessImageProps, unknown>
-  createBusinessImage: UseMutateFunction<void, Error, CreateBusinessImageProps, unknown>
+  updateBusiness: UseMutateAsyncFunction<void, Error, UpdateBusinessProps, unknown>
+  deleteBusiness: UseMutateAsyncFunction<void, Error, DeleteBusinessProps, unknown>
+  deleteBusinessImage: UseMutateAsyncFunction<void, Error, DeleteBusinessImageProps, unknown>
+  createBusinessImage: UseMutateAsyncFunction<void, Error, CreateBusinessImageProps, unknown>
+  recordVisit: UseMutateAsyncFunction<void, Error, { idBusiness: string }, unknown>
   isLoading: boolean
 }
 /*---------------------------------------------------------------------------------------------------------*/

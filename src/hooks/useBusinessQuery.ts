@@ -7,6 +7,7 @@ import { QueryProps } from '@/interfaces/db.interface'
 const QUERY_KEYS = {
   businesses: () => ['businesses'],
   business: (idBusiness: string) => ['business', idBusiness],
+  businessStats: (idBusiness: string) => ['business', 'stats', idBusiness],
   searchByQuery: (options: QueryProps) => ['businesses', 'search', { ...options }],
   businessImages: (idBusiness: string) => ['business', 'images', idBusiness]
 }
@@ -39,6 +40,17 @@ export const useQueryBusiness = (): QueryReact_Business => {
   })
 
   /**
+   * Query para obtener las estadísticas de un negocio
+   * @param {string} idBusiness - El ID del negocio.
+   */
+  const fetchBusinessStatsById = (idBusiness: string) => useQuery({
+    queryKey: QUERY_KEYS.businessStats(idBusiness),
+    queryFn: () => business.getStatsById(idBusiness),
+    select: (data) => data || undefined,
+    enabled: Boolean(idBusiness)
+  })
+
+  /**
    * Query para buscar negocios con filtros
    * @param {QueryProps} options - Opciones de búsqueda
    */
@@ -64,7 +76,8 @@ export const useQueryBusiness = (): QueryReact_Business => {
     fetchAllBusinesses,
     fetchBusinessById,
     fetchBusinessByQuery,
-    fetchAllBusinessImages
+    fetchBusinessStatsById,
+    fetchAllBusinessImages,
   }
 }
 /*---------------------------------------------------------------------------------------------------------*/
@@ -72,7 +85,7 @@ export const useQueryBusiness = (): QueryReact_Business => {
 /*--------------------------------------------------useMutation--------------------------------------------------*/
 /** Hook personalizado para gestionar mutaciones de negocios */
 export const useBusinessMutation = (): CustomMutation_Business => {
-  const { deleteImage: deleteBusinessImage, createImage: createBusinessImage, delete: deleteBusiness, update: updateBusiness } = useBusinessContext()
+  const { deleteImage: deleteBusinessImage, createImage: createBusinessImage, delete: deleteBusiness, update: updateBusiness, recordVisit } = useBusinessContext()
   const queryClient = useQueryClient()
 
   /**
@@ -124,12 +137,24 @@ export const useBusinessMutation = (): CustomMutation_Business => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.businessImages(variables.idBusiness) })
     }
   })
+  /*---------------------------------------------------------------------------------------------------------*/
+
+  /*--------------------------------------------------analytics--------------------------------------------------*/
+  const recordVisitMutation = useMutation({
+    retry: false,
+    mutationFn: async ({ idBusiness }: { idBusiness: string }) => await recordVisit(idBusiness),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.business(variables.idBusiness) })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.businessStats(variables.idBusiness) })
+    }
+  })
 
   return {
-    updateBusiness: updateMutation.mutate,
-    deleteBusiness: deleteMutation.mutate,
-    deleteBusinessImage: deleteImageMutation.mutate,
-    createBusinessImage: createImageMutation.mutate,
+    updateBusiness: updateMutation.mutateAsync,
+    deleteBusiness: deleteMutation.mutateAsync,
+    recordVisit: recordVisitMutation.mutateAsync,
+    deleteBusinessImage: deleteImageMutation.mutateAsync,
+    createBusinessImage: createImageMutation.mutateAsync,
     isLoading: updateMutation.isPending || deleteMutation.isPending || deleteImageMutation.isPending
   }
 }

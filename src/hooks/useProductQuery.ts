@@ -122,9 +122,9 @@ export const useProductMutation = (): CustomMutation_Product => {
   })
 
   return {
-    createProduct: createMutation.mutate,
-    updateProduct: updateMutation.mutate,
-    deleteProduct: deleteMutation.mutate,
+    createProduct: createMutation.mutateAsync,
+    updateProduct: updateMutation.mutateAsync,
+    deleteProduct: deleteMutation.mutateAsync,
     updateLikesProduct: updateLikesMutation.mutateAsync,
     isLoading: createMutation.isPending || updateMutation.isPending || deleteMutation.isPending
   }

@@ -3,7 +3,6 @@ import { useThemeContext } from '@/context/ThemeContext'
 
 const Dashboard = () => {
   const { theme } = useThemeContext()
-  
   return <DashboardSection theme={theme} />
 }
 

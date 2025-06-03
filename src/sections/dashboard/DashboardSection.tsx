@@ -1,5 +1,5 @@
+import { ThemeContextProps, BusinessStats } from '@/interfaces/context.interface'
 import DashboardSkeleton from '#/common/skeletons/DashboardSkeleton'
-import { ThemeContextProps } from '@/interfaces/context.interface'
 import { useQueryBusiness } from '@/hooks/useBusinessQuery'
 import { useQueryProduct } from '@/hooks/useProductQuery'
 import { useAuthContext } from '@/context/AuthContext'
@@ -11,23 +11,22 @@ import ProductsSection from './ProductsSection'
 import InfoSection from './InfoSection'
 
 const DashboardSection = ({ theme }: ThemeContextProps): JSX.Element => {
-  const { fetchBusinessById } = useQueryBusiness()
+  const { fetchBusinessById, fetchBusinessStatsById } = useQueryBusiness()
   const { fetchAllProducts } = useQueryProduct()
   const { user } = useAuthContext()
 
   if (!user?.uid) return <SessionExpired theme={theme} />
-
   const { data: business, isLoading: isLoadingBusiness } = fetchBusinessById(user.uid)
   const { data: products, isLoading: isLoadingProducts, error } = fetchAllProducts(user.uid)
+  const { data: stats = { uniqueVisitors: 0, totalVisits: 0 } as BusinessStats, isLoading: isLoadingStats } = fetchBusinessStatsById(user.uid)
 
-  if (isLoadingBusiness || isLoadingProducts) return <DashboardSkeleton theme={theme} />
+  if (isLoadingBusiness || isLoadingProducts || isLoadingStats) return <DashboardSkeleton theme={theme} />
   if (!business) return <BusinessNotFound theme={theme} />
-
   return (
-    <div className="container p-8 space-y-8 mx-auto">
-      <InfoSection theme={theme} business={business} />
-      <StatisticsSection theme={theme} products={products} />
-      <ProductsSection theme={theme} error={error} products={products} />
+    <div className='container p-4 md:p-8 space-y-4 md:space-y-8 mx-auto'>
+      <InfoSection business={business} theme={theme} />
+      <StatisticsSection theme={theme} products={products} stats={stats} />
+      <ProductsSection products={products} theme={theme} error={error} />
     </div>
   )
 }
