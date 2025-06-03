@@ -1,6 +1,4 @@
 import { Business, ThemeContextProps } from '@/interfaces/context.interface'
-import { PlusCircle, Settings } from 'lucide-react'
-import { Button } from '#/ui/button'
 import { cn } from '@/lib/utils'
 
 interface InfoSectionProps extends ThemeContextProps { business: Business }
